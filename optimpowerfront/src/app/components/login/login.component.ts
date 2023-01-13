@@ -12,8 +12,6 @@ export class LoginComponent {
 
   }
 
-  openDashboard(pageName: string){
-    this.router.navigate([`${pageName}`]);
-  }
+ 
 
 }

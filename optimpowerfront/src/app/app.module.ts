@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { FormularioLoginComponent } from './components/login/formulario-login/formulario-login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    FormularioLoginComponent
   ],
   imports: [
     BrowserModule,
