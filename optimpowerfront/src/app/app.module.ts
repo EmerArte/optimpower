@@ -7,13 +7,15 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { FormularioLoginComponent } from './components/login/formulario-login/formulario-login.component';
+import { HeaderprincipalComponent } from './components/headerprincipal/headerprincipal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    FormularioLoginComponent
+    FormularioLoginComponent,
+    HeaderprincipalComponent
   ],
   imports: [
     BrowserModule,
