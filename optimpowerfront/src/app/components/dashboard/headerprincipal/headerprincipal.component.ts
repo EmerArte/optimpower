@@ -7,10 +7,5 @@ import { Router } from '@angular/router';
   styleUrls: ['./headerprincipal.component.css']
 })
 export class HeaderprincipalComponent {
-  constructor(private router: Router){
 
-  }
-  openDashboard(pageName: string){
-    this.router.navigate([`${pageName}`]);
-  }
 }
