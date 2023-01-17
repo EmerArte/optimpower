@@ -2,23 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import {WellComponent} from "./pages/operacional/well/well.component";
-import {CampoComponent} from "./pages/operacional/campo/campo.component";
-import {TacticalComponent} from "./pages/tactical/tactical.component";
-import {StrategicalComponent} from "./pages/strategical/strategical.component";
-import { OperacionalModule } from './pages/operacional/operacional.module';
 import {DashboardComponent} from "./dashboard.component";
 import {HeaderprincipalComponent} from "./headerprincipal/headerprincipal.component";
+import { OperacionalModule } from './operacional/operacional.module';
+import { StrategicalComponent } from './strategical/strategical.component';
 
 
 @NgModule({
   declarations: [
     HeaderprincipalComponent,
     DashboardComponent,
-    WellComponent,
-    CampoComponent,
-    TacticalComponent,
-    StrategicalComponent
+    StrategicalComponent,
   ],
   imports: [
     CommonModule,

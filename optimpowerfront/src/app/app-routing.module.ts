@@ -2,21 +2,35 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
-import {StrategicalComponent} from "./components/dashboard/pages/strategical/strategical.component";
-import {TacticalComponent} from "./components/dashboard/pages/tactical/tactical.component";
+import { OperacionalComponent } from './components/dashboard/operacional/operacional.component';
+import { WellComponent } from './components/dashboard/operacional/well/well.component';
+import { CampoComponent } from './components/dashboard/operacional/campo/campo.component';
+import { StrategicalComponent } from './components/dashboard/strategical/strategical.component';
 
 const routes: Routes = [
   {
-    path: 'dashboard', component: DashboardComponent, children:[
+    path: 'dashboard', component: DashboardComponent,
+    children:[
       {
-        path: 'operational', loadChildren: () => import('../app/components/dashboard/pages/operacional/operacional.module').then(m => m.OperacionalModule),
+        path:'operational', component: OperacionalComponent,
+        children:[
+          {
+            path: 'well', component: WellComponent
+          },
+          {
+            path: 'field', component: CampoComponent
+          },
+          {
+            path: '', redirectTo: '/dashboard/operational/well', pathMatch:'full'
+          }
+        ]
       },
       {
-        path: 'strategical', component: StrategicalComponent,
+        path: '', redirectTo: '/dashboard/operational', pathMatch:'full'
       },
       {
-        path: 'tactical', component: TacticalComponent,
-      },
+        path: 'strategical', component: StrategicalComponent
+      }
     ]
   },
   {
