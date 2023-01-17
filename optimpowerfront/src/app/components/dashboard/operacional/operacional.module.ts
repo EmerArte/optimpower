@@ -6,7 +6,6 @@ import { CampoComponent } from './campo/campo.component';
 import { OperacionalRoutingModule } from './operacional-routing.module';
 import { InformationCardComponent } from '../shared/information-card/information-card.component';
 
-
 @NgModule({
   declarations: [
     OperacionalComponent,

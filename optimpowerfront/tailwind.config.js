@@ -3,8 +3,11 @@ module.exports = {
   mode:'jit',
   content: [
     "./src/**/*.{html,ts}",
+    "./node_modules/flowbite/**/*.js"
   ],
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
   darkMode: 'class',
   theme: {
     extend: {
@@ -13,7 +16,7 @@ module.exports = {
       }
     },
     fontFamily: {
-      'body': [
+    'body': [
     'Roboto', 
     'ui-sans-serif', 
     'system-ui', 

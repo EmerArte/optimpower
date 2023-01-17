@@ -4,5 +4,6 @@ import { Component } from '@angular/core';
   templateUrl: './operacional.component.html',
 })
 export class OperacionalComponent {
+  inicialDate: string = new Date().toLocaleDateString("en-US")
   page: boolean = false;
 }

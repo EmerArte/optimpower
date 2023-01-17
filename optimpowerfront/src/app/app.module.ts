@@ -6,7 +6,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { LoginComponent } from './components/login/login.component';
 import { FormularioLoginComponent } from './components/login/formulario-login/formulario-login.component';
 import { DashboardModule } from './components/dashboard/dashboard.module';
-
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,6 +16,7 @@ import { DashboardModule } from './components/dashboard/dashboard.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'), // or import('./path-to-my-custom-echarts')
     }),
