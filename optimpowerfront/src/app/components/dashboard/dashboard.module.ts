@@ -6,6 +6,8 @@ import {DashboardComponent} from "./dashboard.component";
 import {HeaderprincipalComponent} from "./headerprincipal/headerprincipal.component";
 import { OperacionalModule } from './operacional/operacional.module';
 import { StrategicalComponent } from './strategical/strategical.component';
+import { TacticalComponent } from './tactical/tactical.component';
+
 
 
 @NgModule({
@@ -13,6 +15,7 @@ import { StrategicalComponent } from './strategical/strategical.component';
     HeaderprincipalComponent,
     DashboardComponent,
     StrategicalComponent,
+    TacticalComponent,
   ],
   imports: [
     CommonModule,

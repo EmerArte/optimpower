@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
@@ -6,6 +6,7 @@ import { OperacionalComponent } from './components/dashboard/operacional/operaci
 import { WellComponent } from './components/dashboard/operacional/well/well.component';
 import { CampoComponent } from './components/dashboard/operacional/campo/campo.component';
 import { StrategicalComponent } from './components/dashboard/strategical/strategical.component';
+import { TacticalComponent } from './components/dashboard/tactical/tactical.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,9 @@ const routes: Routes = [
       },
       {
         path: 'strategical', component: StrategicalComponent
+      },
+      {
+        path: 'tactical', component: TacticalComponent
       }
     ]
   },

@@ -4,6 +4,7 @@ import { OperacionalComponent } from './operacional/operacional.component';
 import { WellComponent } from './operacional/well/well.component';
 import { CampoComponent } from './operacional/campo/campo.component';
 import { StrategicalComponent } from './strategical/strategical.component';
+import { TacticalComponent } from './tactical/tactical.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,9 @@ const routes: Routes = [
   },
   {
     path:'strategical', component: StrategicalComponent
+  },
+  {
+    path: 'tactical', component: TacticalComponent
   }
 ];
 
