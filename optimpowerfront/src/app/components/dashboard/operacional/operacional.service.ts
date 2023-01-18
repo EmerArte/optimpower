@@ -6,10 +6,13 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class OperacionalService {
-  static URL: string = "https://optimback.azurewebsites.net/api/"
+  urlConstants: string = "https://optimback.azurewebsites.net/api/"
   constructor(private http: HttpClient) {}
 
-  consultaVolumenOfWellByDate(well:number, dateRange:string) : Observable<string>{
-    return this.http.get<string>(URL+ well.toString() + "/"+ dateRange);
+  consultaVolumenOfWellByDate(well:number, dateRange:string){
+    return this.http.get(`${this.urlConstants}wellvolbydate/${well}/${dateRange}`);
+  }
+  consultaListaDePozos(){
+    return this.http.get(`${this.urlConstants}getfieldsdataset`);
   }
 }
