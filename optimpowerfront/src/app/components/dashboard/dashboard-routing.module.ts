@@ -8,7 +8,18 @@ import { TacticalComponent } from './tactical/tactical.component';
 
 const routes: Routes = [
   {
-    path:'operational', component: OperacionalComponent
+    path:'operational', component: OperacionalComponent,
+    children:[
+      {
+        path: 'well', component: WellComponent
+      },
+      {
+        path: 'field', component: CampoComponent
+      },
+      {
+        path: '', redirectTo: '/operational/well', pathMatch:'full'
+      }
+    ]
   },
   {
     path:'strategical', component: StrategicalComponent

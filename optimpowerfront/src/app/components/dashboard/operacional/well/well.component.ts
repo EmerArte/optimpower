@@ -53,15 +53,17 @@ export class WellComponent implements OnInit {
     })
   }
   construirGrafica1(resJson:any){
+    
     this.graficaUno.title = {
+      left:'5%',
       text: 'Gas(MMSFC), OilRate average, Water(BWPD) & Fluid(BFPD) by time',
     };
     this.graficaUno.tooltip = {
       trigger: 'axis',
     },
     this.graficaUno.legend = {
-        left: '3%',
-        top: '4%',
+        left: '10%',
+        top: '6%',
         data: [
           'Gas(MMSFC)',
           'OilRate average',
@@ -70,19 +72,25 @@ export class WellComponent implements OnInit {
         ],
     },
       this.graficaUno.grid = {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
+        left:'2%',
+        right: '5%',
+        bottom: '5%',
         containLabel: true,
     },
     this.graficaUno.toolbox = {
-        feature: {
-          saveAsImage: {},
+      top:'8%',
+      right:'5%',
+        feature: {      
+          dataZoom: {
+          yAxisIndex: 'all'
+          },
+          restore: {},
+          saveAsImage: {}
         },
     },
     this.graficaUno.xAxis = {
         type: 'category',
-        boundaryGap: true,
+        boundaryGap: false,
         data: Object.values(resJson.opt.VOLUME_DATE)
     },
     this.graficaUno.yAxis = {
@@ -91,24 +99,28 @@ export class WellComponent implements OnInit {
     this.graficaUno.series = [
       {
         name: 'Gas(MMSFC)',
+        color:'#FFFFF',
         type: 'line',
         stack: 'Total',
         data: Object.values(resJson.opt.GAS_VOLUME),
       },
       {
         name: 'OilRate average',
+        color: '#002d75',
         type: 'line',
         stack: 'Total',
         data: Object.values(resJson.opt.OIL_VOLUME),
       },
       {
         name: 'Water(BWPD)',
+        color:'#4fb3ff',
         type: 'line',
         stack: 'Total',
         data: Object.values(resJson.opt.WATER_VOLUME),
       },
       {
         name: 'Fluid(BFPD)',
+        color: '#ff00ee',
         type: 'line',
         stack: 'Total',
         data: Object.values(resJson.opt.LIQUID_VOLUME),

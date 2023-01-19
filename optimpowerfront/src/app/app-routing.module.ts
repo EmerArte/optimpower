@@ -27,7 +27,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: '', redirectTo: '/dashboard/operational', pathMatch:'full'
+        path: '', redirectTo: '/dashboard/operational/well', pathMatch:'full'
       },
       {
         path: 'strategical', component: StrategicalComponent
