@@ -7,6 +7,7 @@ import { WellComponent } from './components/dashboard/operacional/well/well.comp
 import { CampoComponent } from './components/dashboard/operacional/campo/campo.component';
 import { StrategicalComponent } from './components/dashboard/strategical/strategical.component';
 import { TacticalComponent } from './components/dashboard/tactical/tactical.component';
+import {AuthGuardService} from '../guard/auth-guard.service';
 
 const routes: Routes = [
   {
@@ -35,7 +36,8 @@ const routes: Routes = [
       {
         path: 'tactical', component: TacticalComponent
       }
-    ]
+    ],
+    canActivate: [AuthGuardService]
   },
   {
     path: '', component: LoginComponent

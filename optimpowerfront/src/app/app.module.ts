@@ -6,21 +6,20 @@ import { LoginComponent } from './components/login/login.component';
 import { FormularioLoginComponent } from './components/login/formulario-login/formulario-login.component';
 import { DashboardModule } from './components/dashboard/dashboard.module';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {ReactiveFormsModule} from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     FormularioLoginComponent
   ],
-  imports: [
-
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    DashboardModule,
-    BrowserAnimationsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        DashboardModule,
+        ReactiveFormsModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
