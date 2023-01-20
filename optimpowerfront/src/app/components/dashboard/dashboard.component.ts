@@ -9,7 +9,7 @@ import { EChartsOption } from 'echarts';
 })
 export class DashboardComponent {
 
-  constructor(private router: Router){
+  constructor(public router: Router){
 
   }
 

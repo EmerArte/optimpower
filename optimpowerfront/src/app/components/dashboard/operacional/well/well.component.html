@@ -1,0 +1,35 @@
+<div class="flex flex-row h-full overflow-hidden">
+    <div class="w-1/6 md:w-2/12">
+        <div class="flex flex-col h-full justify-between mr-2">
+            <app-information-card [valor]="formatDate(fechaAcual)" titulo="Current Date"></app-information-card>
+            <app-information-card valor="N/A" titulo="BSW%"></app-information-card>
+            <app-information-card [valor]="fluido" titulo="Fluid(BFPD)"></app-information-card>
+            <app-information-card [valor]="agua" titulo="Water(BOPD)"></app-information-card>
+            <app-information-card [valor]="gas" titulo="Gas(MMSFC)"></app-information-card>
+            <app-information-card valor="N/A" titulo="%BSW"></app-information-card>
+        </div>
+    </div>
+    <div class="w-4/6 md:w-9/12">
+        <div class="flex flex-row flex-nowrap h-1/12 justify-around">
+            <app-information-card [valor]="crudo" titulo="Crudo(BOPD)"></app-information-card>
+            <app-information-card [valor]="campo" titulo="Field"></app-information-card>
+            <app-information-card [valor]="pozo" titulo="Well"></app-information-card>
+            <app-information-card [valor]="estadoPozo" titulo="State"></app-information-card>
+        </div>
+        <!-- grafica -->
+        <div class="flex flex-col">
+            <div *ngIf="!cargando" echarts [initOpts]="initOptionGraficaUno" [options]="graficaUno" [merge]="updateOptionsGraficauno" [loading]="cargando" [theme]="coolTheme" class="demo-chart h-2/3"></div>
+            <div *ngIf="!cargando" echarts [initOpts]="initOptionGraficaDos" [options]="graficaDos" [merge]="updateOptionsGraficaDos" [loading]="cargando" [theme]="coolTheme" class="demo-chart h-1/3 overflow-hidden"></div>
+        </div>
+    </div>
+    <div class="w-1/6 md:w-2/12">
+        <div class="flex flex-col h-full justify-between mr-2">
+            <app-information-card [valor]="8+''" titulo="Pump life (Days)"></app-information-card>
+            <app-information-card valor="N/A" titulo="Fecuency"></app-information-card>
+            <app-information-card [valor]="formatDate(fechaAcual)" titulo="Pump date"></app-information-card>
+            <app-information-card valor="N/A" titulo="Pump ref"></app-information-card>
+            <app-information-card valor="N/A" titulo="Deferred"></app-information-card>
+            <app-information-card valor="N/A" titulo="Causal"></app-information-card>
+        </div>
+    </div>
+</div>
