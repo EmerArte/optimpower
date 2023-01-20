@@ -20,8 +20,22 @@ export class WellComponent implements OnInit, AfterViewInit {
   pozo!: string;
   listaPozos: any[] = [];
   cargando: boolean = true;
+
   graficaUno: EChartsOption = {};
+  updateOptionsGraficauno: any;
+  initOptionGraficaUno = {
+    renderer: 'svg',
+    height: 300
+  }
   graficaDos: EChartsOption = {};
+  updateOptionsGraficaDos: any;
+  initOptionGraficaDos = {
+    renderer: 'svg',
+    height: 300
+  }
+
+
+
   dataGeneral: any = {};
 
   crudo: string = '';
@@ -50,45 +64,74 @@ export class WellComponent implements OnInit, AfterViewInit {
     this.subscription.unsubscribe();
   }
   ngOnInit(): void {
+    this.construirGrafica1();
     this.subscription = this.wellDataService.getData.subscribe((item) => {
       if (item != null) {
-        this.dataForm = item;
-        this.campoId = this.dataForm?.campos.FIELD_ID;
-        this.campo = this.dataForm?.campos.FIELD_NAME;
-        this.pozo = this.dataForm?.posos.WELL_NAME;
-        this.pozoId = this.dataForm?.posos.WELL_ID;
-        this.estadoPozo = this.dataForm?.posos.WELL_STATUS;
-        this.rangoFechas = this.parsearFechasParaConsulta(
-          this.dataForm.fechaInicial,
-          this.dataForm.fechaFinal
-        );
-        this.service
-          .consultaVolumenOfWellByDate(this.pozoId, this.rangoFechas)
-          .subscribe((res: any) => {
-            this.dataGeneral = JSON.parse(res);
-            console.log(this.dataGeneral);
-            this.cargando = false;
-            this.crudo = Object.values(this.dataGeneral.opt.OIL_VOLUME)
-              .slice(-1)
-              .toString();
-            this.fluido = Object.values(this.dataGeneral.opt.LIQUID_VOLUME)
-              .slice(-1)
-              .toString();
-            this.agua = Object.values(this.dataGeneral.opt.WATER_VOLUME)
-              .slice(-1)
-              .toString();
-            this.gas = Object.values(this.dataGeneral.opt.GAS_VOLUME)
-              .slice(-1)
-              .toString();
-            this.construirGrafica1(this.dataGeneral);
-            this.construirGrafica2(this.dataGeneral);
-          });
+        if (item.campos) {
+          this.dataForm = item;
+          this.campoId = this.dataForm?.campos.FIELD_ID;
+          this.campo = this.dataForm?.campos.FIELD_NAME;
+          this.pozo = this.dataForm?.posos.WELL_NAME;
+          this.pozoId = this.dataForm?.posos.WELL_ID;
+          this.estadoPozo = this.dataForm?.posos.WELL_STATUS;
+          this.rangoFechas = this.parsearFechasParaConsulta(
+            this.dataForm.fechaInicial,
+            this.dataForm.fechaFinal
+          );
+          this.service
+            .consultaVolumenOfWellByDate(this.pozoId, this.rangoFechas)
+            .subscribe((res: any) => {
+              this.dataGeneral = JSON.parse(res);
+              this.cargando = false;
+              this.crudo = Object.values(this.dataGeneral.opt.OIL_VOLUME)
+                .slice(-1)
+                .toString();
+              this.fluido = Object.values(this.dataGeneral.opt.LIQUID_VOLUME)
+                .slice(-1)
+                .toString();
+              this.agua = Object.values(this.dataGeneral.opt.WATER_VOLUME)
+                .slice(-1)
+                .toString();
+              this.gas = Object.values(this.dataGeneral.opt.GAS_VOLUME)
+                .slice(-1)
+                .toString();
+              this.updateOptionsGraficauno = {
+                xAxis: {
+                  data: Object.values(this.dataGeneral.opt.VOLUME_DATE)
+                },
+                series: [
+                  {
+                    data: Object.values(this.dataGeneral.opt.GAS_VOLUME),
+                  },
+                  {
+                    data: Object.values(this.dataGeneral.opt.OIL_VOLUME),
+                  },
+                  {
+                    data: Object.values(this.dataGeneral.opt.WATER_VOLUME),
+                  },
+                  {
+                    data: Object.values(this.dataGeneral.opt.LIQUID_VOLUME),
+                  },
+                ],
+              };
+              this.updateOptionsGraficaDos = {
+                xAxis: {
+                  data: Object.values(this.dataGeneral.opt.VOLUME_DATE)
+                },
+                series: [
+                  {
+                    data: Object.values(this.dataGeneral.opt.OIL_VOLUME),
+                  }
+                ],
+              };
+              this.construirGrafica2(this.dataGeneral);
+            });
+        }
       }
     });
   }
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void {}
 
   parsearFechasParaConsulta(fechaInicial: Date, fechaFinal: Date) {
     const dateOne = [
@@ -104,7 +147,7 @@ export class WellComponent implements OnInit, AfterViewInit {
     return [dateOne, dateTwo].join('/');
   }
 
-  construirGrafica1(resJson: any) {
+  construirGrafica1() {
     this.graficaUno.title = {
       left: 'center',
       text: 'Gas(MMSFC), OilRate average, Water(BWPD) & Fluid(BFPD) by time',
@@ -140,7 +183,7 @@ export class WellComponent implements OnInit, AfterViewInit {
     this.graficaUno.xAxis = {
       type: 'category',
       boundaryGap: false,
-      data: Object.values(resJson.opt.VOLUME_DATE),
+      data: [],
     };
     this.graficaUno.series = [
       {
@@ -148,28 +191,28 @@ export class WellComponent implements OnInit, AfterViewInit {
         color: '#000000',
         type: 'line',
         stack: 'Total',
-        data: Object.values(resJson.opt.GAS_VOLUME),
+        data: [],
       },
       {
         name: 'OilRate average',
         color: '#00fff8',
         type: 'line',
         stack: 'Total',
-        data: Object.values(resJson.opt.OIL_VOLUME),
+        data: [],
       },
       {
         name: 'Water(BWPD)',
         color: '#4fb3ff',
         type: 'line',
         stack: 'Total',
-        data: Object.values(resJson.opt.WATER_VOLUME),
+        data: [],
       },
       {
         name: 'Fluid(BFPD)',
         color: '#f100ff',
         type: 'line',
         stack: 'Total',
-        data: Object.values(resJson.opt.LIQUID_VOLUME),
+        data: [],
       },
     ];
   }
@@ -199,7 +242,7 @@ export class WellComponent implements OnInit, AfterViewInit {
     this.graficaDos.xAxis = {
       type: 'category',
       boundaryGap: false,
-      data: Object.values(resJson.opt.VOLUME_DATE),
+      data: [],
     };
     this.graficaDos.yAxis = {
       type: 'value',
@@ -220,7 +263,7 @@ export class WellComponent implements OnInit, AfterViewInit {
           color: 'rgb(255, 70, 131)',
         },
         areaStyle: {},
-        data: Object.values(resJson.opt.OIL_VOLUME),
+        data: [],
       },
     ];
   }
