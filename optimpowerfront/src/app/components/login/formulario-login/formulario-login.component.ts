@@ -12,7 +12,7 @@ import {Util} from '../../../../utils/util';
 export class FormularioLoginComponent {
 
   formLogin: any;
-
+  loading:boolean = false;
   constructor(private router: Router,
               private formBuilder: FormBuilder,
               private loginService: LoginService) {
@@ -27,24 +27,23 @@ export class FormularioLoginComponent {
   }
 
   openDashboard(pageName: string) {
-
-    this.loginService.authenticate(this.formLogin.controls.username.value, this.formLogin.controls.password.value).subscribe(
-      (data) => {
-
+    this.loading = true;
+    this.loginService.authenticate(this.formLogin.controls.username.value, this.formLogin.controls.password.value).subscribe({
+      next: (data: any) => {
+        this.loading = false;
         if (data.token) {
           localStorage.setItem(NAME_LOCALSTORAGE, data.token);
           this.router.navigate([`${pageName}`]);
-          Util.mensajeDialog('Informative', 'Success');
         } else {
-          Util.mensajeDialog('Error', 'Error al obtener el token');
+          Util.mensajeDialog('Error', 'Invalid credentials');
         }
       },
-      (error) => {
-        console.log(error);
-        Util.mensajeDialog('Error', 'Error en el servidor intente nuevamente');
+      error: ()=>{
+        Util.mensajeDialog('Error', 'Internal server error, try again');
       }
+    }
     );
-
+    
   }
 
 

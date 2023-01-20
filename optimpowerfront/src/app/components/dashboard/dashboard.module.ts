@@ -7,7 +7,7 @@ import {HeaderprincipalComponent} from "./headerprincipal/headerprincipal.compon
 import { OperacionalModule } from './operacional/operacional.module';
 import { StrategicalComponent } from './strategical/strategical.component';
 import { TacticalComponent } from './tactical/tactical.component';
-
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -20,7 +20,8 @@ import { TacticalComponent } from './tactical/tactical.component';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    OperacionalModule
+    OperacionalModule,
+    ReactiveFormsModule
   ]
 })
 export class DashboardModule { }

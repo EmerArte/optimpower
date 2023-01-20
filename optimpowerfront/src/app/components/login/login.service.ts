@@ -16,7 +16,7 @@ export class LoginService {
       email,
       password
     };
-    return this.httpClient.post<any>(
+    return this.httpClient.post(
       this.LOGIN_API,
       body
     );

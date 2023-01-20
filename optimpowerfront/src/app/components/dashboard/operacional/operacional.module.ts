@@ -8,6 +8,9 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { WellComponent } from './well/well.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatNativeDateModule} from '@angular/material/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
 @NgModule({
   declarations: [
     OperacionalComponent,
@@ -18,8 +21,12 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     CommonModule,
     InformationCardComponent,
     OperacionalRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
     MatDatepickerModule,
     MatFormFieldModule,
+    MatNativeDateModule,
+    MatSelectModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     })

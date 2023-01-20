@@ -12,7 +12,11 @@ export class OperacionalService {
   consultaVolumenOfWellByDate(well:number, dateRange:string){
     return this.http.get(`${this.urlConstants}wellvolbydate/${well}/${dateRange}`);
   }
-  consultaListaDePozos(){
+  consultaListaDeCampos(){
     return this.http.get(`${this.urlConstants}getfieldsdataset`);
   }
+  consultaListaDePosos(){
+    return this.http.get(`${this.urlConstants}getwellsdataset`)
+  }
+
 }

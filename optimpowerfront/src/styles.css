@@ -2,3 +2,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.mat-calendar{
+    background-color: #4e505f;
+    color: white;
+}
+.mat-mdc-button:not(:disabled){
+    color: white;
+}
+.mat-datepicker-toggle, .mat-datepicker-content .mat-calendar-next-button, .mat-datepicker-content .mat-calendar-previous-button {
+    color: rgba(255, 255, 255, 0.5);
+}
+.mat-calendar-table-header, .mat-calendar-body-label{
+    color: white;
+}
+.mat-calendar-body-cell-content, .mat-date-range-input-separator{
+    color:white;
+}
+.mat-mdc-button.mat-unthemed {
+    --mdc-text-button-label-text-color: white;
+}
+.mat-mdc-button, .mat-mdc-unelevated-button, .mat-mdc-raised-button, .mat-mdc-outlined-button{
+    -webkit-tap-highlight-color: white;
+}
+.mat-datepicker-toggle, .mat-datepicker-content .mat-calendar-next-button, .mat-datepicker-content .mat-calendar-previous-button{
+    color: white;
+}
+.mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+    color: #fafafa;
+}
+.mat-mdc-form-field-flex .mat-date-range-input-wrapper{
+    color: white;
+}
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
+    border-right-style: hidden;
+  }
+.mat-mdc-select-arrow svg{
+    color: white;
+}
+.mat-date-range-input-wrapper{
+    color: white;
+}
+.mat-mdc-select-value{
+    color: white;
+}
