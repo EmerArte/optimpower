@@ -1,22 +1,12 @@
+# The following redirect is intended for use with most SPAs that handle
+# routing internally.
 [[redirects]]
-  from = "/api/auth/login"
-  to = "https://optimback.azurewebsites.net/api/auth/login"
+  from = "/*"
+  to = "/index.html"
   status = 200
-  force = true
-  headers = {X-From = "Netlify"}
-[[redirects]]
-  from = "/api/getfieldsdataset"
-  to = "https://optimback.azurewebsites.net/api/getfieldsdataset"
-  status = 200
-  force = true
-  headers = {X-From = "Netlify"}
-[[redirects]]
-  from = "/api/getwellsdataset"
-  to = "https://optimback.azurewebsites.net/api/getwellsdataset"
-  status = 200
-  force = true
-  headers = {X-From = "Netlify"}
+
 [[headers]]
+  # Define which paths this specific [[headers]] block will cover.
   for = "/*"
-  [headers.values]
+    [headers.values]
     Access-Control-Allow-Origin = "*"
