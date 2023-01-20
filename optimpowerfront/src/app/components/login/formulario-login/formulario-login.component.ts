@@ -39,7 +39,7 @@ export class FormularioLoginComponent {
           Util.mensajeDialog('Error', 'Invalid credentials');
         }
       },
-      error: ()=>{
+      error: (e: any)=>{
         this.loading = false;
         Util.mensajeDialog('Error', 'Internal server error, try again');
       }
