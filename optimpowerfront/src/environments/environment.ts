@@ -2,7 +2,7 @@ export const environment = {};
 
 export const exposedApi = {
 
-  API: 'api',
+  API: 'https://optimback.azurewebsites.net',
 
 };
 

@@ -5,7 +5,7 @@ import { exposedApi } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class OperacionalService {
-  URL = exposedApi + "/api/"
+  URL = exposedApi.API + "/api/"
   constructor(private http: HttpClient) {}
 
   consultaVolumenOfWellByDate(well:number, dateRange:string){
