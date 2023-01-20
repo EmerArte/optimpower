@@ -29,6 +29,7 @@ export class FormularioLoginComponent {
   openDashboard(pageName: string) {
     this.loading = true;
     this.loginService.authenticate(this.formLogin.controls.username.value, this.formLogin.controls.password.value).subscribe({
+
       next: (data: any) => {
         this.loading = false;
         if (data.token) {
@@ -39,8 +40,10 @@ export class FormularioLoginComponent {
         }
       },
       error: ()=>{
+        this.loading = false;
         Util.mensajeDialog('Error', 'Internal server error, try again');
       }
+      
     }
     );
     
