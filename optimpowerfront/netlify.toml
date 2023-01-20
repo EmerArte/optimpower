@@ -4,13 +4,15 @@
   status = 200
   force = true
   headers = {X-From = "Netlify"}
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
 [[redirects]]
   from = "/api/getfieldsdataset"
   to = "https://optimback.azurewebsites.net/api/getfieldsdataset"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+[[redirects]]
+  from = "/api/getwellsdataset"
+  to = "https://optimback.azurewebsites.net/api/getwellsdataset"
   status = 200
   force = true
   headers = {X-From = "Netlify"}
