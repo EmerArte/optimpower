@@ -2,7 +2,7 @@ export const environment = {};
 
 export const exposedApi = {
 
-  LOGIN_API: 'https://optimback.azurewebsites.net/api/auth/login',
+  API: 'https://enchanting-starlight-25e972.netlify.app/',
 
 };
 

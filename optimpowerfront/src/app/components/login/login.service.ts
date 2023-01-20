@@ -7,7 +7,7 @@ import {exposedApi} from '../../../environments/environment';
 })
 export class LoginService {
 
-  LOGIN_API = exposedApi.LOGIN_API;
+  LOGIN_API = exposedApi.API + "/api/auth/login";
 
   constructor(private httpClient: HttpClient) { }
 

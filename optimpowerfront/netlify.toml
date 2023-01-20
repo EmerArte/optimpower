@@ -1,0 +1,10 @@
+[[redirects]]
+  from = "/api/auth/login"
+  to = "https://optimback.azurewebsites.net/api/auth/login"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
