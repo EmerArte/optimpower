@@ -1,10 +1,229 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
+import { EChartsOption, SeriesOption } from 'echarts';
+import { ThemeOption } from 'ngx-echarts';
+import { CoolTheme } from 'src/app/components/custom.theme.echart';
 
 @Component({
   selector: 'app-campo',
   templateUrl: './campo.component.html',
   styleUrls: ['./campo.component.css']
 })
-export class CampoComponent {
+export class CampoComponent implements OnInit {
+
+  // Util & theme
+  theme!: string | ThemeOption;
+  coolTheme = CoolTheme;
+  currentDate: Date = new Date();
+  cargando: boolean = true;
+
+  // Information cards 
+  bbls: string = "";
+  strategic: string = "";
+  tactical: string = "";
+  totalWater: string = "";
+  mscf: string = "";
+  waterInyection: string = "";
+  gasConsume: string = "";
+
+  // Pozos chart
+  pozosChart: EChartsOption = {};
+  updatePozosChart: any;
+  initPozosChart = {
+    renderer: 'svg',
+    height: 300
+  }
+  // Pozos info
+  pTitle: string = "Wells active, inactive, abandoned";
+  pXAxisOptions = ['Active', 'Abandoned', 'Inactive'];
+  pYAxisName: string = "Well count";
+  pSeriesData = [120, 200, 150, 80, 70, 110, 130];
+
+  // Field chart
+  fieldProductionChart: EChartsOption = {};
+  updateFieldProductionChart: any;
+  initFieldProductionChart = {
+    renderer: 'svg',
+    height: 300
+  }
+  //Field info
+  fTitle: string = "Field production"
+  fSeriesData = [
+    { value: 1048, name: 'HUI-002' },
+    { value: 735, name: 'RIV-001' },
+    { value: 580, name: 'HUI-001' },
+    { value: 484, name: 'RIV-002' },
+    { value: 300, name: ' HUI-003' }
+  ]
+
+  // Line charts
+  line1Chart: EChartsOption = {};
+  updateLine1Chart: any;
+  initLine1Chart = {
+    renderer: 'svg',
+    height: 300
+  }
+
+  line2Chart: EChartsOption = {};
+  updateLine2Chart: any;
+  initLine2Chart = {
+    renderer: 'svg',
+    height: 300
+  }
+
+  line3Chart: EChartsOption = {};
+  updateLine3Chart: any;
+  initLine3Chart = {
+    renderer: 'svg',
+    height: 300
+  }
+
+  // Data
+  lXAxisOptions = ['2008', '2010', '2012']
+  lSeriesData = ['1000', '2000', '3000']
+  lYAxisFormatter = "{value} mil"
+  lYAxisName1 = "Crudo"
+  lYAxisName2 = "Water"
+  lYAxisName3 = "Gas"
+
+  ngOnInit(): void {
+    this.buildPozosChart();
+    this.buildFieldProductionChart();
+    this.buildLine1Chart();
+    this.buildLine2Chart();
+    this.buildLine3Chart();
+  }
+
+  buildPozosChart(){
+    this.pozosChart.title = {
+      text: this.pTitle,
+    }
+    this.pozosChart.xAxis = {
+      type: 'category',
+      data: this.pXAxisOptions
+    },
+    this.pozosChart.yAxis = {
+      type: 'value',
+      name: this.pYAxisName,
+    },
+    this.pozosChart.series = [
+      {
+        data: this.pSeriesData,
+        type: 'bar'
+      }
+    ]
+  }
+
+  buildFieldProductionChart(){
+    this.fieldProductionChart.title = {
+      text: this.fTitle,
+      left: 'center'
+    },
+    this.fieldProductionChart.tooltip = {
+      trigger: 'item'
+    },
+    this.fieldProductionChart.legend = {
+      top: '5%',
+      left: 'center'
+    },
+    this.fieldProductionChart.series = [
+      {
+        name: 'Access From',
+        type: 'pie',
+        radius: ['40%', '70%'],
+        avoidLabelOverlap: false,
+        label: {
+          show: false,
+          position: 'center'
+        },
+        data: this.fSeriesData,
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: 40,
+            fontWeight: 'bold'
+          }
+        },
+        labelLine: {
+          show: false
+        },
+      }
+    ]
+  }
+
+  buildLine1Chart(){
+    this.line1Chart.xAxis = {
+      type: 'category',
+      data: this.lXAxisOptions
+    },
+    this.line1Chart.yAxis = {
+      name: this.lYAxisName1,
+      type: 'value',
+      nameLocation: 'middle',
+      axisLabel: {
+        formatter: this.lYAxisFormatter,
+      },
+    },
+    this.line1Chart.series = [
+      {
+        data: this.lSeriesData,
+        type: 'line'
+      }
+    ]
+  }
+
+  buildLine2Chart(){
+    this.line2Chart.xAxis = {
+      type: 'category',
+      data: this.lXAxisOptions
+    },
+    this.line2Chart.yAxis = {
+      name: this.lYAxisName2,
+      type: 'value',
+      nameLocation: 'middle',
+      axisLabel: {
+        formatter: this.lYAxisFormatter,
+      }
+    },
+    this.line2Chart.series = [
+      {
+        data: this.lSeriesData,
+        type: 'line'
+      }
+    ]
+  }
+
+  buildLine3Chart(){
+    this.line3Chart.xAxis = {
+      type: 'category',
+      data: this.lXAxisOptions
+    },
+    this.line3Chart.yAxis = {
+      name: this.lYAxisName3,
+      type: 'value',
+      nameLocation: 'middle',
+      axisLabel: {
+        formatter: this.lYAxisFormatter,
+      }
+    },
+    this.line3Chart.series = [
+      {
+        data: this.lSeriesData,
+        type: 'line'
+      }
+    ]
+  }
+
+  //Utils
+  padTo2Digits(num: number) {
+    return num.toString().padStart(2, '0');
+  }
+
+  formatDate(date: Date) {
+    return [
+      this.padTo2Digits(date.getDate()),
+      this.padTo2Digits(date.getMonth() + 1),
+      date.getFullYear(),
+    ].join('/');
+  }
 
 }
