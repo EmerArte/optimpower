@@ -11,7 +11,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatNativeDateModule} from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
-import { ResizableModule } from 'angular-resizable-element';
 @NgModule({
   declarations: [
     OperacionalComponent,
@@ -20,7 +19,6 @@ import { ResizableModule } from 'angular-resizable-element';
   ],
   imports: [
     CommonModule,
-    ResizableModule,
     InformationCardComponent,
     OperacionalRoutingModule,
     ReactiveFormsModule,

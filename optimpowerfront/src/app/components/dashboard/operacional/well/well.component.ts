@@ -2,8 +2,6 @@ import {
   Component,
   AfterViewInit,
   OnInit,
-  ViewChild,
-  ElementRef,
   HostListener,
 } from '@angular/core';
 import { OperacionalService } from '../operacional.service';
@@ -12,7 +10,6 @@ import { ThemeOption } from 'ngx-echarts';
 import { CoolTheme } from 'src/app/components/custom.theme.echart';
 import { DataWellService } from '../data/shared.data.service';
 import { Subscription } from 'rxjs';
-import { ResizeEvent } from 'angular-resizable-element';
 @Component({
   selector: 'app-well',
   templateUrl: './well.component.html',
