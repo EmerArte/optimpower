@@ -1,39 +1,45 @@
 import {
   Component,
-  Input,
   AfterViewInit,
   OnInit,
-  SimpleChanges,
+  ViewChild,
+  ElementRef,
+  HostListener,
 } from '@angular/core';
 import { OperacionalService } from '../operacional.service';
-import { EChartsOption, SeriesOption } from 'echarts';
+import { EChartsOption } from 'echarts';
 import { ThemeOption } from 'ngx-echarts';
 import { CoolTheme } from 'src/app/components/custom.theme.echart';
 import { DataWellService } from '../data/shared.data.service';
 import { Subscription } from 'rxjs';
+import { ResizeEvent } from 'angular-resizable-element';
 @Component({
   selector: 'app-well',
   templateUrl: './well.component.html',
   styleUrls: ['./well.component.css'],
 })
 export class WellComponent implements OnInit, AfterViewInit {
+  @HostListener('window:resize', ['$event'])
+  onResize(event:any) {
+    this.resizeChart();
+  }
+
   pozo!: string;
   listaPozos: any[] = [];
   cargando: boolean = true;
 
+  graficaUnoInstance: any;
+  graficaDosInstance: any;
   graficaUno: EChartsOption = {};
   updateOptionsGraficauno: any;
   initOptionGraficaUno = {
-    renderer: 'svg',
-    height: 300
+    renderer: 'svg'
   }
   graficaDos: EChartsOption = {};
   updateOptionsGraficaDos: any;
   initOptionGraficaDos = {
-    renderer: 'svg',
-    height: 300
+    renderer: 'svg'
   }
-
 
 
   dataGeneral: any = {};
@@ -57,7 +63,7 @@ export class WellComponent implements OnInit, AfterViewInit {
   subscription!: Subscription;
   constructor(
     private service: OperacionalService,
-    private wellDataService: DataWellService
+    private wellDataService: DataWellService,
   ) {}
 
   ngOnDestroy() {
@@ -65,6 +71,7 @@ export class WellComponent implements OnInit, AfterViewInit {
   }
   ngOnInit(): void {
     this.construirGrafica1();
+    this.construirGrafica2();
     this.subscription = this.wellDataService.getData.subscribe((item) => {
       if (item != null) {
         if (item.campos) {
@@ -118,20 +125,27 @@ export class WellComponent implements OnInit, AfterViewInit {
                 xAxis: {
                   data: Object.values(this.dataGeneral.opt.VOLUME_DATE)
                 },
+                legend: {
+                  data: [this.pozo ],
+                },
                 series: [
                   {
+                    name: this.pozo,
                     data: Object.values(this.dataGeneral.opt.OIL_VOLUME),
                   }
                 ],
               };
-              this.construirGrafica2(this.dataGeneral);
             });
         }
       }
     });
   }
 
-  ngAfterViewInit(): void {}
+
+
+  ngAfterViewInit(): void {
+    
+  }
 
   parsearFechasParaConsulta(fechaInicial: Date, fechaFinal: Date) {
     const dateOne = [
@@ -157,7 +171,7 @@ export class WellComponent implements OnInit, AfterViewInit {
     }),
       (this.graficaUno.legend = {
         left: '10%',
-        top: '6%',
+        top: '8%',
         data: ['Gas(MMSFC)', 'OilRate average', 'Water(BWPD)', 'Fluid(BFPD)'],
       }),
       (this.graficaUno.grid = {
@@ -217,7 +231,7 @@ export class WellComponent implements OnInit, AfterViewInit {
     ];
   }
 
-  construirGrafica2(resJson: any) {
+  construirGrafica2() {
     this.graficaDos.title = {
       left: 'center',
       text: 'OilRate by Registred date and Well',
@@ -226,6 +240,8 @@ export class WellComponent implements OnInit, AfterViewInit {
       trigger: 'axis',
     };
     this.graficaDos.toolbox = {
+      top: '8%',
+      right: '5%',
       feature: {
         dataZoom: {
           yAxisIndex: 'all',
@@ -235,14 +251,12 @@ export class WellComponent implements OnInit, AfterViewInit {
       },
     };
     this.graficaDos.legend = {
-      left: '5%',
-      top: '5%',
-      data: [this.campo],
+      left: '10%',
+      top: '8%',
     };
     this.graficaDos.xAxis = {
       type: 'category',
-      boundaryGap: false,
-      data: [],
+      boundaryGap: false
     };
     this.graficaDos.yAxis = {
       type: 'value',
@@ -251,11 +265,11 @@ export class WellComponent implements OnInit, AfterViewInit {
     this.graficaDos.grid = {
       left: '5%',
       right: '5%',
-      height: '150px',
+      bottom: '5%',
+      containLabel: true
     };
     this.graficaDos.series = [
       {
-        name: this.campo,
         type: 'line',
         symbol: 'none',
         sampling: 'lttb',
@@ -263,7 +277,6 @@ export class WellComponent implements OnInit, AfterViewInit {
           color: 'rgb(255, 70, 131)',
         },
         areaStyle: {},
-        data: [],
       },
     ];
   }
@@ -278,5 +291,23 @@ export class WellComponent implements OnInit, AfterViewInit {
       this.padTo2Digits(date.getMonth() + 1),
       date.getFullYear(),
     ].join('/');
+  }
+
+
+  onGraficaUnoInit(e: any) {
+    this.graficaUnoInstance = e;
+  }
+  onGraficaDosInit(e: any) {
+    this.graficaDosInstance = e;
+  }
+  resizeChart() {
+    console.log("resize");
+    
+    if (this.graficaUnoInstance) {
+      this.graficaUnoInstance.resize();
+    }
+    if(this.graficaDosInstance){
+      this.graficaDosInstance.resize();
+    }
   }
 }
