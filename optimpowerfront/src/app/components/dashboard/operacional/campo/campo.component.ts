@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit,HostListener } from '@angular/core';
 import { EChartsOption, SeriesOption } from 'echarts';
 import { ThemeOption } from 'ngx-echarts';
 import { CoolTheme } from 'src/app/components/custom.theme.echart';
@@ -9,6 +9,11 @@ import { CoolTheme } from 'src/app/components/custom.theme.echart';
   styleUrls: ['./campo.component.css']
 })
 export class CampoComponent implements OnInit {
+  @HostListener('window:resize', ['$event'])
+  onResize(event:any) {
+    this.resizeChart();
+  }
+
 
   // Util & theme
   theme!: string | ThemeOption;
@@ -26,11 +31,11 @@ export class CampoComponent implements OnInit {
   gasConsume: string = "";
 
   // Pozos chart
+  pozosChartInstance: any;
   pozosChart: EChartsOption = {};
   updatePozosChart: any;
   initPozosChart = {
-    renderer: 'svg',
-    height: 300
+    renderer: 'svg'
   }
   // Pozos info
   pTitle: string = "Wells active, inactive, abandoned";
@@ -39,11 +44,11 @@ export class CampoComponent implements OnInit {
   pSeriesData = [120, 200, 150, 80, 70, 110, 130];
 
   // Field chart
+  fieldProductionChartInstance:any;
   fieldProductionChart: EChartsOption = {};
   updateFieldProductionChart: any;
   initFieldProductionChart = {
     renderer: 'svg',
-    height: 300
   }
   //Field info
   fTitle: string = "Field production"
@@ -56,25 +61,25 @@ export class CampoComponent implements OnInit {
   ]
 
   // Line charts
+  lineOneChartInstance:any;
   line1Chart: EChartsOption = {};
   updateLine1Chart: any;
   initLine1Chart = {
     renderer: 'svg',
-    height: 300
   }
 
+  lineTwoChartInstance:any;
   line2Chart: EChartsOption = {};
   updateLine2Chart: any;
   initLine2Chart = {
     renderer: 'svg',
-    height: 300
   }
 
+  lineThreeChartInstance:any;
   line3Chart: EChartsOption = {};
   updateLine3Chart: any;
   initLine3Chart = {
     renderer: 'svg',
-    height: 300
   }
 
   // Data
@@ -95,7 +100,17 @@ export class CampoComponent implements OnInit {
 
   buildPozosChart(){
     this.pozosChart.title = {
+      left: 'center',
       text: this.pTitle,
+    }
+    this.pozosChart.tooltip = {
+      trigger: 'axis',
+    }
+    this.pozosChart.grid = {
+      left: '5%',
+      right: '5%',
+      bottom: '5%',
+      containLabel: true,
     }
     this.pozosChart.xAxis = {
       type: 'category',
@@ -121,8 +136,14 @@ export class CampoComponent implements OnInit {
     this.fieldProductionChart.tooltip = {
       trigger: 'item'
     },
+    this.fieldProductionChart.grid = {
+      left: '5%',
+      right: '5%',
+      bottom: '5%',
+      containLabel: true,
+    };
     this.fieldProductionChart.legend = {
-      top: '5%',
+      top: '8%',
       left: 'center'
     },
     this.fieldProductionChart.series = [
@@ -155,6 +176,12 @@ export class CampoComponent implements OnInit {
       type: 'category',
       data: this.lXAxisOptions
     },
+    this.line1Chart.grid = {
+      left: '5%',
+      right: '5%',
+      bottom: '5%',
+      containLabel: true,
+    },
     this.line1Chart.yAxis = {
       name: this.lYAxisName1,
       type: 'value',
@@ -176,6 +203,12 @@ export class CampoComponent implements OnInit {
       type: 'category',
       data: this.lXAxisOptions
     },
+    this.line2Chart.grid = {
+      left: '5%',
+      right: '5%',
+      bottom: '5%',
+      containLabel: true,
+    }
     this.line2Chart.yAxis = {
       name: this.lYAxisName2,
       type: 'value',
@@ -197,6 +230,12 @@ export class CampoComponent implements OnInit {
       type: 'category',
       data: this.lXAxisOptions
     },
+    this.line3Chart.grid = {
+      left: '5%',
+      right: '5%',
+      bottom: '5%',
+      containLabel: true,
+    },
     this.line3Chart.yAxis = {
       name: this.lYAxisName3,
       type: 'value',
@@ -211,6 +250,42 @@ export class CampoComponent implements OnInit {
         type: 'line'
       }
     ]
+  }
+  resizeChart() {
+    if(this.pozosChartInstance){
+      this.pozosChartInstance.resize();
+    }
+    if(this.fieldProductionChartInstance){
+      this.fieldProductionChartInstance.resize();
+    }
+    if(this.lineOneChartInstance){
+      this.lineOneChartInstance.resize();
+    }
+    if(this.lineTwoChartInstance){
+      this.lineTwoChartInstance.resize();
+    }
+    if(this.lineThreeChartInstance){
+      this.lineThreeChartInstance.resize();
+    }
+
+  }
+  onPozosGraficaInit(e: any) {
+    this.pozosChartInstance = e;
+  }
+  onFieldfieldProductionChartInit(e: any) {
+    this.fieldProductionChartInstance = e;
+  }
+  
+  onLineOneChartInit(e: any) {
+    this.lineOneChartInstance = e;
+  }
+  
+  onLineTwoChartInit(e: any) {
+    this.lineTwoChartInstance = e;
+  }
+  
+  onLineThreeChartInit(e: any) {
+    this.lineThreeChartInstance = e;
   }
 
   //Utils

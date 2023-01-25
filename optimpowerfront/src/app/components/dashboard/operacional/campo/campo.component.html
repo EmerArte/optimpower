@@ -1,56 +1,134 @@
-<div class="flex flex-row h-full overflow-hidden">
-  <div class="w-1/4 md:w-2/12">
-    <div class="flex flex-col h-full justify-between mr-2">
-      <app-information-card [valor]="bbls" titulo="Bbls/Day"></app-information-card>
-      <app-information-card [valor]="formatDate(currentDate)" titulo="Current date"></app-information-card>
-      <app-information-card [valor]="strategic" titulo="Strategic"></app-information-card>
-      <app-information-card [valor]="tactical" titulo="Tactical"></app-information-card>
-    </div>
-  </div>
-
-  <div class="w-4/6 md:w-6/12">
-    <div class="flex flex-row flex-nowrap h-1/12 justify-around">
-      <app-information-card [valor]="totalWater" titulo="Total water"></app-information-card>
-      <app-information-card [valor]="mscf" titulo="Mscf/Day"></app-information-card>
-      <app-information-card [valor]="waterInyection" titulo="Total water inyection"></app-information-card>
-      <app-information-card [valor]="gasConsume" titulo="Total gas consume"></app-information-card>
-    </div>
-    <div class="flex flex-col">
-      <div echarts
-        [options]="pozosChart"
-        [loading]="cargando"
-        [theme]="coolTheme"
-        class="demo-chart h-2/3"
-      ></div>
+<div
+  class="grid grid-cols-12 gap-0 w-full h-full place-content-stretch place-items-stretch"
+>
+  <div class="col-span-6 overflow-hidden">
+    <div
+      class="grid grid-rows-6 gap-0 h-full place-content-stretch place-items-stretch"
+    >
+      <div class="row-span-1">
+        <div class="flex flex-row flex-nowrap justify-between">
+          <app-information-card
+            [valor]="'33.163'"
+            titulo="Bbls/Day"
+          ></app-information-card>
+          <app-information-card
+            [valor]="'3.644.509'"
+            titulo="Total water"
+          ></app-information-card>
+          <app-information-card
+            [valor]="'11.681'"
+            titulo="Mscf/Day"
+          ></app-information-card>
+          <app-information-card
+            [valor]="'3.698.089'"
+            titulo="Total water inyection"
+          ></app-information-card>
+          <app-information-card
+            [valor]="'11.681'"
+            titulo="Total gas consume"
+          ></app-information-card>
+        </div>
+      </div>
+      <div class="row-span-2">
+        <div class="grid grid-flow-col grid-cols-4">
+          <div class="col-span-1">
+            <div class="flex flex-col">
+              <app-information-card
+                [valor]="formatDate(currentDate)"
+                titulo="Current date"
+              ></app-information-card>
+              <app-information-card
+                [valor]="'3.698.089'"
+                titulo="Strategic"
+              ></app-information-card>
+              <app-information-card
+                [valor]="'3.698.089'"
+                titulo="Tactical"
+              ></app-information-card>
+            </div>
+          </div>
+          <div
+            echarts
+            [options]="pozosChart"
+            [loading]="cargando"
+            [theme]="coolTheme"
+            (chartInit)="onPozosGraficaInit($event)"
+            [autoResize]="true"
+            class="demo-chart col-span-3"
+            style="max-width: 99%"
+          ></div>
+        </div>
+      </div>
       <div
         echarts
         [options]="fieldProductionChart"
         [loading]="cargando"
         [theme]="coolTheme"
-        class="demo-chart h-1/3 overflow-hidden"
+        (chartInit)="onFieldfieldProductionChartInit($event)"
+        [autoResize]="true"
+        class="demo-chart row-span-3"
+        style="max-width: 99%"
       ></div>
     </div>
   </div>
-  <div class="w-1/6 md:w-4/12">
-    <div class="flex flex-col">
-        <div echarts
-        [options]="line1Chart"
-        [loading]="cargando"
-        [theme]="coolTheme"
-        class="demo-chart h-2/3"
-      ></div>
-      <div echarts
-        [options]="line2Chart"
-        [loading]="cargando"
-        [theme]="coolTheme"
-        class="demo-chart h-2/3"
-      ></div>
-      <div echarts
-        [options]="line3Chart"
-        [loading]="cargando"
-        [theme]="coolTheme"
-        class="demo-chart h-2/3"
-      ></div>
+  <div class="col-span-6 overflow-hidden">
+    <div class="grid grid-rows-6 gap-0 h-full place-content-stretch place-items-stretch">
+      <div
+      echarts
+      [options]="line1Chart"
+      [loading]="cargando"
+      [theme]="coolTheme"
+      (chartInit)="onLineOneChartInit($event)"
+      [autoResize]="true"
+      class="demo-chart row-span-2"
+      style="max-width: 99%;"
+    ></div>
+    <div
+      echarts
+      [options]="line2Chart"
+      [loading]="cargando"
+      [theme]="coolTheme"      
+      (chartInit)="onLineTwoChartInit($event)"
+      [autoResize]="true"
+      class="demo-chart row-span-2"
+      style="max-width: 99%;"
+    ></div>
+    <div
+      echarts
+      [options]="line3Chart"
+      [loading]="cargando"
+      [theme]="coolTheme"
+      (chartInit)="onLineThreeChartInit($event)"
+      [autoResize]="true"
+      style="max-width: 99%;"
+      class="demo-chart row-span-2"
+    ></div>
     </div>
   </div>
 </div>
+
+<!-- <div class="col-span-6 overflow-hidden">
+  <div class="flex flex-col">
+    <div
+      echarts
+      [options]="line1Chart"
+      [loading]="cargando"
+      [theme]="coolTheme"
+      class="demo-chart h-2/3"
+    ></div>
+    <div
+      echarts
+      [options]="line2Chart"
+      [loading]="cargando"
+      [theme]="coolTheme"
+      class="demo-chart h-2/3"
+    ></div>
+    <div
+      echarts
+      [options]="line3Chart"
+      [loading]="cargando"
+      [theme]="coolTheme"
+      class="demo-chart h-2/3"
+    ></div>
+  </div>
+</div> -->
