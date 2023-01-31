@@ -1,2 +1,39 @@
-<p>tactical works!</p>
-<p>Siuuu</p>
+<div class="grid grid-cols-12 grid-flow-col gap-1 w-full h-full place-content-stretch place-items-stretch bg-[#393E46] p-2">
+    <div echarts (chartInit)="onGraficaQdpNpdD($event)" [options]="graficaQdpNpdD" [merge]="updateGraficaQdpNpdD" [loading]="cargando" [theme]="coolTheme" [autoResize]="true"  class="demo-chart col-span-4" style="max-width: 99%;"></div>
+    <div class="col-span-4 ">
+        <div class="grid grid-flow-row grid-rows-6 h-full place-content-stretch place-items-stretch">
+            <div class="row-span-1">
+                <div class="flex flex-row w-full">
+                    <app-information-card valor="0,99157" titulo="Q Match Point" class="w-full"></app-information-card>
+                    <app-information-card valor="0,99577" titulo="T Match Point" class="w-full"></app-information-card>
+                </div>
+            </div>
+            <div class="row-span-1">
+                <div class="flex flex-row w-full">
+                    <app-information-card valor="1.076" titulo="K" class="w-full"></app-information-card>
+                    <app-information-card valor="1.076" titulo="S" class="w-full"></app-information-card>
+                </div>
+            </div>
+            <div echarts (chartInit)="onGraficaQdpNpdD($event)" [options]="graficaQdpNpdD" [merge]="updateGraficaQdpNpdD" [loading]="cargando" [theme]="coolTheme" [autoResize]="true"  class="demo-chart row-span-4" style="max-width: 99%;"></div>
+        </div>
+    </div>
+    <div class="col-span-4 ">
+        <div class="grid grid-flow-row grid-rows-6 h-full place-content-stretch place-items-stretch">
+            <div class="row-span-1">
+                <div class="flex flex-row w-full">
+                    <app-information-card valor="0,99157" titulo="Q Match Point" class="w-full"></app-information-card>
+                    <app-information-card valor="0,99577" titulo="T Match Point" class="w-full"></app-information-card>
+                </div>
+            </div>
+            <div class="row-span-1">
+                <div class="flex flex-row w-full">
+                    <app-information-card valor="1.076" titulo="K" class="w-full"></app-information-card>
+                    <app-information-card valor="1.076" titulo="S" class="w-full"></app-information-card>
+                </div>
+            </div>
+            <div echarts (chartInit)="onGraficaNpEur($event)" [options]="graficaNpEur" [merge]="updateGraficaNpEur" [loading]="cargando" [theme]="coolTheme" [autoResize]="true"  class="demo-chart row-span-2" style="max-width: 99%;"></div>
+            <div echarts (chartInit)="onGraficaQdpNpdD($event)" [options]="graficaQdpNpdD" [merge]="updateGraficaQdpNpdD" [loading]="cargando" [theme]="coolTheme" [autoResize]="true"  class="demo-chart row-span-2" style="max-width: 99%;"></div>
+           
+        </div>
+    </div>
+</div>
