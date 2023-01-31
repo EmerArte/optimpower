@@ -39,6 +39,8 @@ export class TacticalComponent implements OnInit{
     this.builGraficaNpEur();
   }
   buildGraficaQdpNpdD() {
+    console.log("");
+    
     this.graficaQdpNpdD = {
       title: {
         text: 'QdD-NpdD'
