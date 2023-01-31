@@ -8,6 +8,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import { TacticalComponent } from './tactical.component';
+import {MatRadioModule} from '@angular/material/radio' 
 @NgModule({
   declarations: [
     TacticalComponent
@@ -18,6 +19,7 @@ import { TacticalComponent } from './tactical.component';
     ReactiveFormsModule,
     FormsModule,
     MatDatepickerModule,
+    MatRadioModule,
     MatFormFieldModule,
     MatNativeDateModule,
     MatSelectModule,

@@ -1,4 +1,4 @@
-<div class="grid grid-cols-12 grid-flow-col gap-1 w-full h-full place-content-stretch place-items-stretch bg-[#393E46] p-2">
+<div class="grid grid-cols-12 gap-1 w-full h-full place-content-stretch place-items-stretch bg-[#393E46] p-2 box-border">
     <div echarts (chartInit)="onGraficaQdpNpdD($event)" [options]="graficaQdpNpdD" [merge]="updateGraficaQdpNpdD" [loading]="cargando" [theme]="coolTheme" [autoResize]="true"  class="demo-chart col-span-4" style="max-width: 99%;"></div>
     <div class="col-span-4 ">
         <div class="grid grid-flow-row grid-rows-6 h-full place-content-stretch place-items-stretch">
@@ -21,14 +21,29 @@
         <div class="grid grid-flow-row grid-rows-6 h-full place-content-stretch place-items-stretch">
             <div class="row-span-1">
                 <div class="flex flex-row w-full">
-                    <app-information-card valor="0,99157" titulo="Q Match Point" class="w-full"></app-information-card>
-                    <app-information-card valor="0,99577" titulo="T Match Point" class="w-full"></app-information-card>
+                    <div class="block w-1/2">
+                        <mat-form-field appearance="outline" class="w-full">
+                            <mat-label>Well</mat-label>
+                            <mat-select formControlName="posos">
+                              <!-- <mat-option *ngFor="let posos of listaPosos" [value]="posos">{{posos.WELL_NAME}}</mat-option> -->
+                              <mat-option value="posos">LL-001</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                    <div class="block w-1/2">
+                        <mat-radio-group class="flex flex-col w-full justify-center items-center" >
+                              <mat-radio-button class="example-margin" value="after">20</mat-radio-button>
+                              <mat-radio-button class="example-margin" value="before">25</mat-radio-button>
+                              <mat-radio-button class="example-margin" value="before">30</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
                 </div>
             </div>
             <div class="row-span-1">
                 <div class="flex flex-row w-full">
-                    <app-information-card valor="1.076" titulo="K" class="w-full"></app-information-card>
-                    <app-information-card valor="1.076" titulo="S" class="w-full"></app-information-card>
+                    <app-information-card valor="1.076" titulo="Q Predicted (BBL)" class="w-full"></app-information-card>
+                    <app-information-card valor="36" titulo="Predicted months" class="w-full"></app-information-card>
+                    
                 </div>
             </div>
             <div echarts (chartInit)="onGraficaNpEur($event)" [options]="graficaNpEur" [merge]="updateGraficaNpEur" [loading]="cargando" [theme]="coolTheme" [autoResize]="true"  class="demo-chart row-span-2" style="max-width: 99%;"></div>
