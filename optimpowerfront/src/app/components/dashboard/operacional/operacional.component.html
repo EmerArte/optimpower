@@ -1,7 +1,7 @@
 <div class="grid grid-cols-12 gap-1 h-full place-content-stretch  place-items-stretch">
   <div
     id="drawer-navigation"
-    class="hidden lg:grid lg:col-span-3 ml-2 bg-[#393E46] h-full rounded-sm shadow-md"
+    class="hidden lg:grid lg:col-span-3 mx-2 bg-[#393E46] h-full rounded-sm shadow-md"
     aria-labelledby="drawer-navigation-label"
   >
     <div class="flex flex-col space-y-2">
@@ -45,7 +45,7 @@
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>Well</mat-label>
         <mat-select formControlName="posos">
-          <mat-option *ngFor="let posos of listaPosos" [value]="posos">{{posos.WELL_ID + '-' + posos.WELL_NAME }}</mat-option>
+          <mat-option *ngFor="let posos of listaPosos" [value]="posos">{{posos.WELL_NAME}}</mat-option>
         </mat-select>
       </mat-form-field>
       <div>
@@ -90,7 +90,7 @@
       </ul>
     </div>
   </div>
-  <div class="p-2 shadow-md bg-[#393E46] rounded-sm col-span-12 justify-self-center lg:col-span-9 lg:mr-2">
+  <div class="p-2 shadow-md bg-[#393E46] rounded-sm col-span-12 justify-self-center lg:col-span-9 lg:mr-2 w-full">
     <router-outlet></router-outlet>
   </div>
 </div>

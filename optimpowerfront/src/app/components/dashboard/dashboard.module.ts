@@ -5,22 +5,22 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import {DashboardComponent} from "./dashboard.component";
 import {HeaderprincipalComponent} from "./headerprincipal/headerprincipal.component";
 import { OperacionalModule } from './operacional/operacional.module';
-import { StrategicalComponent } from './strategical/strategical.component';
-import { TacticalComponent } from './tactical/tactical.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import { StrategicalModule } from './strategical/strategical.module';
+import { TacticalModule } from './tactical/tactical.module';
 
 
 @NgModule({
   declarations: [
     HeaderprincipalComponent,
-    DashboardComponent,
-    StrategicalComponent,
-    TacticalComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     OperacionalModule,
+    StrategicalModule,
+    TacticalModule,
     ReactiveFormsModule
   ]
 })

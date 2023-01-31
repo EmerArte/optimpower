@@ -1,1 +1,82 @@
-<p>strategical works!</p>
+<div class="flex flex-col h-full w-full justify-around items-center ">
+    
+  <div class="block h-full w-11/12 bg-[#393E46] px-2 rounded-sm overflow-y-scroll">
+      <!-- titulo -->
+    <h3
+      class="text-center py-3 font-extrabold text-xl uppercase text-[#eae305]"
+    >
+      Strategical
+    </h3>
+    <!-- fin titulo -->
+    <!-- lista de datos -->
+    <div class="flex flex-row flex-nowrap justify-around items-center w-full h-10 mb-2">
+        <app-information-card [valor]="formatDate(fechaAcual)" titulo="Actual Date" class="w-full"></app-information-card>
+        <app-information-card valor="39" titulo="Operacional" class="w-full"></app-information-card>
+        <app-information-card valor="39" titulo="Tactic" class="w-full"></app-information-card>
+        <app-information-card valor="TE5502" titulo="Campo" class="w-full"></app-information-card>
+        <app-information-card valor="HUI-003" titulo="Field" class="w-full"></app-information-card>
+        <app-information-card valor="ON" titulo="State" class="w-full"></app-information-card>
+    </div>
+    <div class="grid grid-cols-12 gap-0 h-full place-content-stretch  place-items-stretch">
+        <div class="col-span-2">
+            <div class="grid grid-rows-6 gap-1 h-full place-content-stretch place-items-stretch">
+                <app-information-card valor="39" titulo="Oil (BPD)" class="w-full"></app-information-card>
+                <app-information-card valor="6373" titulo="Water (dpd)" class="w-full"></app-information-card>
+                <app-information-card valor="14" titulo="Gas(MMSFC)" class="w-full"></app-information-card>
+                <app-information-card valor="14" titulo="Water Inyection BPD" class="w-full"></app-information-card>
+                <app-information-card valor="14" titulo="Gas Consumed (MMSFC)" class="w-full"></app-information-card>
+            </div>
+        </div>
+      <div class="col-span-5">
+        <div class="grid grid-rows-2 gap-1 h-full place-content-stretch place-items-stretch">
+            <div
+              echarts
+              [options]="pozosChart"
+              [loading]="cargando"
+              [theme]="coolTheme"
+              (chartInit)="onPozosGraficaInit($event)"
+              [autoResize]="true"
+              class="demo-chart row-span-1"
+              style="max-height: 99%"
+            ></div>
+            <div
+              echarts
+              [options]="pozosChart"
+              [loading]="cargando"
+              [theme]="coolTheme"
+              (chartInit)="onPozosGraficaInit($event)"
+              [autoResize]="true"
+              class="demo-chart row-span-1"
+              style="max-height: 99%"
+            ></div>
+        </div>
+      </div>
+      <div class="col-span-5">
+        <div class="grid grid-rows-2 gap-1 h-full place-content-stretch place-items-stretch">
+            <div
+              echarts
+              [options]="pozosChart"
+              [loading]="cargando"
+              [theme]="coolTheme"
+              (chartInit)="onPozosGraficaInit($event)"
+              [autoResize]="true"
+              class="demo-chart row-span-1"
+              style="max-height: 99%"
+            ></div>
+            <div
+              echarts
+              [options]="pozosChart"
+              [loading]="cargando"
+              [theme]="coolTheme"
+              (chartInit)="onPozosGraficaInit($event)"
+              [autoResize]="true"
+              class="demo-chart row-span-1"
+              style="max-height: 99%"
+            ></div>
+        </div>
+      </div>
+  </div>
+
+
+
+</div>
