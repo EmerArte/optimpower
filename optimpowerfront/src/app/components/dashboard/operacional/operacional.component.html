@@ -36,7 +36,7 @@
     <!-- filters -->
     
     <form [formGroup]="wellForm" class="p-2" >
-      <mat-form-field appearance="outline" class="w-full">
+      <mat-form-field appearance="outline" class="w-full" *ngIf="!(route.url === '/dashboard/operational/field')">
         <mat-label>Field</mat-label>
         <mat-select formControlName="campos">
           <mat-option *ngFor="let campo of listaCampos" [value]="campo">{{campo.FIELD_NAME}}</mat-option>

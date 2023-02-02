@@ -73,6 +73,8 @@ export class WellComponent implements OnInit, AfterViewInit {
       if (item != null) {
         if (item.campos) {
           this.dataForm = item;
+   
+          
           this.campoId = this.dataForm?.campos.FIELD_ID;
           this.campo = this.dataForm?.campos.FIELD_NAME;
           this.pozo = this.dataForm?.posos.WELL_NAME;
@@ -87,6 +89,7 @@ export class WellComponent implements OnInit, AfterViewInit {
             .subscribe((res: any) => {
               this.dataGeneral = JSON.parse(res);
               this.cargando = false;
+              console.log(this.dataGeneral);
               this.crudo = Object.values(this.dataGeneral.opt.OIL_VOLUME)
                 .slice(-1)
                 .toString();

@@ -17,5 +17,7 @@ export class OperacionalService {
   consultaListaDePosos(){
     return this.http.get(`${this.URL}getwellsdataset`)
   }
-
+  dailyReport(){
+    return this.http.get(`${this.URL}getdailyreport`)
+  }
 }

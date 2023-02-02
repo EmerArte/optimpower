@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DataWellService } from './data/shared.data.service';
 import { OperacionalService } from './operacional.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-operacional',
@@ -18,7 +19,7 @@ export class OperacionalComponent implements OnInit{
   auxDate!: Date;
   wellForm: any;
   constructor(private formBuilder: FormBuilder,
-    private wellService: DataWellService,private service: OperacionalService){
+    private wellService: DataWellService,private service: OperacionalService, public route: Router){
   }
   ngOnInit(): void {
     this.construirFormulario();
@@ -26,6 +27,8 @@ export class OperacionalComponent implements OnInit{
     this.consultaListaCampos();
     this.wellForm.valueChanges.subscribe((e:any) => {
       if(e.fechaInicial!= null && e.fechaFinal!= null  && e.campos!= null  && e.posos != null){
+
+        
         this.wellService.setDataWell(e)
       }
     });

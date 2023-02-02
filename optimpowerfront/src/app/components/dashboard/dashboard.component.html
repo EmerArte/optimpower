@@ -8,11 +8,11 @@
 </div> -->
 
 <div class="flex flex-col h-screen justify-between overflow-hidden bg-[#222831]">
-  <div style="height: 8%;">
+  <div class="h-[8%] lg:h-[6%]">
     <app-headerprincipal></app-headerprincipal>
   </div>
-  <div style="height: 92%;max-height: 92%;" class="flex flex-col justify-center">
-      <div [ngClass]="'overflow-hidden'" style="height: 95%!important;">
+  <div class="h-[92%] lg:h-[93%] flex flex-col justify-center">
+      <div style="margin-bottom: 6px; height: 100%!important;">
       <router-outlet></router-outlet>
       </div>
   </div>
