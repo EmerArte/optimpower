@@ -2,7 +2,8 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {LoginService, NAME_LOCALSTORAGE} from '../login.service';
-import {Util} from '../../../../utils/util';
+import Swal from 'sweetalert2';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-formulario-login',
@@ -12,10 +13,10 @@ import {Util} from '../../../../utils/util';
 export class FormularioLoginComponent {
 
   formLogin: any;
-  loading:boolean = false;
   constructor(private router: Router,
               private formBuilder: FormBuilder,
-              private loginService: LoginService) {
+              private loginService: LoginService,
+              private loadingService : LoadingService) {
     this.construirFormulario();
   }
 
@@ -27,26 +28,23 @@ export class FormularioLoginComponent {
   }
 
   openDashboard(pageName: string) {
-    this.loading = true;
+    this.loadingService.setLoading(true);
     this.loginService.authenticate(this.formLogin.controls.username.value, this.formLogin.controls.password.value).subscribe({
-
       next: (data: any) => {
-        this.loading = false;
         if (data.token) {
+          this.loadingService.setLoading(false);
           localStorage.setItem(NAME_LOCALSTORAGE, data.token);
           this.router.navigate([`${pageName}`]);
-        } else {
-          Util.mensajeDialog('Error', 'Invalid credentials');
         }
       },
-      error: (e: any)=>{
-        this.loading = false;
-        Util.mensajeDialog('Error', 'Internal server error, try again');
+      error: (error: any) => {
+        Swal.fire('Oops!', error, 'warning');
       }
-      
-    }
-    );
+  });
     
+  }
+  isLoading(){
+    return this.loadingService.getLoading();
   }
 
 

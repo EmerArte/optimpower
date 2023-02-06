@@ -10,6 +10,7 @@ import { ThemeOption } from 'ngx-echarts';
 import { CoolTheme } from 'src/app/components/custom.theme.echart';
 import { DataWellService } from '../data/shared.data.service';
 import { Subscription } from 'rxjs';
+import { LoadingService } from 'src/app/services/loading.service';
 @Component({
   selector: 'app-well',
   templateUrl: './well.component.html',
@@ -61,6 +62,7 @@ export class WellComponent implements OnInit, AfterViewInit {
   constructor(
     private service: OperacionalService,
     private wellDataService: DataWellService,
+    public loadingService: LoadingService
   ) {}
 
   ngOnDestroy() {
@@ -84,6 +86,7 @@ export class WellComponent implements OnInit, AfterViewInit {
             this.dataForm.fechaInicial,
             this.dataForm.fechaFinal
           );
+          this.loadingService.setLoading(true)
           this.service
             .consultaVolumenOfWellByDate(this.pozoId, this.rangoFechas)
             .subscribe((res: any) => {
@@ -325,4 +328,5 @@ export class WellComponent implements OnInit, AfterViewInit {
       this.graficaDosInstance.resize();
     }
   }
+
 }
