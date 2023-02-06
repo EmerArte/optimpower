@@ -61,6 +61,10 @@ module.exports = {
         "Segoe UI Symbol",
         "Noto Color Emoji",
       ],
+      gridTemplateRows: {
+        // Simple 8 row grid
+        '12': 'repeat(12, minmax(0, 1fr))',
+      }
     },
   },
 };

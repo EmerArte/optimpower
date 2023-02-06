@@ -10,17 +10,17 @@
         </div>
     </div>
     <div class="col-span-4 lg:col-span-8 md:col-span-6 overflow-hidden pb-2">
-        <div class="grid grid-rows-6 gap-1 h-full place-content-stretch place-items-stretch">
-            <div class="row-span-1 grid grid-cols-3 gap-1 place-content-stretch place-items-stretch">
+        <div class="grid grid-rows-12 gap-1 h-full place-content-stretch place-items-stretch">
+            <div class="row-span-2 grid grid-cols-3 gap-1 place-content-stretch place-items-stretch">
                 <app-information-card [valor]="campo" titulo="Field" class="w-full"></app-information-card>
                 <app-information-card [valor]="pozo" titulo="Well" class="w-full"></app-information-card>
                 <app-information-card [valor]="estadoPozo" titulo="State" class="w-full"></app-information-card>
             </div>
             <!-- <div class="row-span-3"> -->
-                <div echarts (chartInit)="onGraficaUnoInit($event)" [options]="graficaUno" [merge]="updateOptionsGraficauno" [loading]="cargando" [theme]="coolTheme" [autoResize]="true"  class="demo-chart row-span-3" style="max-width: 99%;"></div>
+                <div echarts (chartInit)="onGraficaUnoInit($event)" [options]="graficaUno" [merge]="updateOptionsGraficauno" [loading]="cargando" [theme]="coolTheme" [autoResize]="true"  class="demo-chart row-span-5" style="max-width: 100%;"></div>
             <!-- </div > -->
             <!-- <div class="row-span-2"> -->
-                <div  echarts (chartInit)="onGraficaDosInit($event)" [options]="graficaDos" [merge]="updateOptionsGraficaDos" [loading]="cargando" [theme]="coolTheme" [autoResize]="true" class="demo-chart row-span-2" style="max-width: 99%;"></div>
+                <div  echarts (chartInit)="onGraficaDosInit($event)" [options]="graficaDos" [merge]="updateOptionsGraficaDos" [loading]="cargando" [theme]="coolTheme" [autoResize]="true" class="demo-chart row-span-5" style="max-width: 100%;"></div>
             <!-- </div> -->
         </div>
         

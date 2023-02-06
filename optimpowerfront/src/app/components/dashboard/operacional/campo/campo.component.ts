@@ -99,6 +99,16 @@ export class CampoComponent implements OnInit {
     { value: 300, name: ' HUI-003' },
   ];
 
+  //Acelerador
+  aceleradorChartInstance: any;
+  aceleradorChart: EChartsOption ={};
+  updateAceleradorChart: any;
+  initAceleradorChart= {
+    renderer: 'svg'
+  }
+
+
+
   // Line charts
   lineOneChartInstance: any;
   line1Chart: EChartsOption = {};
@@ -135,161 +145,291 @@ export class CampoComponent implements OnInit {
     this.buildLine1Chart();
     this.buildLine2Chart();
     this.buildLine3Chart();
+    this.buildAceleradorChart();
   }
 
   buildPozosChart() {
-    this.pozosChart.title = {
-      left: 'center',
-      text: this.pTitle,
-    };
-    this.pozosChart.tooltip = {
-      trigger: 'axis',
-    };
-    this.pozosChart.grid = {
-      left: '5%',
-      right: '5%',
-      bottom: '5%',
-      containLabel: true,
-    };
-    (this.pozosChart.xAxis = {
-      type: 'category',
-      data: this.pXAxisOptions,
-    }),
-      (this.pozosChart.yAxis = {
+    this.pozosChart = {
+      title: {
+        top: '0%',
+        left: '2%',
+        textStyle:{
+          fontSize: 12,
+          fontWeight: 'bold',
+          color: '#FFFFFF'
+        },
+        text: this.pTitle
+      },
+      tooltip : {
+        trigger: 'axis',
+      },
+      grid : {
+        left: '5%',
+        right: '5%',
+        bottom: '5%',
+        containLabel: true,
+      },
+      xAxis : {
+        type: 'category',
+        data: this.pXAxisOptions,
+      },
+      yAxis : {
         type: 'value',
         name: this.pYAxisName,
-      }),
-      (this.pozosChart.series = [
+      },
+      series : [
         {
           data: [],
           type: 'bar',
         },
-      ]);
+      ]
+    }
   }
 
   buildFieldProductionChart() {
-    (this.fieldProductionChart.title = {
-      text: this.fTitle,
-      left: 'center',
-    }),
-      (this.fieldProductionChart.tooltip = {
-        trigger: 'item',
-      }),
-      (this.fieldProductionChart.grid = {
+    this.fieldProductionChart = {
+      title: {
+        text: this.fTitle,
+        top: '0%',
+        left: '2%',
+        textStyle:{
+          fontSize: 12,
+          fontWeight: 'bold',
+          color: '#FFFFFF'
+        },
+      },
+      tooltip: {
+          trigger: 'item',
+      },
+      grid : {
         left: '5%',
         right: '5%',
         bottom: '5%',
         containLabel: true,
-      });
-    (this.fieldProductionChart.legend = {
-      top: '8%',
-      left: 'center',
-    }),
-      (this.fieldProductionChart.series = [
-        {
-          name: 'Access From',
-          type: 'pie',
-          radius: ['40%', '70%'],
-          avoidLabelOverlap: false,
-          label: {
-            show: false,
-            position: 'center',
+      },
+      legend: {
+        left: '2%',
+        top: '8%',
+      },
+      toolbox : {
+        top: '14%',
+        right: '5%',
+        feature: {
+          dataZoom: {
+            yAxisIndex: 'all',
           },
-          data: this.fSeriesData,
-          emphasis: {
+          restore: {},
+          saveAsImage: {},
+        },
+      },
+        series: [
+          {
+            name: 'Access From',
+            type: 'pie',
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
             label: {
-              show: true,
-              fontSize: 40,
-              fontWeight: 'bold',
+              show: false,
+              position: 'center',
+            },
+            data: this.fSeriesData,
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: 40,
+                fontWeight: 'bold',
+              },
+            },
+            labelLine: {
+              show: false,
             },
           },
-          labelLine: {
-            show: false,
-          },
-        },
-      ]);
+        ]
+    };
   }
 
   buildLine1Chart() {
-    (this.line1Chart.xAxis = {
-      type: 'category',
-      data: this.lXAxisOptions,
-    }),
-      (this.line1Chart.grid = {
+    this.line1Chart= {
+      title : {
+        top: '0%',
+          left: '2%',
+          textStyle:{
+            fontSize: 12,
+            fontWeight: 'bold',
+            color: '#FFFFFF'
+          },
+      },
+      xAxis : {
+        type: 'category',
+        data: this.lXAxisOptions,
+      },
+      grid : {
         left: '5%',
         right: '5%',
         bottom: '5%',
         containLabel: true,
-      }),
-      (this.line1Chart.yAxis = {
+      },
+      yAxis : {
         name: this.lYAxisName1,
         type: 'value',
         nameLocation: 'middle',
         axisLabel: {
           formatter: this.lYAxisFormatter,
-        },
-      }),
-      (this.line1Chart.series = [
+        }
+      },
+      series : [
         {
           data: this.lSeriesData,
           type: 'line',
         },
-      ]);
+      ]
+    }
   }
 
   buildLine2Chart() {
-    (this.line2Chart.xAxis = {
-      type: 'category',
-      data: this.lXAxisOptions,
-    }),
-      (this.line2Chart.grid = {
+    this.line2Chart = {
+      title : {
+        top: '0%',
+          left: '2%',
+          textStyle:{
+            fontSize: 12,
+            fontWeight: 'bold',
+            color: '#FFFFFF'
+          },
+      },
+      xAxis : {
+        type: 'category',
+        data: this.lXAxisOptions,
+      },
+      grid : {
         left: '5%',
         right: '5%',
         bottom: '5%',
         containLabel: true,
-      });
-    (this.line2Chart.yAxis = {
-      name: this.lYAxisName2,
-      type: 'value',
-      nameLocation: 'middle',
-      axisLabel: {
-        formatter: this.lYAxisFormatter,
       },
-    }),
-      (this.line2Chart.series = [
+      yAxis : {
+        name: this.lYAxisName2,
+        type: 'value',
+        nameLocation: 'middle',
+        axisLabel: {
+          formatter: this.lYAxisFormatter,
+        }
+      },
+      series : [
         {
           data: this.lSeriesData,
           type: 'line',
         },
-      ]);
+      ]
+    }
   }
 
   buildLine3Chart() {
-    (this.line3Chart.xAxis = {
-      type: 'category',
-      data: this.lXAxisOptions,
-    }),
-      (this.line3Chart.grid = {
+    this.line3Chart = {
+      title : {
+        top: '0%',
+          left: '2%',
+          textStyle:{
+            fontSize: 12,
+            fontWeight: 'bold',
+            color: '#FFFFFF'
+          },
+      },
+      xAxis : {
+        type: 'category',
+        data: this.lXAxisOptions,
+      },
+      grid : {
         left: '5%',
         right: '5%',
         bottom: '5%',
         containLabel: true,
-      }),
-      (this.line3Chart.yAxis = {
+      },
+      yAxis : {
         name: this.lYAxisName3,
         type: 'value',
         nameLocation: 'middle',
         axisLabel: {
           formatter: this.lYAxisFormatter,
-        },
-      }),
-      (this.line3Chart.series = [
+        }
+      },
+      series : [
         {
           data: this.lSeriesData,
           type: 'line',
         },
-      ]);
+      ]
+    }
   }
+
+  buildAceleradorChart(){
+    this.aceleradorChart = {
+      title:{
+      top: '0%',
+      left: '2%',
+      text: 'Titulo grafica',
+      textStyle:{
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: '#FFFFFF'
+      }
+      },
+      series: [
+      {
+        type: 'gauge',
+        color: '#36aee4',
+        progress: {
+          show: true,
+          width: 12
+        },
+        axisLine: {
+          lineStyle: {
+            width: 12
+          }
+        },
+        axisTick: {
+          show: false
+        },
+        splitLine: {
+          length: 8,
+          lineStyle: {
+            width: 2,
+            color: '#999'
+          }
+        },
+        axisLabel: {
+          distance: 12,
+          color: '#999',
+          fontSize: 12
+        },
+        anchor: {
+          show: true,
+          showAbove: true,
+          size: 15,
+          itemStyle: {
+            borderWidth: 5
+          }
+        },
+        title: {
+          fontSize: 12,
+          show: false
+        },
+        detail: {
+          valueAnimation: true,
+          fontSize: 18,
+          color: '#36aee4',
+          offsetCenter: [0, '70%']
+        },
+        data: [
+          {
+            value: 70
+          }
+        ]
+      }
+    ]
+  }
+  }
+
   resizeChart() {
     if (this.pozosChartInstance) {
       this.pozosChartInstance.resize();
@@ -305,6 +445,9 @@ export class CampoComponent implements OnInit {
     }
     if (this.lineThreeChartInstance) {
       this.lineThreeChartInstance.resize();
+    }
+    if(this.aceleradorChartInstance){
+      this.aceleradorChartInstance.resize();
     }
   }
   onPozosGraficaInit(e: any) {
@@ -325,7 +468,9 @@ export class CampoComponent implements OnInit {
   onLineThreeChartInit(e: any) {
     this.lineThreeChartInstance = e;
   }
-
+  onAceleradorChartInit(e: any){
+    this.aceleradorChartInstance = e;
+  }
   //Utils
   padTo2Digits(num: number) {
     return num.toString().padStart(2, '0');

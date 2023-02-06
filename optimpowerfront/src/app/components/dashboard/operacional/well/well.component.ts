@@ -162,26 +162,35 @@ export class WellComponent implements OnInit, AfterViewInit {
   }
 
   construirGrafica1() {
+
     this.graficaUno.title = {
-      left: 'center',
+      top: '0%',
+      left: '2%',
       text: 'Gas(MMSFC), OilRate average, Water(BWPD) & Fluid(BFPD) by time',
+      textStyle:{
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: '#FFFFFF'
+      }
     };
+    
     (this.graficaUno.tooltip = {
       trigger: 'axis',
+
     }),
       (this.graficaUno.legend = {
-        left: '10%',
+        left: '2%',
         top: '8%',
         data: ['Gas(MMSFC)', 'OilRate average', 'Water(BWPD)', 'Fluid(BFPD)'],
       }),
-      (this.graficaUno.grid = {
+    this.graficaUno.grid = {
         left: '5%',
         right: '5%',
         bottom: '5%',
         containLabel: true,
-      }),
+    },
       (this.graficaUno.toolbox = {
-        top: '8%',
+        top: '14%',
         right: '5%',
         feature: {
           dataZoom: {
@@ -233,14 +242,20 @@ export class WellComponent implements OnInit, AfterViewInit {
 
   construirGrafica2() {
     this.graficaDos.title = {
-      left: 'center',
+      top: '0%',
+      left: '2%',
       text: 'OilRate by Registred date and Well',
+      textStyle:{
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: '#FFFFFF'
+      }
     };
     this.graficaDos.tooltip = {
       trigger: 'axis',
     };
     this.graficaDos.toolbox = {
-      top: '8%',
+      top: '14%',
       right: '5%',
       feature: {
         dataZoom: {
@@ -251,8 +266,8 @@ export class WellComponent implements OnInit, AfterViewInit {
       },
     };
     this.graficaDos.legend = {
-      left: '10%',
-      top: '8%',
+      left: '2%',
+      top: '10%',
     };
     this.graficaDos.xAxis = {
       type: 'category',
@@ -262,12 +277,12 @@ export class WellComponent implements OnInit, AfterViewInit {
       type: 'value',
       boundaryGap: false,
     };
-    this.graficaDos.grid = {
+    (this.graficaDos.grid = {
       left: '5%',
       right: '5%',
       bottom: '5%',
-      containLabel: true
-    };
+      containLabel: true,
+    }),
     this.graficaDos.series = [
       {
         type: 'line',

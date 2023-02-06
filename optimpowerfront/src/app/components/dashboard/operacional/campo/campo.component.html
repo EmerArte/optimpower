@@ -42,12 +42,23 @@
               [merge]="updatePozosChart"
               (chartInit)="onPozosGraficaInit($event)"
               [autoResize]="true"
-              class="demo-chart col-span-3"
+              class="demo-chart col-span-2"
               style="max-width: 99%"
             ></div>
-
+            <div
+            echarts
+            [options]="aceleradorChart"
+            [loading]="cargando"
+            [theme]="coolTheme"
+            [merge]="updateAceleradorChart"
+            (chartInit)="onAceleradorChartInit($event)"
+            [autoResize]="true"
+            class="demo-chart col-span-2"
+            style="max-width: 99%"
+          ></div>
           </div>
         </div>
+
         <div
           echarts
           [options]="fieldProductionChart"
