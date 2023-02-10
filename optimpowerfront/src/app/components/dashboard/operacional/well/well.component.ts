@@ -24,8 +24,7 @@ export class WellComponent implements OnInit, AfterViewInit {
 
   pozo!: string;
   listaPozos: any[] = [];
-  cargando: boolean = true;
-
+  frecuency:any;
   graficaUnoInstance: any;
   graficaDosInstance: any;
   graficaUno: EChartsOption = {};
@@ -91,8 +90,9 @@ export class WellComponent implements OnInit, AfterViewInit {
             .consultaVolumenOfWellByDate(this.pozoId, this.rangoFechas)
             .subscribe((res: any) => {
               this.dataGeneral = JSON.parse(res);
-              this.cargando = false;
               console.log(this.dataGeneral);
+              this.frecuency = Object.values(this.dataGeneral.opt.FREQUENCY).slice(-1)
+              .toString();
               this.crudo = Object.values(this.dataGeneral.opt.OIL_VOLUME)
                 .slice(-1)
                 .toString();
@@ -183,7 +183,7 @@ export class WellComponent implements OnInit, AfterViewInit {
     }),
       (this.graficaUno.legend = {
         left: '2%',
-        top: '8%',
+        top: '7%',
         data: ['Gas(MMSFC)', 'OilRate average', 'Water(BWPD)', 'Fluid(BFPD)'],
       }),
     this.graficaUno.grid = {
@@ -193,7 +193,7 @@ export class WellComponent implements OnInit, AfterViewInit {
         containLabel: true,
     },
       (this.graficaUno.toolbox = {
-        top: '14%',
+        top: '7%',
         right: '5%',
         feature: {
           dataZoom: {
@@ -258,7 +258,7 @@ export class WellComponent implements OnInit, AfterViewInit {
       trigger: 'axis',
     };
     this.graficaDos.toolbox = {
-      top: '14%',
+      top: '10%',
       right: '5%',
       feature: {
         dataZoom: {
