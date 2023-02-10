@@ -89,16 +89,20 @@
         <div
           class="grid grid-rows-5 gap-0.5 h-full w-full place-content-stretch place-items-stretch "
         >
-          <div
+        <div class="row-span-3 border-b-2 border-[#222831] w-full h-full">
+          <div class="grid grid-cols-2 gap-0 h-full w-full place-content-stretch place-items-stretch">
+            <div
             echarts
             (chartInit)="onGraficaUnoInit($event)"
             [options]="graficaUno"
             [merge]="updateOptionsGraficauno"
             [theme]="coolTheme"
             [autoResize]="true"
-            class="demo-chart row-span-3 border-b-2 border-[#222831]"
-            style="max-width: 99.99999%"
+            class="demo-chart col-span-2"
+            style="max-width: 99%;"
           ></div>
+          </div>
+        </div>
           <div
             echarts
             (chartInit)="onGraficaDosInit($event)"
@@ -107,7 +111,7 @@
             [theme]="coolTheme"
             [autoResize]="true"
             class="demo-chart row-span-2"
-            style="max-width: 99.99999%"
+            style="max-width: 99%"
           ></div>
         </div>
       </div>

@@ -93,18 +93,10 @@ export class WellComponent implements OnInit, AfterViewInit {
               console.log(this.dataGeneral);
               this.frecuency = Object.values(this.dataGeneral.opt.FREQUENCY).slice(-1)
               .toString();
-              this.crudo = Object.values(this.dataGeneral.opt.OIL_VOLUME)
-                .slice(-1)
-                .toString();
-              this.fluido = Object.values(this.dataGeneral.opt.LIQUID_VOLUME)
-                .slice(-1)
-                .toString();
-              this.agua = Object.values(this.dataGeneral.opt.WATER_VOLUME)
-                .slice(-1)
-                .toString();
-              this.gas = Object.values(this.dataGeneral.opt.GAS_VOLUME)
-                .slice(-1)
-                .toString();
+              this.crudo = this.dataGeneral.kpi[0].last
+              this.fluido = this.dataGeneral.kpi[2].last
+              this.agua =  this.dataGeneral.kpi[1].last
+              this.gas =  this.dataGeneral.kpi[3].last
               this.updateOptionsGraficauno = {
                 xAxis: {
                   data: Object.values(this.dataGeneral.opt.VOLUME_DATE)
