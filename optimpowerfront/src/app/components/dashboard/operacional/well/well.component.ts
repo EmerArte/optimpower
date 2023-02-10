@@ -167,13 +167,13 @@ export class WellComponent implements OnInit, AfterViewInit {
   construirGrafica1() {
 
     this.graficaUno.title = {
-      top: '0%',
+      top: '1%',
       left: '2%',
       text: 'Gas(MMSFC), OilRate average, Water(BWPD) & Fluid(BFPD) by time',
       textStyle:{
-        fontSize: 12,
+        fontSize: 14,
         fontWeight: 'bold',
-        color: '#FFFFFF'
+        color: '#eae305'
       }
     };
     
@@ -245,13 +245,13 @@ export class WellComponent implements OnInit, AfterViewInit {
 
   construirGrafica2() {
     this.graficaDos.title = {
-      top: '0%',
+      top: '1%',
       left: '2%',
       text: 'OilRate by Registred date and Well',
       textStyle:{
-        fontSize: 12,
+        fontSize: 14,
         fontWeight: 'bold',
-        color: '#FFFFFF'
+        color: '#eae305'
       }
     };
     this.graficaDos.tooltip = {
