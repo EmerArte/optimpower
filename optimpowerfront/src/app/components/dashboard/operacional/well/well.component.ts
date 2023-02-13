@@ -24,7 +24,7 @@ export class WellComponent implements OnInit, AfterViewInit {
 
   pozo!: string;
   listaPozos: any[] = [];
-  frecuency:any;
+  frecuency: number = 0;
   graficaUnoInstance: any;
   graficaDosInstance: any;
   graficaUno: EChartsOption = {};
@@ -49,6 +49,8 @@ export class WellComponent implements OnInit, AfterViewInit {
   campoId!: number;
   pozoId!: number;
   estadoPozo: string = '';
+  gor: any;
+  bsw: any;
 
   theme!: string | ThemeOption;
   coolTheme = CoolTheme;
@@ -81,6 +83,7 @@ export class WellComponent implements OnInit, AfterViewInit {
           this.pozo = this.dataForm?.posos.WELL_NAME;
           this.pozoId = this.dataForm?.posos.WELL_ID;
           this.estadoPozo = this.dataForm?.posos.WELL_STATUS;
+          
           this.rangoFechas = this.parsearFechasParaConsulta(
             this.dataForm.fechaInicial,
             this.dataForm.fechaFinal
@@ -91,12 +94,20 @@ export class WellComponent implements OnInit, AfterViewInit {
             .subscribe((res: any) => {
               this.dataGeneral = JSON.parse(res);
               console.log(this.dataGeneral);
-              this.frecuency = Object.values(this.dataGeneral.opt.FREQUENCY).slice(-1)
-              .toString();
-              this.crudo = this.dataGeneral.kpi[0].last
-              this.fluido = this.dataGeneral.kpi[2].last
-              this.agua =  this.dataGeneral.kpi[1].last
-              this.gas =  this.dataGeneral.kpi[3].last
+              this.frecuency =  +Object.values(this.dataGeneral.opt.FREQUENCY).slice(-1).toString();
+              this.frecuency = this.frecuency
+              this.crudo = this.dataGeneral.kpi[0].last.toFixed(2)
+              this.fluido = this.dataGeneral.kpi[2].last.toFixed(2)
+              this.agua =  this.dataGeneral.kpi[1].last.toFixed(2)
+              this.gas =  this.dataGeneral.kpi[3].last.toFixed(2)
+              if(this.dataGeneral.operational){
+                this.gor = this.dataGeneral.operational.length > 0 ? this.dataGeneral.operational[0].GAS_OIL_RATIO.toFixed(2) : 'N/A';
+                this.bsw = this.dataGeneral.operational.length > 0 ? this.dataGeneral.operational[0].GAS_OIL_RATIO.toFixed(2) : 'N/A';
+              }else{
+                this.gor = 'N/A';
+                this.bsw = 'N/A';
+              }
+              
               this.updateOptionsGraficauno = {
                 xAxis: {
                   data: Object.values(this.dataGeneral.opt.VOLUME_DATE)

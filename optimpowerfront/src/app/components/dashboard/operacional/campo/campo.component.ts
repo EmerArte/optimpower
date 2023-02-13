@@ -3,6 +3,7 @@ import { EChartsOption, SeriesOption } from 'echarts';
 import { ThemeOption } from 'ngx-echarts';
 import { CoolTheme } from 'src/app/components/custom.theme.echart';
 import { OperacionalService } from '../operacional.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-campo',
@@ -17,9 +18,11 @@ export class CampoComponent implements OnInit {
   numeroSlaActivos!: any;
   dataDelMes:any;
 
-  constructor(private operacionalService: OperacionalService) {
+  constructor(private operacionalService: OperacionalService, public loadingService: LoadingService) {
+    this.loadingService.setLoading(true);
     operacionalService.dailyReport().subscribe({
       next: (data: any) => {
+        
         this.dataDelMes = JSON.parse(data);
         console.log(this.dataDelMes);
         this.totalWater = Object.values(this.dataDelMes.month.WATER).reduce((a:number, b:any) => a + b, 0).toFixed(1) as string;
@@ -111,7 +114,13 @@ export class CampoComponent implements OnInit {
     renderer: 'svg'
   }
 
-
+  // Pozos chart
+  treemapChartInstance: any;
+  treemapChart: EChartsOption = {};
+  updateTreemapChart: any;
+  initTreemapChart = {
+    renderer: 'svg',
+  };
 
   // Line charts
   lineOneChartInstance: any;
@@ -370,7 +379,7 @@ export class CampoComponent implements OnInit {
     const gaugeData = [
       {
         value: 60,
-        name: 'Good',
+        name: 'Current',
         title: {
           offsetCenter: ['-40%', '80%']
         },
@@ -380,7 +389,7 @@ export class CampoComponent implements OnInit {
       },
       {
         value: 80,
-        name: 'Better',
+        name: 'Expected',
         title: {
           
           offsetCenter: ['40%', '80%']
@@ -458,6 +467,39 @@ export class CampoComponent implements OnInit {
   }
   }
 
+  buildtreemapChart(){
+    this.treemapChart = {
+      series: [
+        {
+          type: 'treemap',
+          data: [
+            {
+              name: 'nodeA',
+              value: 10,
+              
+            },
+            {
+              name: 'nodeB',
+              value: 20,
+              children: [
+                {
+                  name: 'nodeBa',
+                  value: 20,
+                  children: [
+                    {
+                      name: 'nodeBa1',
+                      value: 20
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+
   resizeChart() {
     if (this.pozosChartInstance) {
       this.pozosChartInstance.resize();
@@ -498,6 +540,9 @@ export class CampoComponent implements OnInit {
   }
   onAceleradorChartInit(e: any){
     this.aceleradorChartInstance = e;
+  }
+  ontreemapChartInit(e: any){
+    this.treemapChartInstance = e;
   }
   //Utils
   padTo2Digits(num: number) {

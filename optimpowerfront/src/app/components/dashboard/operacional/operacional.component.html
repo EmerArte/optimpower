@@ -32,7 +32,7 @@
         </a>
       </div>
       <form [formGroup]="wellForm" class="p-2" >
-        <mat-form-field appearance="outline" class="w-full" *ngIf="!(route.url === '/dashboard/operational/field')">
+        <mat-form-field appearance="outline" class="w-full" >
           <mat-label>Field</mat-label>
           <mat-select formControlName="campos">
             <mat-option *ngFor="let campo of listaCampos" [value]="campo">{{campo.FIELD_NAME}}</mat-option>
@@ -40,7 +40,7 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="w-full">
           <mat-label>Well</mat-label>
-          <mat-select formControlName="posos">
+          <mat-select formControlName="posos" *ngIf="!(route.url === '/dashboard/operational/field')">
             <mat-option *ngFor="let posos of listaPosos" [value]="posos">{{posos.WELL_NAME}}</mat-option>
           </mat-select>
         </mat-form-field>

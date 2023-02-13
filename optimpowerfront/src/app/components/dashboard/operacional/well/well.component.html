@@ -121,7 +121,7 @@
         >
         <div class="flex first-line:h-full w-full border-b-2 border-[#222831] items-center justify-center">
             <app-information-card
-            [valor]="frecuency"
+            [valor]="frecuency+''"
             titulo="Fecuency"
             class="w-full self-center"
           ></app-information-card>
@@ -151,8 +151,8 @@
           
           <div class="flex first-line:h-full w-full items-center justify-center">
             <app-information-card
-            valor="N/A"
-            titulo="Causal"
+            [valor]="gor"
+            titulo="GOR"
             class="w-full self-center"
           ></app-information-card>
           </div>

@@ -50,7 +50,7 @@ export class OperacionalComponent implements OnInit{
           this.maxDate =  new Date(this.listaPosos[0].MAX_DATE)
           this.auxDate = new Date(this.maxDate);
           this.wellForm = this.formBuilder.group({
-            fechaInicial: [new Date(this.auxDate.setMonth(this.auxDate.getMonth()-6)), Validators.required],
+            fechaInicial: [new Date(this.auxDate.setMonth(this.auxDate.getMonth()-1)), Validators.required],
             fechaFinal: [this.maxDate, Validators.required],
             campos: [this.listaCampos, Validators.required],
             posos: [this.listaPosos, Validators.required]
