@@ -90,6 +90,12 @@ export const CoolTheme = {
           itemStyle: {
             borderWidth: 0,
             borderColor: "#ccc"
+          },
+          textStyle: {
+            color: "#FFFFFF"
+          },
+          subtextStyle: {
+            color: "#f3f3f3"
           }
         },
         candlestick: {

@@ -375,7 +375,7 @@ export class CampoComponent implements OnInit {
           offsetCenter: ['-40%', '80%']
         },
         detail: {
-          offsetCenter: ['-40%', '95%']
+          offsetCenter: ['-40%', '100%']
         }
       },
       {
@@ -386,7 +386,7 @@ export class CampoComponent implements OnInit {
           offsetCenter: ['40%', '80%']
         },
         detail: {
-          offsetCenter: ['40%', '95%']
+          offsetCenter: ['40%', '100%']
         }
       }
     ];
@@ -434,10 +434,14 @@ export class CampoComponent implements OnInit {
           axisLine: {
             roundCap: true
           },
+          axisLabel:{
+            fontSize: 10,
+            color: '#FFFFFF'
+          },
           data: gaugeData,
           title: {
+            lineHeight: 56,
             fontSize: 12,
-            position: ['12%', '20%'],
             color: '#FFFFFF'
           },
           detail: {
