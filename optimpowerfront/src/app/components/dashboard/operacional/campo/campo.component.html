@@ -1,29 +1,42 @@
 <div class="flex flex-col w-full h-full justify-around">
-  <div class="flex flex-row flex-nowrap justify-between py-2">
-    <app-information-card
-                  [valor]="formatDate(currentDate)"
-                  titulo="Current date"
-                ></app-information-card>
-    <app-information-card
-      [valor]="'33.163'"
-      titulo="Bbls/Day"
+  <div class="flex flex-row flex-nowrap justify-between border-b-2 border-[#222831] items-center">
+    <div class="h-full p-2">
+      <app-information-card
+      [valor]="dataDelMes ? dataDelMes.date : 'N/A'"
+      titulo="Current date"
     ></app-information-card>
-    <app-information-card
-      [valor]="'3.644.509'"
+  </div>
+    <div class="border-l-2 border-r-2 border-[#222831] h-full p-2">
+      <app-information-card
+      [valor]="bbls ? bbls : 'N/A'"
+        titulo="Bbls"
+      ></app-information-card>
+    </div>
+    <div class="h-full p-2">
+      <app-information-card
+      [valor]="totalWater ? totalWater : 'N/A'"
       titulo="Total water"
     ></app-information-card>
-    <app-information-card
+    </div>
+    <div class="border-l-2 border-r-2 border-[#222831] h-full p-2">
+      <app-information-card
       [valor]="'11.681'"
-      titulo="Mscf/Day"
+      titulo="Mscf"
     ></app-information-card>
-    <app-information-card
+  </div>
+    <div class="h-full p-2">
+      <app-information-card
       [valor]="'3.698.089'"
       titulo="Total water inyection"
     ></app-information-card>
-    <app-information-card
-      [valor]="'11.681'"
+    </div>
+    <div class="border-l-2 border-[#222831] h-full p-2">
+      <app-information-card
+      [valor]=" mscf ? mscf : 'N/A'"
       titulo="Total gas consume"
     ></app-information-card>
+    </div>
+    
   </div>
   <div
     class="grid grid-cols-12 gap-0 w-full h-full place-content-stretch place-items-stretch"

@@ -15,15 +15,19 @@ export class CampoComponent implements OnInit {
     this.resizeChart();
   }
   numeroSlaActivos!: any;
+  dataDelMes:any;
 
   constructor(private operacionalService: OperacionalService) {
     operacionalService.dailyReport().subscribe({
       next: (data: any) => {
-        console.log(JSON.parse(data));
+        this.dataDelMes = JSON.parse(data);
+        console.log(this.dataDelMes);
+        this.totalWater = Object.values(this.dataDelMes.month.WATER).reduce((a:number, b:any) => a + b, 0).toFixed(1) as string;
+        this.mscf =  Object.values(this.dataDelMes.month.GAS).reduce((a:number, b:any) => a + b, 0).toFixed(1) as string;
+        this.bbls =  Object.values(this.dataDelMes.month.OIL).reduce((a:number, b:any) => a + b, 0).toFixed(1) as string;
         this.numeroSlaActivos = Object.values(
-          JSON.parse(data).sla.SLA_COUNT
+          this.dataDelMes.sla.SLA_COUNT
         ).reduce((a: any, b: any) => a + b, 0);
-        console.log(this.numeroSlaActivos);
 
         this.updatePozosChart = {
           series: [
@@ -363,6 +367,29 @@ export class CampoComponent implements OnInit {
   }
 
   buildAceleradorChart(){
+    const gaugeData = [
+      {
+        value: 60,
+        name: 'Good',
+        title: {
+          offsetCenter: ['-40%', '80%']
+        },
+        detail: {
+          offsetCenter: ['-40%', '95%']
+        }
+      },
+      {
+        value: 80,
+        name: 'Better',
+        title: {
+          
+          offsetCenter: ['40%', '80%']
+        },
+        detail: {
+          offsetCenter: ['40%', '95%']
+        }
+      }
+    ];
     this.aceleradorChart = {
       title:{
       top: '0%',
@@ -375,58 +402,55 @@ export class CampoComponent implements OnInit {
       }
       },
       series: [
-      {
-        type: 'gauge',
-        color: '#36aee4',
-        progress: {
-          show: true,
-          width: 12
-        },
-        axisLine: {
-          lineStyle: {
-            width: 12
+        {
+          type: 'gauge',
+          anchor: {
+            show: true,
+            showAbove: true,
+            size: 12,
+            itemStyle: {
+              color: '#FAC858'
+            }
+          },
+          pointer: {
+            icon:
+              'path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z',
+            width: 8,
+            length: '80%',
+            offsetCenter: [0, '8%']
+          },
+          // splitLine: {
+          //   length: 8,
+          //   lineStyle: {
+          //     width: 2,
+          //     color: '#999'
+          //   }
+          // },
+          progress: {
+            show: true,
+            overlap: true,
+            roundCap: true,
+          },
+          axisLine: {
+            roundCap: true
+          },
+          data: gaugeData,
+          title: {
+            fontSize: 12,
+            position: ['12%', '20%'],
+            color: '#FFFFFF'
+          },
+          detail: {
+            width: 15,
+            height: 12,
+            fontSize: 12,
+            color: '#FFFFFF',
+            backgroundColor: 'inherit',
+            borderRadius: 3,
+            formatter: '{value}'
           }
-        },
-        axisTick: {
-          show: false
-        },
-        splitLine: {
-          length: 8,
-          lineStyle: {
-            width: 2,
-            color: '#999'
-          }
-        },
-        axisLabel: {
-          distance: 12,
-          color: '#999',
-          fontSize: 12
-        },
-        anchor: {
-          show: true,
-          showAbove: true,
-          size: 15,
-          itemStyle: {
-            borderWidth: 5
-          }
-        },
-        title: {
-          fontSize: 12,
-          show: false
-        },
-        detail: {
-          valueAnimation: true,
-          fontSize: 18,
-          color: '#36aee4',
-          offsetCenter: [0, '70%']
-        },
-        data: [
-          {
-            value: 70
-          }
-        ]
-      }
-    ]
+        }
+      ]
   }
   }
 
@@ -483,4 +507,5 @@ export class CampoComponent implements OnInit {
       date.getFullYear(),
     ].join('/');
   }
+
 }
