@@ -1,18 +1,9 @@
-<!-- <div class="h-screen bg-[#222831]">
-  
-  <div class="flex flex-row flex-nowrap justify-center align-middle content-center h-full lg:h-5/6">
-    <div [ngClass]="'h-full overflow-hidden'">
-    <router-outlet></router-outlet>
-    </div>
-  </div>
-</div> -->
-
-<div class="flex flex-col h-screen justify-between overflow-hidden bg-[#222831]">
+<div class="flex flex-col lg:h-screen lg:justify-between lg:overflow-hidden bg-[#222831]">
   <div class="h-[8%] lg:h-[6%]">
     <app-headerprincipal></app-headerprincipal>
   </div>
-  <div class="h-[92%] lg:h-[93%] flex flex-col justify-center">
-      <div style="margin-bottom: 6px; height: 100%!important;">
+  <div class="lg:h-[93%] flex flex-col justify-center">
+      <div class="mb-2 lg:h-full h-screen">
       <router-outlet></router-outlet>
       </div>
   </div>
