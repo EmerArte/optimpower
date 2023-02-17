@@ -182,7 +182,6 @@ export class WellComponent implements OnInit, AfterViewInit {
     
     (this.graficaUno.tooltip = {
       trigger: 'axis',
-
     }),
       (this.graficaUno.legend = {
         left: '2%',
