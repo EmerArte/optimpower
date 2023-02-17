@@ -20,13 +20,13 @@
     </div>
     <div class="border-l-2 border-r-2 border-[#222831] h-full p-2">
       <app-information-card
-      [valor]="'11.681'"
-      titulo="Gas"
+      [valor]="liquid ? liquid : 'N/A'"
+      titulo="Liquid"
     ></app-information-card>
   </div>
     <div class="h-full p-2">
       <app-information-card
-      [valor]="'3.698.089'"
+      [valor]="waterInyection ? waterInyection : 'N/A'"
       titulo="Total water inyection"
     ></app-information-card>
     </div>
@@ -46,7 +46,21 @@
         class="grid grid-rows-6 gap-0 h-full place-content-stretch place-items-stretch"
       >
         <div class="row-span-3">
-          <div class="grid grid-flow-col h-full grid-cols-4 place-content-stretch place-items-stretch">
+          <div class="grid grid-flow-col h-full grid-cols-4 place-content-stretch place-items-stretch p-1">
+            
+            <div class="col-span-2">
+              <div class="grid grid-flow-row h-full grid-row-2 place-content-stretch place-items-stretch">
+                <div
+              echarts
+              [options]="pozosChart"
+              [loading]="cargando"
+              [theme]="coolTheme"
+              [merge]="updatePozosChart"
+              (chartInit)="onPozosGraficaInit($event)"
+              [autoResize]="true"
+              class="demo-chart row-span-1"
+              style="max-width: 99%"
+            ></div>
             <div
               echarts
               [options]="pozosChart"
@@ -55,9 +69,11 @@
               [merge]="updatePozosChart"
               (chartInit)="onPozosGraficaInit($event)"
               [autoResize]="true"
-              class="demo-chart col-span-2"
+              class="demo-chart row-span-1"
               style="max-width: 99%"
             ></div>
+              </div>
+            </div>
             <div
             echarts
             [options]="aceleradorChart"
@@ -93,6 +109,7 @@
           [options]="line1Chart"
           [loading]="cargando"
           [theme]="coolTheme"
+          [merge]="updateLine1Chart"
           (chartInit)="onLineOneChartInit($event)"
           [autoResize]="true"
           class="demo-chart row-span-2"
@@ -103,6 +120,7 @@
           [options]="line2Chart"
           [loading]="cargando"
           [theme]="coolTheme"
+          [merge]="updateLine2Chart"
           (chartInit)="onLineTwoChartInit($event)"
           [autoResize]="true"
           class="demo-chart row-span-2"
@@ -113,6 +131,7 @@
           [options]="line3Chart"
           [loading]="cargando"
           [theme]="coolTheme"
+          [merge]="updateLine3Chart"
           (chartInit)="onLineThreeChartInit($event)"
           [autoResize]="true"
           style="max-width: 99%"

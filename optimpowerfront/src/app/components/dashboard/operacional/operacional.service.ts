@@ -20,4 +20,7 @@ export class OperacionalService {
   dailyReport(){
     return this.http.get(`${this.URL}getdailyreport`)
   }
+  consultaDashboarCampo(fieldId:number, dateRange:string){
+    return this.http.get(`${this.URL}getfieldvolbydatenew/${fieldId}/${dateRange}`)
+  }
 }
