@@ -62,13 +62,7 @@ export class CampoComponent implements OnInit {
   };
   //Field info
   fTitle: string = 'Field production';
-  fSeriesData = [
-    { value: 1048, name: 'HUI-002' },
-    { value: 735, name: 'RIV-001' },
-    { value: 580, name: 'HUI-001' },
-    { value: 484, name: 'RIV-002' },
-    { value: 300, name: ' HUI-003' },
-  ];
+  fSeriesData:any = [];
 
   //Acelerador
   aceleradorChartInstance: any;
@@ -146,6 +140,7 @@ export class CampoComponent implements OnInit {
     this.buildAceleradorChart();
     this.dataForm.getData.subscribe({
       next: (item) => {
+        const legendProductionData:any = [];
         if (item) {
           this.loadingService.setLoading(true);
           const rangoFechas = this.parsearFechasParaConsulta(
@@ -160,6 +155,17 @@ export class CampoComponent implements OnInit {
                 this.pozosActivoData = JSON.parse(res.status);
                 const total = JSON.parse(res.total);
                 const wellsum = JSON.parse(res.well_sum);
+                Object.values(wellsum.OIL_VOL).forEach((value:any, index:number)=>{
+                  if(value!=null){
+                    const obj = {
+                      value: value,
+                      name: wellsum.WELL_NAME[index]
+                    }
+                    legendProductionData.push(wellsum.WELL_NAME[index]);
+                    this.fSeriesData.push(obj);
+                  }
+                })
+
                 console.log(wellsum);
 
                 this.totalWater = Object.values(total.WATER_RATE)[0];
@@ -192,6 +198,14 @@ export class CampoComponent implements OnInit {
                     data: this.gaugeData
                   }
                   ]
+                }
+                this.updateFieldProductionChart = {
+                  legend:{
+                    data: legendProductionData
+                  },
+                  series : [{
+                    data: this.fSeriesData
+                  }]
                 }
 
                 if (mix) {
@@ -339,10 +353,14 @@ export class CampoComponent implements OnInit {
         right: '5%',
         bottom: '5%',
         containLabel: true,
-      },
+      },  
       legend: {
-        left: '2%',
-        top: '8%',
+        type: 'scroll',
+        orient: 'vertical',
+        left: 10,
+        top: 20,
+        bottom: 20,
+        data: []
       },
       toolbox: {
         top: '14%',
@@ -369,7 +387,7 @@ export class CampoComponent implements OnInit {
           emphasis: {
             label: {
               show: true,
-              fontSize: 40,
+              fontSize: 30,
               fontWeight: 'bold',
             },
           },
