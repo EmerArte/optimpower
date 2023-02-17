@@ -142,6 +142,7 @@ export class CampoComponent implements OnInit {
     this.buildLine1Chart();
     this.buildLine2Chart();
     this.buildLine3Chart();
+    this.buildtreemapChart();
     this.buildAceleradorChart();
     this.dataForm.getData.subscribe({
       next: (item) => {
@@ -158,7 +159,8 @@ export class CampoComponent implements OnInit {
                 this.lineChartsData = JSON.parse(res.field_vol);
                 this.pozosActivoData = JSON.parse(res.status);
                 const total = JSON.parse(res.total);
-                console.log(total);
+                const wellsum = JSON.parse(res.well_sum);
+                console.log(wellsum);
 
                 this.totalWater = Object.values(total.WATER_RATE)[0];
                 this.mscf =  Object.values(total.GAS_RATE)[0];
@@ -181,12 +183,12 @@ export class CampoComponent implements OnInit {
                     }
                   }
                 );
-                this.gaugeData[0].value = this.bbls / 100;
-                this.gaugeData[1].value = Number(Object.values(total.INJ_WATER_VOLUME)[0]) / 100;
+                this.gaugeData[0].value =  Number ((this.bbls / 1000).toFixed(2));
+                this.gaugeData[1].value = Number((Number(Object.values(total.INJ_WATER_VOLUME)[0]) / 1000).toFixed(2));
                 this.updateAceleradorChart = {
                   series : [{
                     min: 0,
-                    max: 1000,
+                    max: 100,
                     data: this.gaugeData
                   }
                   ]
@@ -579,7 +581,7 @@ export class CampoComponent implements OnInit {
         top: '0%',
         left: '2%',
         text: 'Production',
-        subtext: 'Scaled values x100',
+        subtext: 'Scale: 1000x',
         subtextStyle: {
           fontSize: 9,
           fontStyle: 'italic'
@@ -596,35 +598,45 @@ export class CampoComponent implements OnInit {
           anchor: {
             show: true,
             showAbove: true,
-            size: 12,
+            size: 10,
             itemStyle: {
               color: '#FAC858',
+              
             },
           },
           pointer: {
             icon: 'path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z',
-            width: 8,
-            length: '80%',
-            offsetCenter: [0, '8%'],
+            width: 4,
+            length: '70%',
+            offsetCenter: [0, '20%'],
           },
-          // splitLine: {
-          //   length: 8,
-          //   lineStyle: {
-          //     width: 2,
-          //     color: '#999'
-          //   }
-          // },
+          splitLine: {
+            show: false,
+            distance: 0,
+            lineStyle:{
+              color: "#ffff"
+            },
+            length: 5
+          },
+          axisTick: {
+            show: false,
+          },
           progress: {
             show: true,
             overlap: true,
             roundCap: true,
+            width: 7,
           },
           axisLine: {
             roundCap: true,
+            lineStyle:{
+              width: 7,
+            }
           },
           axisLabel: {
-            fontSize: 10,
-            color: '#FFFFFF',
+            show: true,
+            distance: 5,
+            color: "#FFFF"
           },
           data: this.gaugeData,
           title: {
@@ -633,12 +645,13 @@ export class CampoComponent implements OnInit {
             color: '#FFFFFF',
           },
           detail: {
-            width: 40,
-            height: 12,
+            position: 'bottom',
+            width: 30,
+            height: 8,
             fontSize: 12,
             color: '#FFFFFF',
             backgroundColor: 'inherit',
-            borderRadius: 3,
+            borderRadius: 1,
             formatter: '{value}',
           },
         },
@@ -647,6 +660,20 @@ export class CampoComponent implements OnInit {
   }
 
   buildtreemapChart() {
+    const data = {
+      name: 'flare',
+      children: [
+        {
+          name: 'display',
+        },
+        {
+          name: 'flex',
+        },
+        {
+          name: 'query',
+        },
+      ]
+    };
     this.treemapChart = {
       tooltip: {
         trigger: 'item',
@@ -657,34 +684,28 @@ export class CampoComponent implements OnInit {
           type: 'tree',
           id: 0,
           name: 'tree1',
-          data: [],
+          data: [data],
     
-          top: '10%',
-          left: '8%',
-          bottom: '22%',
-          right: '20%',
+          top: '30%',
+          left: '30%',
+          bottom: '30%',
+          right: '30%',
     
-          symbolSize: 7,
+          symbolSize: 1,
     
           edgeShape: 'polyline',
-          edgeForkPosition: '63%',
-          initialTreeDepth: 3,
+          edgeForkPosition: '20%',
+          initialTreeDepth: 1,
     
           lineStyle: {
-            width: 20,
+            width: 2,
             color: '#eae305'
           },
-    
           label: {
-            fontStyle:'normal',
-            fontSize: 14,
-            fontWeight: 'bold',
-            backgroundColor: '#fff',
             position: 'left',
             verticalAlign: 'middle',
             align: 'right'
           },
-    
           leaves: {
             label: {
               position: 'right',

@@ -1,66 +1,55 @@
 <div class="flex flex-col w-full h-full justify-around">
-  <div class="flex flex-row flex-nowrap justify-between border-b-2 border-[#222831] items-center">
+  <div
+    class="flex flex-row flex-nowrap justify-between border-b-2 border-[#222831] items-center"
+  >
     <div class="h-full p-2">
       <app-information-card
-      [valor]="dataDelMes ? dataDelMes.date : 'N/A'"
-      titulo="Current date"
-    ></app-information-card>
-  </div>
+        [valor]="dataDelMes ? dataDelMes.date : 'N/A'"
+        titulo="Current date"
+      ></app-information-card>
+    </div>
     <div class="border-l-2 border-r-2 border-[#222831] h-full p-2">
       <app-information-card
-      [valor]="bbls ? bbls : 'N/A'"
+        [valor]="bbls ? bbls : 'N/A'"
         titulo="Oil"
       ></app-information-card>
     </div>
     <div class="h-full p-2">
       <app-information-card
-      [valor]="totalWater ? totalWater : 'N/A'"
-      titulo="Total water"
-    ></app-information-card>
+        [valor]="totalWater ? totalWater : 'N/A'"
+        titulo="Total water"
+      ></app-information-card>
     </div>
     <div class="border-l-2 border-r-2 border-[#222831] h-full p-2">
       <app-information-card
-      [valor]="liquid ? liquid : 'N/A'"
-      titulo="Liquid"
-    ></app-information-card>
-  </div>
+        [valor]="liquid ? liquid : 'N/A'"
+        titulo="Liquid"
+      ></app-information-card>
+    </div>
     <div class="h-full p-2">
       <app-information-card
-      [valor]="waterInyection ? waterInyection : 'N/A'"
-      titulo="Total water inyection"
-    ></app-information-card>
+        [valor]="waterInyection ? waterInyection : 'N/A'"
+        titulo="Total water inyection"
+      ></app-information-card>
     </div>
     <div class="border-l-2 border-[#222831] h-full p-2">
       <app-information-card
-      [valor]=" mscf ? mscf : 'N/A'"
-      titulo="Total gas consume"
-    ></app-information-card>
+        [valor]="mscf ? mscf : 'N/A'"
+        titulo="Total gas consume"
+      ></app-information-card>
     </div>
-    
   </div>
   <div
     class="grid grid-cols-12 gap-0 w-full h-full place-content-stretch place-items-stretch"
   >
-    <div class="col-span-6 overflow-hidden">
+    <div class="col-span-7 overflow-hidden">
       <div
         class="grid grid-rows-6 gap-0 h-full place-content-stretch place-items-stretch"
       >
         <div class="row-span-3">
-          <div class="grid grid-flow-col h-full grid-cols-4 place-content-stretch place-items-stretch p-1">
-            
-            <div class="col-span-2">
-              <div class="grid grid-flow-row h-full grid-row-2 place-content-stretch place-items-stretch">
-                <div
-              echarts
-              [options]="pozosChart"
-              [loading]="cargando"
-              [theme]="coolTheme"
-              [merge]="updatePozosChart"
-              (chartInit)="onPozosGraficaInit($event)"
-              [autoResize]="true"
-              class="demo-chart row-span-1"
-              style="max-width: 99%"
-            ></div>
+          <div
+            class="grid grid-flow-col h-full grid-cols-6 place-content-stretch place-items-stretch p-1"
+          >
             <div
               echarts
               [options]="pozosChart"
@@ -69,22 +58,37 @@
               [merge]="updatePozosChart"
               (chartInit)="onPozosGraficaInit($event)"
               [autoResize]="true"
-              class="demo-chart row-span-1"
+              class="demo-chart col-span-2"
               style="max-width: 99%"
             ></div>
+            <div class="col-span-4">
+              <div
+                class="grid grid-rows-6 h-full place-content-stretch place-items-stretch"
+              >
+              <div
+                  echarts
+                  [options]="aceleradorChart"
+                  [loading]="cargando"
+                  [theme]="coolTheme"
+                  [merge]="updateAceleradorChart"
+                  (chartInit)="onAceleradorChartInit($event)"
+                  [autoResize]="true"
+                  class="demo-chart row-span-4"
+                  style="max-width: 99%"
+                ></div>
+                <div
+                  echarts
+                  [options]="treemapChart"
+                  [loading]="cargando"
+                  [theme]="coolTheme"
+                  [merge]="updateTreemapChart"
+                  (chartInit)="ontreemapChartInit($event)"
+                  [autoResize]="true"
+                  class="demo-chart row-span-2"
+                  style="max-width: 99%"
+                ></div>
               </div>
             </div>
-            <div
-            echarts
-            [options]="aceleradorChart"
-            [loading]="cargando"
-            [theme]="coolTheme"
-            [merge]="updateAceleradorChart"
-            (chartInit)="onAceleradorChartInit($event)"
-            [autoResize]="true"
-            class="demo-chart col-span-2"
-            style="max-width: 99%"
-          ></div>
           </div>
         </div>
 
@@ -100,7 +104,7 @@
         ></div>
       </div>
     </div>
-    <div class="col-span-6 overflow-hidden">
+    <div class="col-span-5 overflow-hidden">
       <div
         class="grid grid-rows-6 gap-0 h-full place-content-stretch place-items-stretch"
       >
