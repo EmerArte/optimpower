@@ -165,9 +165,6 @@ export class CampoComponent implements OnInit {
                     this.fSeriesData.push(obj);
                   }
                 })
-
-                console.log(wellsum);
-
                 this.totalWater = Object.values(total.WATER_RATE)[0];
                 this.mscf =  Object.values(total.GAS_RATE)[0];
                 this.bbls =  Object.values(total.OIL_RATE)[0];
@@ -176,16 +173,18 @@ export class CampoComponent implements OnInit {
 
                 const pozosStatus: any = [];
                 const mix: any = [];
-                Object.values(this.pozosActivoData.TYPE).forEach(
+                Object.values(this.pozosActivoData.GROUP).forEach(
                   (value: any, index: any) => {
-                    if (value === 'OIL') {
-                      const obj = {
-                        type: value,
-                        count: this.pozosActivoData.COUNT[index],
-                        status: this.pozosActivoData.STATUS[index],
-                      };
-                      pozosStatus.push(this.pozosActivoData.STATUS[index]);
-                      mix.push(obj);
+                    if (value === 'WELL_TYPE') {
+                      if(this.pozosActivoData.TYPE[index] === "OIL"){
+                        const obj = {
+                          type: value,
+                          count: this.pozosActivoData.COUNT[index],
+                          status: this.pozosActivoData.CATEGORY[index],
+                        };
+                        pozosStatus.push(this.pozosActivoData.CATEGORY[index]);
+                        mix.push(obj);
+                      }
                     }
                   }
                 );
@@ -207,23 +206,24 @@ export class CampoComponent implements OnInit {
                     data: this.fSeriesData
                   }]
                 }
-
+                console.log(mix);
+                
                 if (mix) {
                   this.updatePozosChart = {
                     xAxis: {
-                      data: pozosStatus.reverse(),
+                      data: [mix[1].status, mix[2].status, mix[0].status],
                     },
                     series: [
                       {
                         data: [
                           {
-                            value: mix[2].count,
+                            value: mix[1].count,
                             itemStyle: {
                               color: '#008000',
                             },
                           },
                           {
-                            value: mix[1].count,
+                            value: mix[2].count,
                             itemStyle: {
                               color: '#808080',
                             },
