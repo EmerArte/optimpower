@@ -50,7 +50,7 @@ export class CampoComponent implements OnInit {
     renderer: 'svg',
   };
   // Pozos info
-  pTitle: string = 'Wells active, inactive, abandoned';
+  pTitle: string = 'Wells active';
   pYAxisName: string = 'Well count';
 
   // Field chart
@@ -170,6 +170,8 @@ export class CampoComponent implements OnInit {
                     this.fSeriesData.push(obj);
                   }
                 })
+                console.log(total);
+                
                 this.totalWater = Object.values(total.WATER_RATE)[0];
                 this.mscf =  Object.values(total.GAS_TOTAL_CONSUMPTION)[0];
                 this.bbls =  Object.values(total.OIL_RATE)[0];
@@ -191,15 +193,18 @@ export class CampoComponent implements OnInit {
                         mix.push(obj);
                       }
                     }else{
-                      const objChildren = {
-                        name: this.pozosActivoData.CATEGORY[index] + ' - ' + this.pozosActivoData.COUNT[index]
+                      if(this.pozosActivoData.TYPE[index] === "OIL"){
+                        const objChildren = {
+                          name: this.pozosActivoData.CATEGORY[index] + ' - ' + this.pozosActivoData.COUNT[index]
+                        }
+                        children.push(objChildren);
                       }
-                      children.push(objChildren);
                     }
                   }
                 );
+
                 this.gaugeData[0].value =  Number ((this.bbls / 1000).toFixed(0));
-                this.gaugeData[1].value = Number((Number((this.bbls + 500) / 1000).toFixed(0)));
+                this.gaugeData[1].value = Number((Number((total.EXPECTED_OIL  + 1000) / 1000).toFixed(0)));
                 this.updateAceleradorChart = {
                   series : [{
                     min: 0,
@@ -220,8 +225,6 @@ export class CampoComponent implements OnInit {
                   name: 'Active Well',
                   children: children
                 };
-                console.log(childrenData);
-                
                 this.updateTreemapChart = {
                   series:{
                     data: [childrenData]
