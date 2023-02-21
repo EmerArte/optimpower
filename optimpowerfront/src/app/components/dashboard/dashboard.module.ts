@@ -8,6 +8,7 @@ import { OperacionalModule } from './operacional/operacional.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import { StrategicalModule } from './strategical/strategical.module';
 import { TacticalModule } from './tactical/tactical.module';
+import { TanquesModule } from './tanques/tanques.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { TacticalModule } from './tactical/tactical.module';
     OperacionalModule,
     StrategicalModule,
     TacticalModule,
+    TanquesModule,
     ReactiveFormsModule
   ]
 })

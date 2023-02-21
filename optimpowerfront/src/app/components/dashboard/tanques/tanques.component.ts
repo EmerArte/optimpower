@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { TanksService } from './tanks.service';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-tanques',
   templateUrl: './tanques.component.html',
   styleUrls: ['./tanques.component.css']
 })
-export class TanquesComponent {
+export class TanquesComponent implements OnInit{
+
   listaCampos!: any[];
   listaTanques!: any[];
 
@@ -13,4 +16,21 @@ export class TanquesComponent {
   maxDate!: Date;
   auxDate!: Date;
   tanksForm: any;
+
+  constructor(private formBuilder: FormBuilder, private tankservice: TanksService) {
+    this.construirFormulario();
+  }
+
+  ngOnInit(): void {
+    
+  }
+  construirFormulario(){
+    this.tanksForm = this.formBuilder.group({
+      fechaInicial: [null, Validators.required],
+      fechaFinal: [null, Validators.required],
+      campos: [this.listaCampos, Validators.required],
+      tanks: [this.listaTanques, Validators.required]
+    });
+  }
+
 }

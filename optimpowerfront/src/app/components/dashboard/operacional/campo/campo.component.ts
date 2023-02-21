@@ -155,6 +155,11 @@ export class CampoComponent implements OnInit {
                 this.pozosActivoData = JSON.parse(res.status);
                 const total = JSON.parse(res.total);
                 const wellsum = JSON.parse(res.well_sum);
+                const children:any = [];
+
+
+                console.log(this.pozosActivoData);
+                
                 Object.values(wellsum.OIL_VOL).forEach((value:any, index:number)=>{
                   if(value!=null){
                     const obj = {
@@ -166,7 +171,7 @@ export class CampoComponent implements OnInit {
                   }
                 })
                 this.totalWater = Object.values(total.WATER_RATE)[0];
-                this.mscf =  Object.values(total.GAS_RATE)[0];
+                this.mscf =  Object.values(total.GAS_TOTAL_CONSUMPTION)[0];
                 this.bbls =  Object.values(total.OIL_RATE)[0];
                 this.liquid = Object.values(total.LIQUID_RATE)[0]
                 this.waterInyection = Object.values(total.INJ_WATER_VOLUME)[0];
@@ -185,11 +190,16 @@ export class CampoComponent implements OnInit {
                         pozosStatus.push(this.pozosActivoData.CATEGORY[index]);
                         mix.push(obj);
                       }
+                    }else{
+                      const objChildren = {
+                        name: this.pozosActivoData.CATEGORY[index] + ' - ' + this.pozosActivoData.COUNT[index]
+                      }
+                      children.push(objChildren);
                     }
                   }
                 );
-                this.gaugeData[0].value =  Number ((this.bbls / 1000).toFixed(2));
-                this.gaugeData[1].value = Number((Number(Object.values(total.INJ_WATER_VOLUME)[0]) / 1000).toFixed(2));
+                this.gaugeData[0].value =  Number ((this.bbls / 1000).toFixed(0));
+                this.gaugeData[1].value = Number((Number((this.bbls + 500) / 1000).toFixed(0)));
                 this.updateAceleradorChart = {
                   series : [{
                     min: 0,
@@ -206,12 +216,21 @@ export class CampoComponent implements OnInit {
                     data: this.fSeriesData
                   }]
                 }
-                console.log(mix);
+                const childrenData = {
+                  name: 'Active Well',
+                  children: children
+                };
+                console.log(childrenData);
                 
+                this.updateTreemapChart = {
+                  series:{
+                    data: [childrenData]
+                  }
+                }
                 if (mix) {
                   this.updatePozosChart = {
                     xAxis: {
-                      data: [mix[1].status, mix[2].status, mix[0].status],
+                      data: [mix[1].status,mix[0].status, mix[2].status],
                     },
                     series: [
                       {
@@ -223,15 +242,15 @@ export class CampoComponent implements OnInit {
                             },
                           },
                           {
-                            value: mix[2].count,
-                            itemStyle: {
-                              color: '#808080',
-                            },
-                          },
-                          {
                             value: mix[0].count,
                             itemStyle: {
                               color: '#a90000',
+                            },
+                          },
+                          {
+                            value: mix[2].count,
+                            itemStyle: {
+                              color: '#808080',
                             },
                           },
                         ],
@@ -281,7 +300,7 @@ export class CampoComponent implements OnInit {
           overflow: 'breakAll',
           fontSize: 12,
           fontWeight: 'bold',
-          color: '#FFFFFF',
+          color: '#eae305',
         },
         text: this.pTitle,
       },
@@ -338,11 +357,11 @@ export class CampoComponent implements OnInit {
       title: {
         text: this.fTitle,
         top: '0%',
-        left: '2%',
+        left: 'center',
         textStyle: {
-          fontSize: 12,
+          fontSize: 14,
           fontWeight: 'bold',
-          color: '#FFFFFF',
+          color: '#eae305',
         },
       },
       tooltip: {
@@ -375,13 +394,41 @@ export class CampoComponent implements OnInit {
       },
       series: [
         {
-          name: 'Access From',
+          name: 'Production',
           type: 'pie',
           radius: ['40%', '70%'],
           avoidLabelOverlap: false,
+          labelLine: {
+            length: 3
+          },
           label: {
-            show: false,
-            position: 'center',
+            fontSize: 10,
+            formatter: '{b|{b}\n}{per|{d}%}  ',
+            borderWidth: 1,
+            borderRadius: 4,
+            rich: {
+              a: {
+                color: '#FFFFFF',
+                fontSize: 10,
+                lineHeight: 10,
+                align: 'center'
+              },
+              b: {
+                color: '#FFFFFF',
+                
+                fontSize: 12,
+                fontWeight: 'bold',
+                lineHeight: 10
+              },
+              per: {
+                color: '#FFFFFF',
+                fontSize: 10,
+                backgroundColor: '#4C5058',
+                align: 'center',
+                padding: [3, 4],
+                borderRadius: 4
+              }
+            }
           },
           data: this.fSeriesData,
           emphasis: {
@@ -390,10 +437,7 @@ export class CampoComponent implements OnInit {
               fontSize: 30,
               fontWeight: 'bold',
             },
-          },
-          labelLine: {
-            show: false,
-          },
+          }
         },
       ],
     };
@@ -407,7 +451,7 @@ export class CampoComponent implements OnInit {
         textStyle: {
           fontSize: 12,
           fontWeight: 'bold',
-          color: '#FFFFFF',
+          color: '#eae305',
         },
       },
       legend: {
@@ -459,6 +503,9 @@ export class CampoComponent implements OnInit {
           name: 'Oil',
           data: [],
           type: 'line',
+          lineStyle:{
+            width: 4
+          },
           color: 'red'
         },
       ],
@@ -522,6 +569,9 @@ export class CampoComponent implements OnInit {
       series: [
         {
           name: 'Water',
+          lineStyle:{
+            width: 4
+          },
           data: [],
           type: 'line',
           color: 'blue'
@@ -584,6 +634,9 @@ export class CampoComponent implements OnInit {
       series: [
         {
           name: 'Gas',
+          lineStyle:{
+            width: 4
+          },
           data: [],
           type: 'line',
           color: 'green'
@@ -598,7 +651,7 @@ export class CampoComponent implements OnInit {
       title: {
         top: '0%',
         left: '2%',
-        text: 'Production',
+        text: 'Production: actual vs expected',
         subtext: 'Scale: 1000x',
         subtextStyle: {
           fontSize: 9,
@@ -607,7 +660,7 @@ export class CampoComponent implements OnInit {
         textStyle: {
           fontSize: 12,
           fontWeight: 'bold',
-          color: '#FFFFFF',
+          color: '#eae305',
         },
       },
       series: [
@@ -678,20 +731,7 @@ export class CampoComponent implements OnInit {
   }
 
   buildtreemapChart() {
-    const data = {
-      name: 'flare',
-      children: [
-        {
-          name: 'display',
-        },
-        {
-          name: 'flex',
-        },
-        {
-          name: 'query',
-        },
-      ]
-    };
+
     this.treemapChart = {
       tooltip: {
         trigger: 'item',
@@ -702,11 +742,11 @@ export class CampoComponent implements OnInit {
           type: 'tree',
           id: 0,
           name: 'tree1',
-          data: [data],
+          data: [],
     
-          top: '30%',
+          top: '10%',
           left: '30%',
-          bottom: '30%',
+          bottom: '10%',
           right: '30%',
     
           symbolSize: 1,

@@ -8,6 +8,7 @@ import { CampoComponent } from './components/dashboard/operacional/campo/campo.c
 import { StrategicalComponent } from './components/dashboard/strategical/strategical.component';
 import { TacticalComponent } from './components/dashboard/tactical/tactical.component';
 import {AuthGuardService} from '../guard/auth-guard.service';
+import { TanquesComponent } from './components/dashboard/tanques/tanques.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,9 @@ const routes: Routes = [
       },
       {
         path: 'tactical', component: TacticalComponent
+      },
+      {
+        path: 'tanks', component: TanquesComponent
       }
     ],
     canActivate: [AuthGuardService]

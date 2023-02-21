@@ -1,6 +1,6 @@
 <div class="flex flex-col w-full h-full justify-around">
   <div
-    class="flex flex-row flex-nowrap justify-between border-b-2 border-[#222831] items-center"
+    class="flex flex-row flex-nowrap justify-between border-b-2 border-[#36aee4] items-center"
   >
     <div class="h-full p-2">
       <app-information-card
@@ -8,7 +8,7 @@
         titulo="Current date"
       ></app-information-card>
     </div>
-    <div class="border-l-2 border-r-2 border-[#222831] h-full p-2">
+    <div class="border-l-2 border-r-2 border-[#36aee4] h-full p-2">
       <app-information-card
         [valor]="bbls ? bbls : 'N/A'"
         titulo="Oil"
@@ -20,7 +20,7 @@
         titulo="Total water"
       ></app-information-card>
     </div>
-    <div class="border-l-2 border-r-2 border-[#222831] h-full p-2">
+    <div class="border-l-2 border-r-2 border-[#36aee4] h-full p-2">
       <app-information-card
         [valor]="liquid ? liquid : 'N/A'"
         titulo="Liquid"
@@ -32,7 +32,7 @@
         titulo="Total water inyection"
       ></app-information-card>
     </div>
-    <div class="border-l-2 border-[#222831] h-full p-2">
+    <div class="border-l-2 border-[#36aee4] h-full p-2">
       <app-information-card
         [valor]="mscf ? mscf : 'N/A'"
         titulo="Total gas consume"
@@ -42,13 +42,13 @@
   <div
     class="grid grid-cols-12 gap-0 w-full h-full place-content-stretch place-items-stretch"
   >
-    <div class="col-span-7 overflow-hidden">
+    <div class="col-span-7 overflow-hidden border-r-2 border-[#36aee4]">
       <div
         class="grid grid-rows-6 gap-0 h-full place-content-stretch place-items-stretch"
       >
-        <div class="row-span-3">
+        <div class="row-span-3 ">
           <div
-            class="grid grid-flow-col h-full grid-cols-6 place-content-stretch place-items-stretch p-1"
+            class="grid grid-flow-col h-full grid-cols-6 place-content-stretch place-items-stretch border-b-2 border-[#36aee4]"
           >
             <div
               echarts
@@ -58,7 +58,7 @@
               [merge]="updatePozosChart"
               (chartInit)="onPozosGraficaInit($event)"
               [autoResize]="true"
-              class="demo-chart col-span-2"
+              class="demo-chart col-span-2 border-r-2 border-[#36aee4]"
               style="max-width: 99%"
             ></div>
             <div class="col-span-4">
@@ -73,7 +73,7 @@
                   [merge]="updateAceleradorChart"
                   (chartInit)="onAceleradorChartInit($event)"
                   [autoResize]="true"
-                  class="demo-chart row-span-4"
+                  class="demo-chart row-span-4 border-b-2 border-[#36aee4]"
                   style="max-width: 99%"
                 ></div>
                 <div
