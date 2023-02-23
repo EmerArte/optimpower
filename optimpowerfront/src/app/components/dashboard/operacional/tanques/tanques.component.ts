@@ -32,5 +32,12 @@ export class TanquesComponent implements OnInit{
       tanks: [this.listaTanques, Validators.required]
     });
   }
+  consultaTanques(){
+    this.tankservice.listTanks().subscribe({
+      next: (value:any) =>{
+        this.listaTanques = value;
+      }
+    })
+  }
 
 }
