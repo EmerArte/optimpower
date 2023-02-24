@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TanksService } from './tanks.service';
 import { FormBuilder, Validators } from '@angular/forms';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-tanques',
@@ -17,7 +18,7 @@ export class TanquesComponent implements OnInit{
   auxDate!: Date;
   tanksForm: any;
 
-  constructor(private formBuilder: FormBuilder, private tankservice: TanksService) {
+  constructor(private formBuilder: FormBuilder, private tankservice: TanksService, public loadingService: LoadingService) {
     this.construirFormulario();
   }
 

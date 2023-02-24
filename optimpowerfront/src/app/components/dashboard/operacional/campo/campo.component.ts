@@ -77,20 +77,10 @@ export class CampoComponent implements OnInit {
       value: 0,
       name: 'Current',
       title: {
-        offsetCenter: ['-40%', '80%'],
+        offsetCenter: ['0%', '75%'],
       },
       detail: {
-        offsetCenter: ['-40%', '100%'],
-      },
-    },
-    {
-      value: 0,
-      name: 'Expected',
-      title: {
-        offsetCenter: ['40%', '80%'],
-      },
-      detail: {
-        offsetCenter: ['40%', '100%'],
+        offsetCenter: ['0%', '100%'],
       },
     },
   ];
@@ -152,7 +142,6 @@ export class CampoComponent implements OnInit {
                 const legendProductionData:any = [];
                 const fSeriesData:any = [];
                 this.lineChartsData = JSON.parse(res.field_vol);
-                console.log(this.lineChartsData);
                 this.date = this.lineChartsData.TIMESTAMP ? Object.values(this.lineChartsData.TIMESTAMP).slice(-1).toString() : "N/A";
                 
                 this.pozosActivoData = JSON.parse(res.status);
@@ -202,20 +191,20 @@ export class CampoComponent implements OnInit {
                           itemStyle: {
                             color: colors[cont],
                           },
-                          
                         }
                         cont = cont + 1;
                         treemapSeriesData.push(obj)
-                       
-                        
                       }
                     }
                   }
                 );
 
-                this.gaugeData[0].value =  Number ((this.bbls / 1000).toFixed(0));
-                this.gaugeData[1].value = Number((Number((Number(Object.values(total.EXPECTED_OIL)[0])  + 1000) / 1000).toFixed(0)));
+                const gaugeTota = Number(Object.values(total.EXPECTED_OIL)[0]);
+                this.gaugeData[0].value = Number(((Number(Object.values(total.OIL_RATE)[0]) * 100) / gaugeTota).toFixed(2));
                 this.updateAceleradorChart = {
+                  title: {
+                    subtext: "Expected: "+ gaugeTota.toFixed(2) + "\n" + "Current: " + Number(Object.values(total.OIL_RATE)[0]).toFixed(2)
+                  },
                   series : [{
                     min: 0,
                     max: 100,
@@ -656,7 +645,7 @@ export class CampoComponent implements OnInit {
         top: '0%',
         left: '2%',
         text: 'Production: actual vs expected',
-        subtext: 'Scale: 1000x',
+        subtext: 'Expected: N/A',
         subtextStyle: {
           fontSize: 9,
           fontStyle: 'italic'
@@ -673,7 +662,7 @@ export class CampoComponent implements OnInit {
           anchor: {
             show: true,
             showAbove: true,
-            size: 10,
+            size: 12,
             itemStyle: {
               color: '#FAC858',
               
@@ -681,13 +670,13 @@ export class CampoComponent implements OnInit {
           },
           pointer: {
             icon: 'path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z',
-            width: 4,
-            length: '70%',
+            width: 5,
+            length: '90%',
             offsetCenter: [0, '20%'],
           },
           splitLine: {
             show: false,
-            distance: 0,
+            distance: 5,
             lineStyle:{
               color: "#ffff"
             },
@@ -700,12 +689,12 @@ export class CampoComponent implements OnInit {
             show: true,
             overlap: true,
             roundCap: true,
-            width: 7,
+            width: 10,
           },
           axisLine: {
             roundCap: true,
             lineStyle:{
-              width: 7,
+              width: 10,
             }
           },
           axisLabel: {
@@ -716,18 +705,18 @@ export class CampoComponent implements OnInit {
           data: this.gaugeData,
           title: {
             lineHeight: 56,
-            fontSize: 12,
+            fontSize: 14,
             color: '#FFFFFF',
           },
           detail: {
             position: 'bottom',
-            width: 30,
-            height: 8,
-            fontSize: 12,
+            width: 40,
+            height: 10,
+            fontSize: 14,
             color: '#FFFFFF',
             backgroundColor: 'inherit',
             borderRadius: 1,
-            formatter: '{value}',
+            formatter: '{value}%',
           },
         },
       ],
@@ -794,38 +783,6 @@ export class CampoComponent implements OnInit {
           }
         },
       ],
-      // title: {
-      //   text: 'Active Well',
-      //   left: 'center',
-      //   textStyle: {
-      //     fontSize: 12,
-      //     fontWeight: 'bold',
-      //     color: '#eae305',
-      //   },
-      // },
-      // tooltip: {
-      //   trigger: 'item'
-      // },
-      // legend: {
-      //   orient: 'horizontal',
-      //   bottom: '0',
-      //   left: 'center'
-      // },
-      // series: [
-      //   {
-      //     name: 'Access From',
-      //     type: 'pie',
-      //     radius: '50%',
-      //     data: [],
-      //     emphasis: {
-      //       itemStyle: {
-      //         shadowBlur: 10,
-      //         shadowOffsetX: 0,
-      //         shadowColor: 'rgba(0, 0, 0, 0.5)'
-      //       }
-      //     }
-      //   }
-      // ]
      
     };
   }

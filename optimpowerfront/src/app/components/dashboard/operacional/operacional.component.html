@@ -45,13 +45,18 @@
             <mat-option *ngFor="let campo of listaCampos" [value]="campo">{{campo.FIELD_NAME}}</mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="lg:w-full w-1/3" *ngIf="!(route.url === '/dashboard/operational/field')">
+        <mat-form-field appearance="outline" class="lg:w-full w-1/3" *ngIf="(route.url === '/dashboard/operational/well')">
           <mat-label>Well</mat-label>
           <mat-select formControlName="posos">
             <mat-option *ngFor="let posos of listaPosos" [value]="posos">{{posos.WELL_NAME}}</mat-option>
           </mat-select>
         </mat-form-field>
-        
+        <mat-form-field appearance="outline" class="lg:w-full w-1/3" *ngIf="(route.url === '/dashboard/operational/surfice')">
+          <mat-label>Tanks</mat-label>
+          <mat-select formControlName="tanques">
+            <mat-option *ngFor="let tank of listaTanques" [value]="tank">{{tank.FACILITY_NAME}}</mat-option>
+          </mat-select>
+        </mat-form-field>
         <div class="lg:w-full w-1/3">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>Inicial Date</mat-label>
