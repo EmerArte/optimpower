@@ -5,6 +5,7 @@ import { WellComponent } from './operacional/well/well.component';
 import { CampoComponent } from './operacional/campo/campo.component';
 import { StrategicalComponent } from './strategical/strategical.component';
 import { TacticalComponent } from './tactical/tactical.component';
+import { TanquesComponent } from './operacional/tanques/tanques.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,10 @@ const routes: Routes = [
       },
       {
         path: 'field', component: CampoComponent
+      },
+      
+      {
+        path: 'surfice', component: TanquesComponent
       },
       {
         path: '', redirectTo: '/operational/well', pathMatch:'full'

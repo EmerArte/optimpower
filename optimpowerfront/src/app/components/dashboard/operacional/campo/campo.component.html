@@ -4,7 +4,7 @@
   >
     <div class="h-full p-2">
       <app-information-card
-        [valor]="dataDelMes ? dataDelMes.date : 'N/A'"
+        [valor]="date"
         titulo="Current date"
       ></app-information-card>
     </div>
@@ -46,11 +46,15 @@
       <div
         class="grid grid-rows-6 gap-0 h-full place-content-stretch place-items-stretch"
       >
-        <div class="row-span-3 ">
+        <div class="row-span-3">
           <div
             class="grid grid-flow-col h-full grid-cols-6 place-content-stretch place-items-stretch border-b-2 border-[#36aee4]"
           >
-            <div
+            <div class="col-span-3 border-r-2 border-[#36aee4]">
+              <div
+                class="grid grid-rows-2 h-full place-content-stretch place-items-stretch"
+              >
+              <div
               echarts
               [options]="pozosChart"
               [loading]="cargando"
@@ -58,14 +62,29 @@
               [merge]="updatePozosChart"
               (chartInit)="onPozosGraficaInit($event)"
               [autoResize]="true"
-              class="demo-chart col-span-2 border-r-2 border-[#36aee4]"
+              class="demo-chart row-span-1"
               style="max-width: 99%"
             ></div>
-            <div class="col-span-4">
+            <div
+                  echarts
+                  [options]="treemapChart"
+                  [loading]="cargando"
+                  [theme]="coolTheme"
+                  [merge]="updateTreemapChart"
+                  (chartInit)="ontreemapChartInit($event)"
+                  [autoResize]="true"
+                  class="demo-chart row-span-1"
+                  style="max-width: 99%"
+                ></div>
+            </div>
+            </div>
+            
+
+            <div class="col-span-3">
               <div
                 class="grid grid-rows-6 h-full place-content-stretch place-items-stretch"
               >
-              <div
+                <div
                   echarts
                   [options]="aceleradorChart"
                   [loading]="cargando"
@@ -73,10 +92,10 @@
                   [merge]="updateAceleradorChart"
                   (chartInit)="onAceleradorChartInit($event)"
                   [autoResize]="true"
-                  class="demo-chart row-span-4 border-b-2 border-[#36aee4]"
+                  class="demo-chart row-span-6 border-b-2 border-[#36aee4]"
                   style="max-width: 99%"
                 ></div>
-                <div
+                <!-- <div
                   echarts
                   [options]="treemapChart"
                   [loading]="cargando"
@@ -86,7 +105,7 @@
                   [autoResize]="true"
                   class="demo-chart row-span-2"
                   style="max-width: 99%"
-                ></div>
+                ></div> -->
               </div>
             </div>
           </div>

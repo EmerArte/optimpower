@@ -37,6 +37,9 @@
 .mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
     border-right-style: hidden;
   }
+.mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input{
+    color: white;
+}
 .mat-mdc-select-arrow svg{
     color: white;
 }

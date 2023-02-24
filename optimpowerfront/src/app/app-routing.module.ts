@@ -7,50 +7,62 @@ import { WellComponent } from './components/dashboard/operacional/well/well.comp
 import { CampoComponent } from './components/dashboard/operacional/campo/campo.component';
 import { StrategicalComponent } from './components/dashboard/strategical/strategical.component';
 import { TacticalComponent } from './components/dashboard/tactical/tactical.component';
-import {AuthGuardService} from '../guard/auth-guard.service';
-import { TanquesComponent } from './components/dashboard/tanques/tanques.component';
+import { AuthGuardService } from '../guard/auth-guard.service';
+import { TanquesComponent } from './components/dashboard/operacional/tanques/tanques.component';
 
 const routes: Routes = [
   {
-    path: 'dashboard', component: DashboardComponent,
-    children:[
+    path: 'dashboard',
+    component: DashboardComponent,
+    children: [
       {
-        path:'operational', component: OperacionalComponent,
-        children:[
+        path: 'operational',
+        component: OperacionalComponent,
+        children: [
           {
-            path: 'well', component: WellComponent
+            path: 'well',
+            component: WellComponent,
           },
           {
-            path: 'field', component: CampoComponent
+            path: 'field',
+            component: CampoComponent,
+          },
+
+          {
+            path: 'surfice',
+            component: TanquesComponent,
           },
           {
-            path: '', redirectTo: '/dashboard/operational/well', pathMatch:'full'
-          }
-        ]
+            path: '',
+            redirectTo: '/dashboard/operational/well',
+            pathMatch: 'full',
+          },
+        ],
       },
       {
-        path: '', redirectTo: '/dashboard/operational/well', pathMatch:'full'
+        path: '',
+        redirectTo: '/dashboard/operational/well',
+        pathMatch: 'full',
       },
       {
-        path: 'strategical', component: StrategicalComponent
+        path: 'strategical',
+        component: StrategicalComponent,
       },
       {
-        path: 'tactical', component: TacticalComponent
-      },
-      {
-        path: 'tanks', component: TanquesComponent
+        path: 'tactical',
+        component: TacticalComponent,
       }
     ],
-    canActivate: [AuthGuardService]
+    canActivate: [AuthGuardService],
   },
   {
-    path: '', component: LoginComponent
-  }
+    path: '',
+    component: LoginComponent,
+  },
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

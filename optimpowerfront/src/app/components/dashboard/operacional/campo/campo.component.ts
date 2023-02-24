@@ -16,11 +16,12 @@ export class CampoComponent implements OnInit {
   onResize(event: any) {
     this.resizeChart();
   }
-  numeroSlaActivos!: any;
   dataDelMes: any;
 
   lineChartsData: any;
   pozosActivoData: any;
+
+  date:any;
 
   constructor(
     private operacionalService: OperacionalService,
@@ -62,7 +63,7 @@ export class CampoComponent implements OnInit {
   };
   //Field info
   fTitle: string = 'Field production';
-  fSeriesData:any = [];
+  
 
   //Acelerador
   aceleradorChartInstance: any;
@@ -124,8 +125,6 @@ export class CampoComponent implements OnInit {
     renderer: 'svg',
   };
 
-  // Data
-  lYAxisFormatter = '{value} mil';
   lYAxisName1 = 'Oil';
   lYAxisName2 = 'Water';
   lYAxisName3 = 'Gas';
@@ -140,7 +139,6 @@ export class CampoComponent implements OnInit {
     this.buildAceleradorChart();
     this.dataForm.getData.subscribe({
       next: (item) => {
-        const legendProductionData:any = [];
         if (item) {
           this.loadingService.setLoading(true);
           const rangoFechas = this.parsearFechasParaConsulta(
@@ -151,15 +149,15 @@ export class CampoComponent implements OnInit {
             .consultaDashboarCampo(item.campos.FIELD_ID, rangoFechas)
             .subscribe({
               next: (res: any) => {
+                const legendProductionData:any = [];
+                const fSeriesData:any = [];
                 this.lineChartsData = JSON.parse(res.field_vol);
+                console.log(this.lineChartsData);
+                this.date = this.lineChartsData.TIMESTAMP ? Object.values(this.lineChartsData.TIMESTAMP).slice(-1).toString() : "N/A";
+                
                 this.pozosActivoData = JSON.parse(res.status);
                 const total = JSON.parse(res.total);
                 const wellsum = JSON.parse(res.well_sum);
-                const children:any = [];
-
-
-                console.log(this.pozosActivoData);
-                
                 Object.values(wellsum.OIL_VOL).forEach((value:any, index:number)=>{
                   if(value!=null){
                     const obj = {
@@ -167,19 +165,22 @@ export class CampoComponent implements OnInit {
                       name: wellsum.WELL_NAME[index]
                     }
                     legendProductionData.push(wellsum.WELL_NAME[index]);
-                    this.fSeriesData.push(obj);
+                    fSeriesData.push(obj);
                   }
                 })
-                console.log(total);
+                this.totalWater = this.formatNumberES(Object.values(total.WATER_RATE)[0]);
                 
-                this.totalWater = Object.values(total.WATER_RATE)[0];
-                this.mscf =  Object.values(total.GAS_TOTAL_CONSUMPTION)[0];
-                this.bbls =  Object.values(total.OIL_RATE)[0];
-                this.liquid = Object.values(total.LIQUID_RATE)[0]
-                this.waterInyection = Object.values(total.INJ_WATER_VOLUME)[0];
+                this.mscf =   this.formatNumberES(Object.values(total.GAS_TOTAL_CONSUMPTION)[0]);
+                this.bbls =   this.formatNumberES(Object.values(total.OIL_RATE)[0]);
+                this.liquid =  this.formatNumberES(Object.values(total.LIQUID_RATE)[0]);
+                this.waterInyection =  this.formatNumberES(Object.values(total.INJ_WATER_VOLUME)[0]);
 
                 const pozosStatus: any = [];
                 const mix: any = [];
+                const treemapYaxisData: any = [];
+                const treemapSeriesData: any = [];
+                let cont = 0;
+                const colors = ["#0400FF", "#00B919","#8900B9","#B90000", "#AC6600", "#494949"]
                 Object.values(this.pozosActivoData.GROUP).forEach(
                   (value: any, index: any) => {
                     if (value === 'WELL_TYPE') {
@@ -194,17 +195,26 @@ export class CampoComponent implements OnInit {
                       }
                     }else{
                       if(this.pozosActivoData.TYPE[index] === "OIL"){
-                        const objChildren = {
-                          name: this.pozosActivoData.CATEGORY[index] + ' - ' + this.pozosActivoData.COUNT[index]
+                        treemapYaxisData.push(this.pozosActivoData.CATEGORY[index]);
+                        
+                        const obj = {
+                          value : this.pozosActivoData.COUNT[index],
+                          itemStyle: {
+                            color: colors[cont],
+                          },
+                          
                         }
-                        children.push(objChildren);
+                        cont = cont + 1;
+                        treemapSeriesData.push(obj)
+                       
+                        
                       }
                     }
                   }
                 );
 
                 this.gaugeData[0].value =  Number ((this.bbls / 1000).toFixed(0));
-                this.gaugeData[1].value = Number((Number((total.EXPECTED_OIL  + 1000) / 1000).toFixed(0)));
+                this.gaugeData[1].value = Number((Number((Number(Object.values(total.EXPECTED_OIL)[0])  + 1000) / 1000).toFixed(0)));
                 this.updateAceleradorChart = {
                   series : [{
                     min: 0,
@@ -213,26 +223,29 @@ export class CampoComponent implements OnInit {
                   }
                   ]
                 }
+                
                 this.updateFieldProductionChart = {
                   legend:{
                     data: legendProductionData
                   },
                   series : [{
-                    data: this.fSeriesData
+                    data: fSeriesData
                   }]
                 }
-                const childrenData = {
-                  name: 'Active Well',
-                  children: children
-                };
-                this.updateTreemapChart = {
-                  series:{
-                    data: [childrenData]
-                  }
+
+                this.updateTreemapChart = { 
+                  yAxis: {
+                  data: treemapYaxisData,
+                },
+                series: [
+                  {
+                    data: treemapSeriesData
+                  },
+                ],
                 }
                 if (mix) {
                   this.updatePozosChart = {
-                    xAxis: {
+                    yAxis: {
                       data: [mix[1].status,mix[0].status, mix[2].status],
                     },
                     series: [
@@ -316,14 +329,21 @@ export class CampoComponent implements OnInit {
       grid: {
         left: '8%',
         right: '5%',
+        top: '20%',
         bottom: '5%',
         containLabel: true,
       },
       xAxis: {
+        type: 'value',
+        name: this.pYAxisName,
+        nameLocation: 'end',
+        nameGap: 20,
+      },
+      yAxis: {
         type: 'category',
         axisLabel: {
           inside: true,
-          rotate: 90
+          rotate: 0
         },
         axisTick: {
           show: false
@@ -334,12 +354,6 @@ export class CampoComponent implements OnInit {
       
         z: 10,
         data: [],
-      },
-      yAxis: {
-        type: 'value',
-        name: this.pYAxisName,
-        nameLocation: 'end',
-        nameGap: 20,
       },
       series: [
         
@@ -370,12 +384,6 @@ export class CampoComponent implements OnInit {
       tooltip: {
         trigger: 'item',
       },
-      grid: {
-        left: '5%',
-        right: '5%',
-        bottom: '5%',
-        containLabel: true,
-      },  
       legend: {
         type: 'scroll',
         orient: 'vertical',
@@ -385,20 +393,13 @@ export class CampoComponent implements OnInit {
         data: []
       },
       toolbox: {
-        top: '14%',
-        right: '5%',
-        feature: {
-          dataZoom: {
-            yAxisIndex: 'all',
-          },
-          restore: {},
-          saveAsImage: {},
-        },
+        show:false
       },
       series: [
         {
           name: 'Production',
           type: 'pie',
+          center: ['65%', '50%'],
           radius: ['40%', '70%'],
           avoidLabelOverlap: false,
           labelLine: {
@@ -406,7 +407,7 @@ export class CampoComponent implements OnInit {
           },
           label: {
             fontSize: 10,
-            formatter: '{b|{b}\n}{per|{d}%}  ',
+            formatter: '{b|{b}\n}{per|{c}}  ',
             borderWidth: 1,
             borderRadius: 4,
             rich: {
@@ -433,7 +434,7 @@ export class CampoComponent implements OnInit {
               }
             }
           },
-          data: this.fSeriesData,
+          data: [],
           emphasis: {
             label: {
               show: true,
@@ -736,54 +737,96 @@ export class CampoComponent implements OnInit {
   buildtreemapChart() {
 
     this.treemapChart = {
+      title: {
+        top: '0%',
+        left: '2%',
+        textStyle: {
+          overflow: 'breakAll',
+          fontSize: 12,
+          fontWeight: 'bold',
+          color: '#eae305',
+        },
+        text: this.pTitle,
+      },
       tooltip: {
-        trigger: 'item',
-        triggerOn: 'mousemove'
+        trigger: "axis",
+        axisPointer: {
+          type: "shadow"
+        }
+      },
+      grid: {
+        left: '8%',
+        right: '5%',
+        top: '20%',
+        bottom: '5%',
+        containLabel: true,
+      },
+      xAxis: {
+        type: 'value',
+        name: this.pYAxisName,
+        nameLocation: 'end',
+        nameGap: 20,
+      },
+      yAxis: {
+        type: 'category',
+        axisLabel: {
+          inside: true,
+          rotate: 0
+        },
+        axisTick: {
+          show: false
+        },
+        axisLine: {
+          show: false
+        },
+      
+        z: 10,
+        data: [],
       },
       series: [
+        
         {
-          type: 'tree',
-          id: 0,
-          name: 'tree1',
           data: [],
-    
-          top: '10%',
-          left: '30%',
-          bottom: '10%',
-          right: '30%',
-    
-          symbolSize: 1,
-    
-          edgeShape: 'polyline',
-          edgeForkPosition: '20%',
-          initialTreeDepth: 1,
-    
-          lineStyle: {
-            width: 2,
-            color: '#eae305'
-          },
+          type: 'bar',
+          barWidth: "50%",
           label: {
-            position: 'left',
-            verticalAlign: 'middle',
-            align: 'right'
-          },
-          leaves: {
-            label: {
-              position: 'right',
-              verticalAlign: 'middle',
-              align: 'left'
-            }
-          },
-    
-          emphasis: {
-            focus: 'descendant'
-          },
-    
-          expandAndCollapse: true,
-          animationDuration: 550,
-          animationDurationUpdate: 750
-        }
-      ]
+            align: 'center'
+          }
+        },
+      ],
+      // title: {
+      //   text: 'Active Well',
+      //   left: 'center',
+      //   textStyle: {
+      //     fontSize: 12,
+      //     fontWeight: 'bold',
+      //     color: '#eae305',
+      //   },
+      // },
+      // tooltip: {
+      //   trigger: 'item'
+      // },
+      // legend: {
+      //   orient: 'horizontal',
+      //   bottom: '0',
+      //   left: 'center'
+      // },
+      // series: [
+      //   {
+      //     name: 'Access From',
+      //     type: 'pie',
+      //     radius: '50%',
+      //     data: [],
+      //     emphasis: {
+      //       itemStyle: {
+      //         shadowBlur: 10,
+      //         shadowOffsetX: 0,
+      //         shadowColor: 'rgba(0, 0, 0, 0.5)'
+      //       }
+      //     }
+      //   }
+      // ]
+     
     };
   }
 
@@ -856,4 +899,15 @@ export class CampoComponent implements OnInit {
     ].join('-');
     return [dateOne, dateTwo].join('/');
   }
+  formatNumberES = (n:any, d=0) => {
+    n=new Intl.NumberFormat("es-ES").format((n).toFixed(d))
+    if (d>0) {
+        // Obtenemos la cantidad de decimales que tiene el numero
+        const decimals=n.indexOf(",")>-1 ? n.length-1-n.indexOf(",") : 0;
+ 
+        // añadimos los ceros necesios al numero
+        n = (decimals==0) ? n+","+"0".repeat(d) : n+"0".repeat(d-decimals);
+    }
+    return n;
+}
 }

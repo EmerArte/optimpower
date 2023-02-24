@@ -36,8 +36,7 @@ export class OperacionalComponent implements OnInit{
   }
   consultaListaPozos() {
     this.service.consultaListaDePosos().subscribe((data: any) => {
-      this.listaPosos = data;
-      
+      this.listaPosos = data.filter((value: { WELL_TYPE: string; }) => value.WELL_TYPE == "OIL");
       if(this.listaPosos[0] != null || this.listaPosos[0] != undefined){
         this.consultaListaCampos();
       }
@@ -46,8 +45,6 @@ export class OperacionalComponent implements OnInit{
     consultaListaCampos(){
       this.service.consultaListaDeCampos().subscribe((data: any) => {
         this.listaCampos = data;
-    
-        
         if(this.listaCampos[0] != null || this.listaCampos[0] != undefined){
           this.minDate = new Date(this.listaPosos[0].MIN_DATE);
           this.maxDate =  new Date(this.listaPosos[0].MAX_DATE)

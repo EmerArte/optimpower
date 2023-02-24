@@ -24,7 +24,7 @@ export class WellComponent implements OnInit, AfterViewInit {
 
   pozo!: string;
   listaPozos: any[] = [];
-  frecuency: number = 0;
+  frecuency: any;
   levantamiento: any;
   graficaUnoInstance: any;
   graficaDosInstance: any;
@@ -77,7 +77,6 @@ export class WellComponent implements OnInit, AfterViewInit {
       if (item != null) {
         if (item.campos) {
           this.dataForm = item;
-          console.log(this.dataForm);
           this.campoId = this.dataForm?.campos.FIELD_ID;
           this.campo = this.dataForm?.campos.FIELD_NAME;
           this.pozo = this.dataForm?.posos.WELL_NAME;
@@ -91,57 +90,62 @@ export class WellComponent implements OnInit, AfterViewInit {
           this.loadingService.setLoading(true)
           this.service
             .consultaVolumenOfWellByDate(this.pozoId, this.rangoFechas)
-            .subscribe((res: any) => {
-              this.dataGeneral = JSON.parse(res);
-              this.bsw
-              this.frecuency =  +Object.values(this.dataGeneral.opt.FREQUENCY).slice(-1).toString();
-              this.frecuency = this.frecuency
-              this.crudo = this.dataGeneral.kpi[0].last.toFixed(2)
-              this.fluido = this.dataGeneral.kpi[2].last.toFixed(2)
-              this.agua =  this.dataGeneral.kpi[1].last.toFixed(2)
-              this.gas =  this.dataGeneral.kpi[3].last.toFixed(2)
-              if(this.dataGeneral.operational){
-                this.gor = this.dataGeneral.operational.length > 0 ? this.dataGeneral.operational[0].GAS_OIL_RATIO.toFixed(2) : 'N/A';
-                this.bsw = this.dataGeneral.operational.length >  0 ? (this.dataGeneral.operational[0].WATER_CUT_PERCENT * 100).toFixed(2) : 'N/A';
-              }else{
-                this.gor = 'N/A';
-                this.bsw = 'N/A';
-              }
-              
-              this.updateOptionsGraficauno = {
-                xAxis: {
-                  data: Object.values(this.dataGeneral.opt.VOLUME_DATE)
-                },
-                series: [
-                  {
-                    data: Object.values(this.dataGeneral.opt.GAS_VOLUME),
-                  },
-                  {
-                    data: Object.values(this.dataGeneral.opt.OIL_VOLUME),
-                  },
-                  {
-                    data: Object.values(this.dataGeneral.opt.WATER_VOLUME),
-                  },
-                  {
-                    data: Object.values(this.dataGeneral.opt.LIQUID_VOLUME),
-                  },
-                ],
-              };
-              this.updateOptionsGraficaDos = {
-                xAxis: {
-                  data: Object.values(this.dataGeneral.opt.VOLUME_DATE)
-                },
-                legend: {
-                  data: [this.pozo ],
-                },
-                series: [
-                  {
-                    name: this.pozo,
-                    data: Object.values(this.dataGeneral.opt.OIL_VOLUME),
+            .subscribe(
+              {
+                next: (res:any) => {
+                  this.dataGeneral = JSON.parse(res);
+                  console.log(this.dataGeneral);
+                  this.frecuency =  this.dataGeneral.opt.FREQUENCY ? Object.values(this.dataGeneral.opt.FREQUENCY).slice(-1).toString() : 'N/A';
+                  this.frecuency = this.frecuency
+                  this.crudo = this.dataGeneral.kpi[0].last.toFixed(2) ? this.dataGeneral.kpi[0].last.toFixed(2): 'N/A';
+                  this.fluido = this.dataGeneral.kpi[2].last.toFixed(2) ? this.dataGeneral.kpi[2].last.toFixed(2):'N/A';
+                  this.agua =  this.dataGeneral.kpi[1].last.toFixed(2) ? this.dataGeneral.kpi[1].last.toFixed(2) : 'N/A';
+                  this.gas =  this.dataGeneral.kpi[3].last.toFixed(2) ? this.dataGeneral.kpi[3].last.toFixed(2): 'N/A';
+                  if(this.dataGeneral.operational){
+                    this.gor = this.dataGeneral.operational.length > 0 ? this.dataGeneral.operational[0].GAS_OIL_RATIO.toFixed(2) : 'N/A';
+    
+                    this.bsw = this.dataGeneral.operational.length >  0 ? (this.dataGeneral.operational[0].WATER_CUT_PERCENT * 100).toFixed(2) : 'N/A';
+                  }else{
+                    this.gor = 'N/A';
+                    this.bsw = 'N/A';
                   }
-                ],
-              };
-            });
+                  
+                  this.updateOptionsGraficauno = {
+                    xAxis: {
+                      data: Object.values(this.dataGeneral.opt.VOLUME_DATE)
+                    },
+                    series: [
+                      {
+                        data: Object.values(this.dataGeneral.opt.GAS_VOLUME),
+                      },
+                      {
+                        data: Object.values(this.dataGeneral.opt.OIL_VOLUME),
+                      },
+                      {
+                        data: Object.values(this.dataGeneral.opt.WATER_VOLUME),
+                      },
+                      {
+                        data: Object.values(this.dataGeneral.opt.LIQUID_VOLUME),
+                      },
+                    ],
+                  };
+                  this.updateOptionsGraficaDos = {
+                    xAxis: {
+                      data: Object.values(this.dataGeneral.opt.VOLUME_DATE)
+                    },
+                    legend: {
+                      data: [this.pozo ],
+                    },
+                    series: [
+                      {
+                        name: this.pozo,
+                        data: Object.values(this.dataGeneral.opt.OIL_VOLUME),
+                      }
+                    ],
+                  };
+                } 
+              }
+            );
         }
       }
     });

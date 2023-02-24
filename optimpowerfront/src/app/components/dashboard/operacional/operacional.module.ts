@@ -6,9 +6,10 @@ import { OperacionalRoutingModule } from './operacional-routing.module';
 import { InformationCardComponent } from '../shared/information-card/information-card.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { WellComponent } from './well/well.component';
+import { MatInputModule } from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatNativeDateModule} from '@angular/material/core';
+import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import { TanquesComponent } from './tanques/tanques.component';
@@ -19,11 +20,15 @@ import { TanquesComponent } from './tanques/tanques.component';
     WellComponent,
     TanquesComponent
   ],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'es-CO'},
+  ],
   imports: [
     CommonModule,
     InformationCardComponent,
     OperacionalRoutingModule,
     ReactiveFormsModule,
+    MatInputModule,
     FormsModule,
     MatDatepickerModule,
     MatFormFieldModule,
