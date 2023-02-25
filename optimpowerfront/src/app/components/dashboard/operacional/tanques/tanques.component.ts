@@ -91,57 +91,58 @@ export class TanquesComponent implements OnInit, OnDestroy {
           );
           this.loadingService.setLoading(true);
           this.tankservice.tankInfoBySurface(rangoFechas).subscribe({
-            next: (value: any) => {
-              if (value != null && value != 1 && value != undefined) {
-                console.log(value == 1);
+            next: (res: any) => {
+              if (res != null && !(res == 1) && res != undefined) {
                 
-                this.surficeLast = JSON.parse(value.surface_last);
-                this.surficeSum = JSON.parse(value.surface_sum);
-                this.updatePozosChart = {
-                  xAxis: {
-                    data: [
-                      'CAPACITY',
-                      'MEASURED WATER VOL.',
-                      'RAW VOLUME',
-                      '60F VOLUME',
-                      'NET BARRELS',
-                    ],
-                  },
-                  series: [
-                    {
-                      data: [
+                
+                this.surficeLast = JSON.parse(res.surface_last);
+                this.surficeSum = JSON.parse(res.surface_sum);
+              console.log(this.surficeSum);
+              
+                Object.values(this.surficeSum.FACILITY_ID).forEach((val:any, index:any)=> {
+                  if(value.tanques.FACILITY_ID == val){
+                    this.transRecivoEntregaChart = {
+                      xAxis: {
+                        data: [
+                          'CAPACITY',
+                          'MEASURED WATER VOL.',
+                          'RAW VOLUME',
+                          '60F VOLUME',
+                          'NET BARRELS',
+                        ],
+                      },
+                      series: [
                         {
-                          value: Object.values(this.surficeLast.CAPACITY).slice(
-                            -1
-                          ),
-                        },
-                        {
-                          value: Object.values(
-                            this.surficeLast.MEASURED_WATER_VOLUME
-                          ).slice(-1),
-                        },
-                        {
-                          value: Object.values(
-                            this.surficeLast.VOLUME_RAW
-                          ).slice(-1),
-                        },
-                        {
-                          value: Object.values(
-                            this.surficeLast.VOLUME_60F
-                          ).slice(-1),
-                        },
-                        {
-                          value: Object.values(
-                            this.surficeLast.NET_BARRELS
-                          ).slice(-1),
+                          data: [
+                            {
+                              value: Object.values(this.surficeSum.CAPACITY)[index]
+                            },
+                            {
+                              value: Object.values(
+                                this.surficeSum.MEASURED_WATER_VOLUME
+                              )[index]
+                            },
+                            {
+                              value: Object.values(
+                                this.surficeSum.VOLUME_RAW
+                              )[index]
+                            },
+                            {
+                              value: Object.values(
+                                this.surficeSum.VOLUME_60F
+                              )[index]
+                            },
+                            {
+                              value: Object.values(
+                                this.surficeSum.NET_BARRELS
+                              )[index]
+                            },
+                          ],
                         },
                       ],
-                    },
-                  ],
-                };
-
-                console.log(this.surficeSum);
-
+                    }
+                  } 
+                })
                 console.log(this.surficeLast);
               }
             },
@@ -245,7 +246,7 @@ export class TanquesComponent implements OnInit, OnDestroy {
           fontWeight: 'bold',
           color: '#eae305',
         },
-        text: 'Transfer, Reception & Deliver',
+        text: 'Transfer, Reception & Deliver by Tank',
       },
       tooltip: {
         trigger: 'axis',
@@ -261,31 +262,16 @@ export class TanquesComponent implements OnInit, OnDestroy {
         containLabel: true,
       },
       xAxis: {
-        type: 'value',
-        nameLocation: 'end',
-        nameGap: 20,
+        type: 'category',
+        data: []
       },
       yAxis: {
-        type: 'category',
-        axisLabel: {
-          inside: true,
-          rotate: 0,
-        },
-        axisTick: {
-          show: false,
-        },
-        axisLine: {
-          show: false,
-        },
-
-        z: 10,
-        data: [],
+        type: 'value',
       },
       series: [
         {
           data: [],
           type: 'bar',
-          barWidth: '50%',
           label: {
             align: 'center',
           },

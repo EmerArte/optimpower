@@ -19,24 +19,19 @@ export class OperacionalComponent implements OnInit{
   minDate!: Date;
   maxDate!: Date;
   auxDate!: Date;
-  wellForm: any;
+  wellForm = this.formBuilder.group({
+    fechaInicial: [new Date(), Validators.required],
+    fechaFinal: [new Date(), Validators.required],
+    tanques: [this.listaTanques],
+    campos: [this.listaCampos, Validators.required],
+    posos: [this.listaPosos, Validators.required]
+  });
   constructor(private formBuilder: FormBuilder,
     private wellService: DataWellService,private service: OperacionalService,private tankservice: TanksService, public route: Router){
-      this.construirFormulario()
   }
   ngOnInit(): void {
     this.consultaListaPozos();
 
-  }
-  construirFormulario() {
-    this.wellForm = this.formBuilder.group({
-      fechaInicial: [null, Validators.required],
-      fechaFinal: [null, Validators.required],
-      tanques: [null],
-      campos: [this.listaCampos, Validators.required],
-      posos: [this.listaPosos, Validators.required]
-    });
-    
   }
   consultaListaPozos() {
     this.service.consultaListaDePosos().subscribe((data: any) => {
@@ -63,6 +58,7 @@ export class OperacionalComponent implements OnInit{
       });
     }
     consultaTanques(){
+      let count = 0;
       this.tankservice.listTanks().subscribe({
         next: (value:any) =>{
           this.listaTanques = value;
@@ -71,16 +67,16 @@ export class OperacionalComponent implements OnInit{
               this.minDate = new Date(this.listaPosos[0].MIN_DATE);
               this.maxDate =  new Date(this.listaPosos[0].MAX_DATE)
               this.auxDate = new Date(this.maxDate);
-              this.wellForm = this.formBuilder.group({
-                fechaInicial: [new Date(this.auxDate.setMonth(this.auxDate.getMonth()-1)), Validators.required],
-                fechaFinal: [this.maxDate, Validators.required],
-                tanques: [this.listaTanques],
-                campos: [this.listaCampos, Validators.required],
-                posos: [this.listaPosos, Validators.required]
+              this.wellForm.patchValue({
+                fechaInicial: new Date(this.auxDate.setMonth(this.auxDate.getDate()-(this.auxDate.getDate() -1))),
+                fechaFinal: this.maxDate,
+                tanques: this.listaTanques[0],
+                campos: this.listaCampos[0],
+                posos:this.listaPosos[0],
               });
-              this.wellForm.get('campos').patchValue( this.listaCampos[0])
-              this.wellForm.get('tanques').patchValue( this.listaTanques[0])
-              this.wellForm.get('posos').patchValue(this.listaPosos[0])
+              count++;
+              console.log(count);
+              
               this.cambiosEnElFormulario();
             }
           }

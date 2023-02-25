@@ -19,7 +19,7 @@ import { LoadingService } from 'src/app/services/loading.service';
 })
 export class WellComponent implements OnInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
-  onResize(event:any) {
+  onResize(event: any) {
     this.resizeChart();
   }
 
@@ -32,14 +32,13 @@ export class WellComponent implements OnInit, OnDestroy {
   graficaUno: EChartsOption = {};
   updateOptionsGraficauno: any;
   initOptionGraficaUno = {
-    renderer: 'svg'
-  }
+    renderer: 'svg',
+  };
   graficaDos: EChartsOption = {};
   updateOptionsGraficaDos: any;
   initOptionGraficaDos = {
-    renderer: 'svg'
-  }
-
+    renderer: 'svg',
+  };
 
   dataGeneral: any = {};
 
@@ -74,46 +73,69 @@ export class WellComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.construirGrafica1();
     this.construirGrafica2();
-    this.subscription = this.wellDataService.getData.subscribe((item) => {
-      if (item != null) {
-        if (item.campos) {
-          this.dataForm = item;
-          this.campoId = this.dataForm?.campos.FIELD_ID;
-          this.campo = this.dataForm?.campos.FIELD_NAME;
-          this.pozo = this.dataForm?.posos.WELL_NAME;
-          this.pozoId = this.dataForm?.posos.WELL_ID;
-          this.estadoPozo = this.dataForm?.posos.WELL_STATUS;
-          this.levantamiento = this.dataForm?.posos.PRODUCTION_METHOD
-          this.rangoFechas = this.parsearFechasParaConsulta(
-            this.dataForm.fechaInicial,
-            this.dataForm.fechaFinal
-          );
-          this.loadingService.setLoading(true)
-          this.service
-            .consultaVolumenOfWellByDate(this.pozoId, this.rangoFechas)
-            .subscribe(
-              {
-                next: (res:any) => {
+    this.subscription = this.wellDataService.getData.subscribe({
+      next: (item: any) => {
+        if (item != null) {
+          if (item.campos) {
+            this.dataForm = item;
+            this.campoId = this.dataForm?.campos.FIELD_ID;
+            this.campo = this.dataForm?.campos.FIELD_NAME;
+            this.pozo = this.dataForm?.posos.WELL_NAME;
+            this.pozoId = this.dataForm?.posos.WELL_ID;
+            this.estadoPozo = this.dataForm?.posos.WELL_STATUS;
+            this.levantamiento = this.dataForm?.posos.PRODUCTION_METHOD;
+            this.rangoFechas = this.parsearFechasParaConsulta(
+              this.dataForm.fechaInicial,
+              this.dataForm.fechaFinal
+            );
+            this.loadingService.setLoading(true);
+            this.service
+              .consultaVolumenOfWellByDate(this.pozoId, this.rangoFechas)
+              .subscribe({
+                next: (res: any) => {
                   this.dataGeneral = JSON.parse(res);
                   console.log(this.dataGeneral);
-                  this.frecuency =  this.dataGeneral.opt.FREQUENCY ? Object.values(this.dataGeneral.opt.FREQUENCY).slice(-1).toString() : 'N/A';
-                  this.frecuency = this.frecuency
-                  this.crudo = this.dataGeneral.kpi[0].last.toFixed(2) ? this.dataGeneral.kpi[0].last.toFixed(2): 'N/A';
-                  this.fluido = this.dataGeneral.kpi[2].last.toFixed(2) ? this.dataGeneral.kpi[2].last.toFixed(2):'N/A';
-                  this.agua =  this.dataGeneral.kpi[1].last.toFixed(2) ? this.dataGeneral.kpi[1].last.toFixed(2) : 'N/A';
-                  this.gas =  this.dataGeneral.kpi[3].last.toFixed(2) ? this.dataGeneral.kpi[3].last.toFixed(2): 'N/A';
-                  if(this.dataGeneral.operational){
-                    this.gor = this.dataGeneral.operational.length > 0 ? this.dataGeneral.operational[0].GAS_OIL_RATIO.toFixed(2) : 'N/A';
-    
-                    this.bsw = this.dataGeneral.operational.length >  0 ? (this.dataGeneral.operational[0].WATER_CUT_PERCENT * 100).toFixed(2) : 'N/A';
-                  }else{
+                  this.frecuency = this.dataGeneral.opt.FREQUENCY
+                    ? Object.values(this.dataGeneral.opt.FREQUENCY)
+                        .slice(-1)
+                        .toString()
+                    : 'N/A';
+                  this.frecuency = this.frecuency;
+                  this.crudo = this.dataGeneral.kpi[0].last.toFixed(2)
+                    ? this.dataGeneral.kpi[0].last.toFixed(2)
+                    : 'N/A';
+                  this.fluido = this.dataGeneral.kpi[2].last.toFixed(2)
+                    ? this.dataGeneral.kpi[2].last.toFixed(2)
+                    : 'N/A';
+                  this.agua = this.dataGeneral.kpi[1].last.toFixed(2)
+                    ? this.dataGeneral.kpi[1].last.toFixed(2)
+                    : 'N/A';
+                  this.gas = this.dataGeneral.kpi[3].last.toFixed(2)
+                    ? this.dataGeneral.kpi[3].last.toFixed(2)
+                    : 'N/A';
+                  if (this.dataGeneral.operational) {
+                    this.gor =
+                      this.dataGeneral.operational.length > 0
+                        ? this.dataGeneral.operational[0].GAS_OIL_RATIO.toFixed(
+                            2
+                          )
+                        : 'N/A';
+
+                    this.bsw =
+                      this.dataGeneral.operational.length > 0
+                        ? (
+                            this.dataGeneral.operational[0].WATER_CUT_PERCENT *
+                            100
+                          ).toFixed(2)
+                        : 'N/A';
+                  } else {
                     this.gor = 'N/A';
                     this.bsw = 'N/A';
                   }
-                  
+
                   this.updateOptionsGraficauno = {
                     xAxis: {
-                      data: Object.values(this.dataGeneral.opt.VOLUME_DATE)
+                      data: Object.values(this.dataGeneral.opt.VOLUME_DATE),
                     },
                     series: [
                       {
@@ -132,26 +154,25 @@ export class WellComponent implements OnInit, OnDestroy {
                   };
                   this.updateOptionsGraficaDos = {
                     xAxis: {
-                      data: Object.values(this.dataGeneral.opt.VOLUME_DATE)
+                      data: Object.values(this.dataGeneral.opt.VOLUME_DATE),
                     },
                     legend: {
-                      data: [this.pozo ],
+                      data: [this.pozo],
                     },
                     series: [
                       {
                         name: this.pozo,
                         data: Object.values(this.dataGeneral.opt.OIL_VOLUME),
-                      }
+                      },
                     ],
                   };
-                } 
-              }
-            );
+                },
+              });
+          }
         }
-      }
+      },
     });
   }
-
 
   parsearFechasParaConsulta(fechaInicial: Date, fechaFinal: Date) {
     const dateOne = [
@@ -168,18 +189,17 @@ export class WellComponent implements OnInit, OnDestroy {
   }
 
   construirGrafica1() {
-
     this.graficaUno.title = {
       top: '1%',
       left: '2%',
       text: 'Gas(MMSFC), OilRate average, Water(BWPD) & Fluid(BFPD) by time',
-      textStyle:{
+      textStyle: {
         fontSize: 14,
         fontWeight: 'bold',
-        color: '#eae305'
-      }
+        color: '#eae305',
+      },
     };
-    
+
     (this.graficaUno.tooltip = {
       trigger: 'axis',
     }),
@@ -188,12 +208,12 @@ export class WellComponent implements OnInit, OnDestroy {
         top: '7%',
         data: ['Gas(MMSFC)', 'OilRate average', 'Water(BWPD)', 'Fluid(BFPD)'],
       }),
-    this.graficaUno.grid = {
+      (this.graficaUno.grid = {
         left: '5%',
         right: '5%',
         bottom: '5%',
         containLabel: true,
-    },
+      }),
       (this.graficaUno.toolbox = {
         top: '7%',
         right: '5%',
@@ -250,11 +270,11 @@ export class WellComponent implements OnInit, OnDestroy {
       top: '1%',
       left: '2%',
       text: 'OilRate by Registred date and Well',
-      textStyle:{
+      textStyle: {
         fontSize: 14,
         fontWeight: 'bold',
-        color: '#eae305'
-      }
+        color: '#eae305',
+      },
     };
     this.graficaDos.tooltip = {
       trigger: 'axis',
@@ -276,7 +296,7 @@ export class WellComponent implements OnInit, OnDestroy {
     };
     this.graficaDos.xAxis = {
       type: 'category',
-      boundaryGap: false
+      boundaryGap: false,
     };
     this.graficaDos.yAxis = {
       type: 'value',
@@ -288,17 +308,17 @@ export class WellComponent implements OnInit, OnDestroy {
       bottom: '5%',
       containLabel: true,
     }),
-    this.graficaDos.series = [
-      {
-        type: 'line',
-        symbol: 'none',
-        sampling: 'lttb',
-        itemStyle: {
-          color: 'rgb(255, 70, 131)',
+      (this.graficaDos.series = [
+        {
+          type: 'line',
+          symbol: 'none',
+          sampling: 'lttb',
+          itemStyle: {
+            color: 'rgb(255, 70, 131)',
+          },
+          areaStyle: {},
         },
-        areaStyle: {},
-      },
-    ];
+      ]);
   }
 
   padTo2Digits(num: number) {
@@ -313,7 +333,6 @@ export class WellComponent implements OnInit, OnDestroy {
     ].join('/');
   }
 
-
   onGraficaUnoInit(e: any) {
     this.graficaUnoInstance = e;
   }
@@ -321,14 +340,13 @@ export class WellComponent implements OnInit, OnDestroy {
     this.graficaDosInstance = e;
   }
   resizeChart() {
-    console.log("resize");
-    
+    console.log('resize');
+
     if (this.graficaUnoInstance) {
       this.graficaUnoInstance.resize();
     }
-    if(this.graficaDosInstance){
+    if (this.graficaDosInstance) {
       this.graficaDosInstance.resize();
     }
   }
-
 }
