@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   OnInit,
   HostListener,
+  OnDestroy,
 } from '@angular/core';
 import { OperacionalService } from '../operacional.service';
 import { EChartsOption } from 'echarts';
@@ -16,7 +17,7 @@ import { LoadingService } from 'src/app/services/loading.service';
   templateUrl: './well.component.html',
   styleUrls: ['./well.component.css'],
 })
-export class WellComponent implements OnInit, AfterViewInit {
+export class WellComponent implements OnInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
   onResize(event:any) {
     this.resizeChart();
@@ -151,11 +152,6 @@ export class WellComponent implements OnInit, AfterViewInit {
     });
   }
 
-
-
-  ngAfterViewInit(): void {
-    
-  }
 
   parsearFechasParaConsulta(fechaInicial: Date, fechaFinal: Date) {
     const dateOne = [

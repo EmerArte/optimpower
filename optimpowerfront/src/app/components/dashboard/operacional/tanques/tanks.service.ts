@@ -11,8 +11,8 @@ export class TanksService {
   tanksinfo(dateRange:string){
     return this.http.get(`${this.URL}tankinfobydate/${dateRange}`);
   }
-  tankInfoBySurface(dateRange:string, surfice: any){
-    return this.http.get(`${this.URL}tankinfobydate/${surfice}/${dateRange}`);
+  tankInfoBySurface(dateRange:string){
+    return this.http.get(`${this.URL}tankinfobydate/${dateRange}`);
   }
   listTanks(){
     return this.http.get(`${this.URL}gettanksdataset`)

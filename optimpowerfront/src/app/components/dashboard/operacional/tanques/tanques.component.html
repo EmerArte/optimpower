@@ -9,7 +9,9 @@
       ></app-information-card>
     </div>
     <div class="border-l-2 border-r-2 border-[#36aee4] h-full p-2">
-      <div class="flex flex-col items-center justify-center h-full rounded-sm mx-1">
+      <div
+        class="flex flex-col items-center justify-center h-full rounded-sm mx-1"
+      >
         <dt
           [class]="
             'mb-2 text-xs lg:text-base xl:text-lg font-semibold lg:font-extrabold text-[#FFFFFF]'
@@ -35,6 +37,42 @@
   <div
     class="grid grid-cols-12 gap-0 w-full h-full place-content-stretch place-items-stretch"
   >
+  <div class="col-span-7">
+    <div
+          echarts
+          [options]="transRecivoEntregaChart"
+          [theme]="coolTheme"
+          [merge]="uptadeTransRecivoEntrega"
+          (chartInit)="onTransRecivoEntregaInit($event)"
+          [autoResize]="true"
+          class="demo-chart row-span-1"
+          style="max-width: 99%"
+        ></div>
+  </div>
+    <div class="col-span-5">
+      <div class="grid grid-row-2 gap-0 w-full h-full place-content-stretch place-items-stretch">
+        <div
+          echarts
+          [options]="pozosChart"
+          [theme]="coolTheme"
+          [merge]="updatePozosChart"
+          (chartInit)="onPozosGraficaInit($event)"
+          [autoResize]="true"
+          class="demo-chart row-span-1"
+          style="max-width: 99%"
+        ></div>
+        <div
+          echarts
+          [options]="produccionTanksChart"
+          [theme]="coolTheme"
+          [merge]="updateProduccionTanks"
+          (chartInit)="onProduccionTanksInit($event)"
+          [autoResize]="true"
+          class="demo-chart row-span-1"
+          style="max-width: 99%"
+        ></div>
+      </div>
+    </div>
   </div>
   <div class="absolute top-0 left-0 w-full" *ngIf="loadingService.getLoading()">
     <div
