@@ -100,6 +100,8 @@ export class TanquesComponent implements OnInit, OnDestroy {
                 this.surficeSum = JSON.parse(res.surface_sum);
                 Object.values(this.surficeSum.FACILITY_ID).forEach((val:any, index:any)=> {
                   if(Number(value.tanques.FACILITY_ID) == Number(val)){
+                    console.log(this.surficeSum);
+                    
                     this.uptadeTransRecivoEntrega = {
                       xAxis: {
                         data: [
@@ -155,9 +157,45 @@ export class TanquesComponent implements OnInit, OnDestroy {
                         },
                       ],
                     }
+                    this.updatePozosChart = {
+                      xAxis: {
+                        data: [
+                          'Transf',
+                          'Recived',
+                          'Deliver'
+                        ],
+                      },
+                      series: [
+                        {
+                          data: [
+                            {
+                              value: Object.values(this.surficeSum.TRANSFER)[index],
+                              itemStyle: {
+                                color: colors[0],
+                              },
+                            },
+                            {
+                              value: Object.values(
+                                this.surficeSum.RECEPTION
+                              )[index],
+                              itemStyle: {
+                                color: colors[1],
+                              },
+                            },
+                            {
+                              value: Object.values(
+                                this.surficeSum.DELIVER
+                              )[index],
+                              itemStyle: {
+                                color: colors[2],
+                              },
+                            }
+                          ],
+                        },
+                      ],
+                    }
                   } 
                 })
-                console.log(this.surficeLast);
               }else{
                 Util.mensajeDialog("DATA ERROR", "Please select valid date ranges");
               }
@@ -332,36 +370,34 @@ export class TanquesComponent implements OnInit, OnDestroy {
       grid: {
         left: '8%',
         right: '5%',
-        top: '20%',
-        bottom: '5%',
+        top: '14%',
+        bottom: '1%',
         containLabel: true,
       },
       xAxis: {
+        type: 'category',
+        axisLabel: {
+          inside: false,
+          rotate: 0
+        },
+        axisTick: {
+          show: false
+        },
+        axisLine: {
+          show: false
+        },
+        z: 10,
+        data: [],
+      },
+      yAxis: {
         type: 'value',
         nameLocation: 'end',
         nameGap: 20,
-      },
-      yAxis: {
-        type: 'category',
-        axisLabel: {
-          inside: true,
-          rotate: 0,
-        },
-        axisTick: {
-          show: false,
-        },
-        axisLine: {
-          show: false,
-        },
-
-        z: 10,
-        data: [],
       },
       series: [
         {
           data: [],
           type: 'bar',
-          barWidth: '50%',
           label: {
             align: 'center',
           },
