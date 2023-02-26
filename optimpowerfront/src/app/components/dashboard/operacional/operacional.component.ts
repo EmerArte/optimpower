@@ -15,7 +15,6 @@ export class OperacionalComponent implements OnInit{
   listaCampos!: any[];
   listaPosos!: any[];
   listaTanques!: any[];
-
   minDate!: Date;
   maxDate!: Date;
   auxDate!: Date;
@@ -26,6 +25,9 @@ export class OperacionalComponent implements OnInit{
     campos: [this.listaCampos, Validators.required],
     posos: [this.listaPosos, Validators.required]
   });
+
+  valorAnterior:any;
+
   constructor(private formBuilder: FormBuilder,
     private wellService: DataWellService,private service: OperacionalService,private tankservice: TanksService, public route: Router){
   }
@@ -51,14 +53,19 @@ export class OperacionalComponent implements OnInit{
       });
     }
     cambiosEnElFormulario(){
+      
       this.wellForm.valueChanges.subscribe((e:any) => {
-        if(e.fechaInicial!= null && e.fechaFinal!= null  && e.campos!= null  && e.posos != null){
-          this.wellService.setDataWell(e)
+        if(JSON.stringify(this.valorAnterior)!=JSON.stringify(e)){
+          this.valorAnterior = e;
+          if(e.fechaInicial!= null && e.fechaFinal!= null  && e.campos!= null  && e.posos != null){
+            this.wellService.setDataWell(e)
+            
+          }
         }
+        
       });
     }
     consultaTanques(){
-      let count = 0;
       this.tankservice.listTanks().subscribe({
         next: (value:any) =>{
           this.listaTanques = value;
@@ -68,15 +75,12 @@ export class OperacionalComponent implements OnInit{
               this.maxDate =  new Date(this.listaPosos[0].MAX_DATE)
               this.auxDate = new Date(this.maxDate);
               this.wellForm.patchValue({
-                fechaInicial: new Date(this.auxDate.setMonth(this.auxDate.getDate()-(this.auxDate.getDate() -1))),
+                fechaInicial: new Date(this.auxDate.setDate(this.auxDate.getDate()-(this.auxDate.getDate() -1))),
                 fechaFinal: this.maxDate,
                 tanques: this.listaTanques[0],
                 campos: this.listaCampos[0],
                 posos:this.listaPosos[0],
               });
-              count++;
-              console.log(count);
-              
               this.cambiosEnElFormulario();
             }
           }

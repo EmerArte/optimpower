@@ -6,6 +6,7 @@ import { EChartsOption } from 'echarts';
 import { CoolTheme } from 'src/app/components/custom.theme.echart';
 import { DataWellService } from '../data/shared.data.service';
 import { Subscription } from 'rxjs';
+import { Util } from 'src/utils/util';
 
 @Component({
   selector: 'app-tanques',
@@ -85,6 +86,7 @@ export class TanquesComponent implements OnInit, OnDestroy {
     this.subscription = this.dataForm.getData.subscribe({
       next: (value: any) => {
         if (value) {
+     
           const rangoFechas = this.parsearFechasParaConsulta(
             value.fechaInicial,
             value.fechaFinal
@@ -93,15 +95,12 @@ export class TanquesComponent implements OnInit, OnDestroy {
           this.tankservice.tankInfoBySurface(rangoFechas).subscribe({
             next: (res: any) => {
               if (res != null && !(res == 1) && res != undefined) {
-                
-                
+                const colors = ["#0400FF", "#00B919","#8900B9","#B90000", "#AC6600", "#494949"]
                 this.surficeLast = JSON.parse(res.surface_last);
                 this.surficeSum = JSON.parse(res.surface_sum);
-              console.log(this.surficeSum);
-              
                 Object.values(this.surficeSum.FACILITY_ID).forEach((val:any, index:any)=> {
-                  if(value.tanques.FACILITY_ID == val){
-                    this.transRecivoEntregaChart = {
+                  if(Number(value.tanques.FACILITY_ID) == Number(val)){
+                    this.uptadeTransRecivoEntrega = {
                       xAxis: {
                         data: [
                           'CAPACITY',
@@ -115,27 +114,42 @@ export class TanquesComponent implements OnInit, OnDestroy {
                         {
                           data: [
                             {
-                              value: Object.values(this.surficeSum.CAPACITY)[index]
+                              value: Object.values(this.surficeSum.CAPACITY)[index],
+                              itemStyle: {
+                                color: colors[0],
+                              },
                             },
                             {
                               value: Object.values(
                                 this.surficeSum.MEASURED_WATER_VOLUME
-                              )[index]
+                              )[index],
+                              itemStyle: {
+                                color: colors[1],
+                              },
                             },
                             {
                               value: Object.values(
                                 this.surficeSum.VOLUME_RAW
-                              )[index]
+                              )[index],
+                              itemStyle: {
+                                color: colors[2],
+                              },
                             },
                             {
                               value: Object.values(
                                 this.surficeSum.VOLUME_60F
-                              )[index]
+                              )[index],
+                              itemStyle: {
+                                color: colors[3],
+                              },
                             },
                             {
                               value: Object.values(
                                 this.surficeSum.NET_BARRELS
-                              )[index]
+                              )[index],
+                              itemStyle: {
+                                color: colors[4],
+                              },
                             },
                           ],
                         },
@@ -144,6 +158,8 @@ export class TanquesComponent implements OnInit, OnDestroy {
                   } 
                 })
                 console.log(this.surficeLast);
+              }else{
+                Util.mensajeDialog("DATA ERROR", "Please select valid date ranges");
               }
             },
           });
@@ -257,16 +273,30 @@ export class TanquesComponent implements OnInit, OnDestroy {
       grid: {
         left: '8%',
         right: '5%',
-        top: '20%',
+        top: '5%',
         bottom: '5%',
         containLabel: true,
       },
       xAxis: {
         type: 'category',
-        data: []
+        axisLabel: {
+          inside: false,
+          rotate: 90
+        },
+        axisTick: {
+          show: false
+        },
+        axisLine: {
+          show: false
+        },
+      
+        z: 10,
+        data: [],
       },
       yAxis: {
         type: 'value',
+        nameLocation: 'end',
+        nameGap: 20,
       },
       series: [
         {
