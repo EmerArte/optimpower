@@ -12,12 +12,7 @@ import { DataWellService } from '../data/shared.data.service';
   styleUrls: ['./campo.component.css'],
 })
 export class CampoComponent implements OnInit {
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.resizeChart();
-  }
   dataDelMes: any;
-
   lineChartsData: any;
   pozosActivoData: any;
 
@@ -27,7 +22,9 @@ export class CampoComponent implements OnInit {
     private operacionalService: OperacionalService,
     public loadingService: LoadingService,
     private dataForm: DataWellService
-  ) {}
+  ) {
+    this.resizeChart();
+  }
 
   // Util & theme
   theme!: string | ThemeOption;

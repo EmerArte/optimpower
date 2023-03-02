@@ -17,14 +17,6 @@ export class TanquesComponent implements OnInit, OnDestroy {
   surficeLast: any;
   surficeSum: any;
 
-  listaCampos!: any[];
-  listaTanques!: any[];
-
-  minDate!: Date;
-  maxDate!: Date;
-  auxDate!: Date;
-  tanksForm: any;
-
   coolTheme = CoolTheme;
   // Pozos chart
   transRecivoEntregaInstance: any;
@@ -51,12 +43,11 @@ export class TanquesComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
 
   constructor(
-    private formBuilder: FormBuilder,
     private tankservice: TanksService,
     public loadingService: LoadingService,
     private dataForm: DataWellService
   ) {
-    this.construirFormulario();
+    //this.resizeChart();
   }
 
   ngOnInit(): void {
@@ -66,27 +57,11 @@ export class TanquesComponent implements OnInit, OnDestroy {
     this.consultaBackEnd();
   }
 
-  construirFormulario() {
-    this.tanksForm = this.formBuilder.group({
-      fechaInicial: [null, Validators.required],
-      fechaFinal: [null, Validators.required],
-      campos: [this.listaCampos, Validators.required],
-      tanks: [this.listaTanques, Validators.required],
-    });
-  }
-  consultaTanques() {
-    this.tankservice.listTanks().subscribe({
-      next: (value: any) => {
-        this.listaTanques = value;
-      },
-    });
-  }
   //CONECTAR BACKEND
   consultaBackEnd() {
     this.subscription = this.dataForm.getData.subscribe({
       next: (value: any) => {
         if (value) {
-     
           const rangoFechas = this.parsearFechasParaConsulta(
             value.fechaInicial,
             value.fechaFinal
@@ -95,109 +70,142 @@ export class TanquesComponent implements OnInit, OnDestroy {
           this.tankservice.tankInfoBySurface(rangoFechas).subscribe({
             next: (res: any) => {
               if (res != null && !(res == 1) && res != undefined) {
-                const colors = ["#0400FF", "#00B919","#8900B9","#B90000", "#AC6600", "#494949"]
+                const colors = [
+                  '#0400FF',
+                  '#00B919',
+                  '#8900B9',
+                  '#B90000',
+                  '#AC6600',
+                  '#494949',
+                ];
                 this.surficeLast = JSON.parse(res.surface_last);
                 this.surficeSum = JSON.parse(res.surface_sum);
-                Object.values(this.surficeSum.FACILITY_ID).forEach((val:any, index:any)=> {
-                  if(Number(value.tanques.FACILITY_ID) == Number(val)){
-                    console.log(this.surficeSum);
-                    
-                    this.uptadeTransRecivoEntrega = {
-                      xAxis: {
-                        data: [
-                          'CAPACITY',
-                          'MEASURED WATER VOL.',
-                          'RAW VOLUME',
-                          '60F VOLUME',
-                          'NET BARRELS',
+                Object.values(this.surficeSum.FACILITY_ID).forEach(
+                  (val: any, index: any) => {
+                    if (Number(value.tanques.FACILITY_ID) == Number(val)) {
+                      console.log(this.surficeSum);
+
+                      this.uptadeTransRecivoEntrega = {
+                        xAxis: {
+                          data: [
+                            'CAPACITY',
+                            'MEASURED WATER VOL.',
+                            'RAW VOLUME',
+                            '60F VOLUME',
+                            'NET BARRELS',
+                          ],
+                        },
+                        series: [
+                          {
+                            data: [
+                              {
+                                value: Object.values(this.surficeSum.CAPACITY)[
+                                  index
+                                ],
+                                itemStyle: {
+                                  color: colors[0],
+                                },
+                              },
+                              {
+                                value: Object.values(
+                                  this.surficeSum.MEASURED_WATER_VOLUME
+                                )[index],
+                                itemStyle: {
+                                  color: colors[1],
+                                },
+                              },
+                              {
+                                value: Object.values(
+                                  this.surficeSum.VOLUME_RAW
+                                )[index],
+                                itemStyle: {
+                                  color: colors[2],
+                                },
+                              },
+                              {
+                                value: Object.values(
+                                  this.surficeSum.VOLUME_60F
+                                )[index],
+                                itemStyle: {
+                                  color: colors[3],
+                                },
+                              },
+                              {
+                                value: Object.values(
+                                  this.surficeSum.NET_BARRELS
+                                )[index],
+                                itemStyle: {
+                                  color: colors[4],
+                                },
+                              },
+                            ],
+                          },
                         ],
+                      };
+
+                      this.updatePozosChart = {
+                        xAxis: {
+                          data: ['Transf', 'Recived', 'Deliver'],
+                        },
+                        series: [
+                          {
+                            data: [
+                              {
+                                value: Object.values(this.surficeSum.TRANSFER)[
+                                  index
+                                ],
+                                itemStyle: {
+                                  color: colors[0],
+                                },
+                              },
+                              {
+                                value: Object.values(this.surficeSum.RECEPTION)[
+                                  index
+                                ],
+                                itemStyle: {
+                                  color: colors[1],
+                                },
+                              },
+                              {
+                                value: Object.values(this.surficeSum.DELIVER)[
+                                  index
+                                ],
+                                itemStyle: {
+                                  color: colors[2],
+                                },
+                              },
+                            ],
+                          },
+                        ],
+                      };
+                    }
+                  }
+                );
+                console.log(Object.values(this.surficeSum.NET_BARRELS));
+
+                this.tankservice.listTanks().subscribe({
+                  next: (tanks: any) => {
+                    const legendsTanks: any[] = [];
+                    tanks.forEach((element: any) => {
+                      legendsTanks.push(element.FACILITY_NAME);
+                    });
+                    this.updateProduccionTanks = {
+                      legend: {
+                        data: legendsTanks,
                       },
                       series: [
                         {
-                          data: [
-                            {
-                              value: Object.values(this.surficeSum.CAPACITY)[index],
-                              itemStyle: {
-                                color: colors[0],
-                              },
-                            },
-                            {
-                              value: Object.values(
-                                this.surficeSum.MEASURED_WATER_VOLUME
-                              )[index],
-                              itemStyle: {
-                                color: colors[1],
-                              },
-                            },
-                            {
-                              value: Object.values(
-                                this.surficeSum.VOLUME_RAW
-                              )[index],
-                              itemStyle: {
-                                color: colors[2],
-                              },
-                            },
-                            {
-                              value: Object.values(
-                                this.surficeSum.VOLUME_60F
-                              )[index],
-                              itemStyle: {
-                                color: colors[3],
-                              },
-                            },
-                            {
-                              value: Object.values(
-                                this.surficeSum.NET_BARRELS
-                              )[index],
-                              itemStyle: {
-                                color: colors[4],
-                              },
-                            },
-                          ],
+                          data: Object.values(this.surficeSum.NET_BARRELS),
                         },
                       ],
-                    }
-                    this.updatePozosChart = {
-                      xAxis: {
-                        data: [
-                          'Transf',
-                          'Recived',
-                          'Deliver'
-                        ],
-                      },
-                      series: [
-                        {
-                          data: [
-                            {
-                              value: Object.values(this.surficeSum.TRANSFER)[index],
-                              itemStyle: {
-                                color: colors[0],
-                              },
-                            },
-                            {
-                              value: Object.values(
-                                this.surficeSum.RECEPTION
-                              )[index],
-                              itemStyle: {
-                                color: colors[1],
-                              },
-                            },
-                            {
-                              value: Object.values(
-                                this.surficeSum.DELIVER
-                              )[index],
-                              itemStyle: {
-                                color: colors[2],
-                              },
-                            }
-                          ],
-                        },
-                      ],
-                    }
-                  } 
-                })
-              }else{
-                Util.mensajeDialog("DATA ERROR", "Please select valid date ranges");
+                    };
+                  },
+                });
+              } else {
+                Util.mensajeDialog(
+                  'DATA ERROR',
+                  'Please select valid date ranges'
+                );
               }
             },
           });
@@ -319,15 +327,15 @@ export class TanquesComponent implements OnInit, OnDestroy {
         type: 'category',
         axisLabel: {
           inside: false,
-          rotate: 90
+          rotate: 90,
         },
         axisTick: {
-          show: false
+          show: false,
         },
         axisLine: {
-          show: false
+          show: false,
         },
-      
+
         z: 10,
         data: [],
       },
@@ -378,13 +386,13 @@ export class TanquesComponent implements OnInit, OnDestroy {
         type: 'category',
         axisLabel: {
           inside: false,
-          rotate: 0
+          rotate: 0,
         },
         axisTick: {
-          show: false
+          show: false,
         },
         axisLine: {
-          show: false
+          show: false,
         },
         z: 10,
         data: [],

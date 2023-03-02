@@ -18,10 +18,10 @@ import { LoadingService } from 'src/app/services/loading.service';
   styleUrls: ['./well.component.css'],
 })
 export class WellComponent implements OnInit, OnDestroy {
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.resizeChart();
-  }
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event: any) {
+  //   this.resizeChart();
+  // }
 
   pozo!: string;
   listaPozos: any[] = [];
@@ -65,7 +65,9 @@ export class WellComponent implements OnInit, OnDestroy {
     private service: OperacionalService,
     private wellDataService: DataWellService,
     public loadingService: LoadingService
-  ) {}
+  ) {
+    this.resizeChart();
+  }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -337,8 +339,6 @@ export class WellComponent implements OnInit, OnDestroy {
     this.graficaDosInstance = e;
   }
   resizeChart() {
-    console.log('resize');
-
     if (this.graficaUnoInstance) {
       this.graficaUnoInstance.resize();
     }
