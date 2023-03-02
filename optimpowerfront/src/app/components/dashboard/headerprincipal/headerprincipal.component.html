@@ -1,52 +1,59 @@
-<header>
-    <nav class="bg-[#222831] border-gray-200 px-2 lg:px-4 py-2.5 w-full">
-      <div
-        class="flex flex-wrap justify-around items-center w-full  h-full"
+<header class="h-full">
+  <nav class="bg-[#222831] border-gray-200 px-2 lg:px-0.5 w-full h-full">
+    <div class="flex flex-wrap justify-around items-center w-full h-full">
+      <a
+        routerLink="/dashboard/operational"
+        class="flex items-center sm:w-2/12 w-1/2"
       >
-        <a routerLink="/dashboard/operational" class="flex items-center sm:w-1/3 w-1/2">
+        <img
+          src="../../../../assets/img/optimpowerlogo250.png"
+          class="mr-3 h-12 sm:h-9"
+          alt="OptimPowerLogo"
+        />
+        <span
+          class="self-center whitespace-nowrap uppercase text-2xl font-bold text-[#eae305]"
+          >OPTIM</span
+        ><span class="uppercase text-2xl font-bold text-[#36aee4]">POWER</span>
+      </a>
+      <div class="flex justify-end items-center lg:order-2 sm:w-2/12 w-1/2">
+        <div class="flex justify-center items-center">
+          <span class="text-white font-semibold mr-2">Omia</span>
           <img
-            src="../../../../assets/img/optimpowerlogo250.png"
-            class="mr-3 h-12 sm:h-9"
-            alt="OptimPowerLogo"
+            class="inline-block h-6 w-12"
+            src="../../../../assets/img/OMIA_Positivo-1.png"
           />
-          <span class="self-center whitespace-nowrap uppercase text-2xl font-bold text-[#eae305]">OPTIM</span><span class="uppercase text-2xl font-bold text-[#36aee4]">POWER</span>
-        </a>
-        <div class="flex justify-end items-center lg:order-2 sm:w-1/3 w-1/2">
-          <div class="flex justify-center items-center">
-            <span class="text-white font-semibold mr-2">Omia</span>
-            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"/>
-          </div>
-        </div>
-        <div
-          class="hidden justify-center items-center lg:flex w-1/3 order-1"
-          id="mobile-menu-2"
-        >
-          <ul
-            class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0"
-          >
-            <li>
-              <a
-                [routerLink]="['/dashboard/strategical']"
-                routerLinkActive="text-yellow-300"
-                class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-[#eae305] lg:p-0">Strategical</a
-              >
-            </li>
-            <li>
-                <a
-                  routerLink="./operational"
-                  routerLinkActive="text-yellow-300"
-                  class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-[#eae305] lg:p-0">Operational</a
-                >
-              </li>
-            <li>
-              <a
-                [routerLink]="['/dashboard/tactical']"
-                routerLinkActive="text-yellow-300"
-                class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-[#eae305] lg:p-0">Tactical</a
-              >
-            </li>
-          </ul>
         </div>
       </div>
-    </nav>
-  </header>
+      <div
+        class="hidden justify-start items-center lg:flex w-8/12 order-1 h-full"
+        id="mobile-menu-2"
+      >
+        <ul
+          class="flex flex-col mt-4 font-medium lg:flex-row lg:mt-0 h-5/6 items-center"
+        >
+          <li
+            class="flex flex-row h-full items-center bg-gradient-to-r font-bold hover:from-yellow-300 hover:to-yellow-600"
+            [routerLink]="['/dashboard/strategical']"
+            routerLinkActive="from-sky-400 to-blue-700"
+          >
+            <a class="py-3 px-2 mx-3 text-center text-white">Strategical</a>
+          </li>
+          <li
+            class="flex flex-row h-full items-center bg-gradient-to-r font-bold hover:from-yellow-300 hover:to-yellow-600"
+            routerLink="./operational"
+            routerLinkActive="from-sky-400 to-blue-700"
+          >
+            <a class="py-3 px-2 mx-3 text-center text-white">Operational</a>
+          </li>
+          <li
+            class="flex flex-row h-full items-center bg-gradient-to-r font-bold hover:from-yellow-300 hover:to-yellow-600"
+            [routerLink]="['/dashboard/tactical']"
+            routerLinkActive="from-sky-400 to-blue-700"
+          >
+            <a class="py-3 px-2 mx-3 text-center text-white">Tactical</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

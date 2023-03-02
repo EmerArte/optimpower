@@ -95,12 +95,9 @@ export class WellComponent implements OnInit, OnDestroy {
                 next: (res: any) => {
                   this.dataGeneral = JSON.parse(res);
                   console.log(this.dataGeneral);
-                  this.frecuency = this.dataGeneral.opt.FREQUENCY
-                    ? Object.values(this.dataGeneral.opt.FREQUENCY)
-                        .slice(-1)
-                        .toString()
+                  this.frecuency = this.dataGeneral.operational.length > 0
+                    ? this.dataGeneral.operational[0].FREQUENCY
                     : 'N/A';
-                  this.frecuency = this.frecuency;
                   this.crudo = this.dataGeneral.kpi[0].last.toFixed(2)
                     ? this.dataGeneral.kpi[0].last.toFixed(2)
                     : 'N/A';
