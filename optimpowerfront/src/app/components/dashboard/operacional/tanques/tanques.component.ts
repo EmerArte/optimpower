@@ -16,7 +16,7 @@ import { Util } from 'src/utils/util';
 export class TanquesComponent implements OnInit, OnDestroy {
   surficeLast: any;
   surficeSum: any;
-
+  currentDate:any;
   coolTheme = CoolTheme;
   // Pozos chart
   transRecivoEntregaInstance: any;
@@ -80,6 +80,8 @@ export class TanquesComponent implements OnInit, OnDestroy {
                 ];
                 this.surficeLast = JSON.parse(res.surface_last);
                 this.surficeSum = JSON.parse(res.surface_sum);
+                this.currentDate = new Date(Number(Object.values(this.surficeLast.YEAR_MONTH_DATE)[0]));
+                
                 Object.values(this.surficeSum.FACILITY_ID).forEach(
                   (val: any, index: any) => {
                     if (Number(value.tanques.FACILITY_ID) == Number(val)) {
@@ -181,13 +183,17 @@ export class TanquesComponent implements OnInit, OnDestroy {
                     }
                   }
                 );
-                console.log(Object.values(this.surficeSum.NET_BARRELS));
-
                 this.tankservice.listTanks().subscribe({
                   next: (tanks: any) => {
                     const legendsTanks: any[] = [];
-                    tanks.forEach((element: any) => {
+                    const productionData: any[] = [];
+                    tanks.forEach((element: any, index:any) => {
+                      const obj = {
+                        value: this.surficeSum.NET_BARRELS[index],
+                        name: element.FACILITY_NAME
+                      }
                       legendsTanks.push(element.FACILITY_NAME);
+                      productionData.push(obj);
                     });
                     this.updateProduccionTanks = {
                       legend: {
@@ -195,7 +201,7 @@ export class TanquesComponent implements OnInit, OnDestroy {
                       },
                       series: [
                         {
-                          data: Object.values(this.surficeSum.NET_BARRELS),
+                          data: productionData
                         },
                       ],
                     };
@@ -224,7 +230,7 @@ export class TanquesComponent implements OnInit, OnDestroy {
       title: {
         text: 'Tanks production',
         top: '0%',
-        left: 'center',
+        left: 'left',
         textStyle: {
           fontSize: 14,
           fontWeight: 'bold',
@@ -239,7 +245,8 @@ export class TanquesComponent implements OnInit, OnDestroy {
         orient: 'vertical',
         left: 10,
         top: 20,
-        bottom: 20,
+        bottom: 10,
+        right: 10,
         data: [],
       },
       toolbox: {
@@ -249,7 +256,7 @@ export class TanquesComponent implements OnInit, OnDestroy {
         {
           name: 'Production',
           type: 'pie',
-          center: ['65%', '50%'],
+          center: ['50%', '50%'],
           radius: ['40%', '70%'],
           avoidLabelOverlap: false,
           labelLine: {

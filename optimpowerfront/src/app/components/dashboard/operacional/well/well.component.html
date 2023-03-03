@@ -8,7 +8,7 @@
     >
       <app-information-card
         [valor]="formatDate(fechaAcual)"
-        titulo="Current Date"
+        titulo="Date"
         class="w-full self-center"
       ></app-information-card>
       <app-information-card
@@ -23,17 +23,17 @@
       ></app-information-card>
       <app-information-card
         [valor]="estadoPozo"
-        titulo="State"
+        titulo="Status"
         class="w-full border-r-2 border-[#36aee4] self-center"
       ></app-information-card>
       <app-information-card
         [valor]="8 + ''"
-        titulo="Pump life (Days)"
+        titulo="Run life(Days)"
         class="w-full border-r-2 border-[#36aee4] self-center"
       ></app-information-card>
       <app-information-card
         [valor]="levantamiento"
-        titulo="Lift system"
+        titulo="Als"
         class="w-full self-center"
       ></app-information-card>
     </div>
@@ -63,7 +63,7 @@
           <div class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center">
             <app-information-card
               [valor]="agua"
-              titulo="Water(BOPD)"
+              titulo="Water(BWPD)"
               class="w-full self-center"
             ></app-information-card>
           </div>

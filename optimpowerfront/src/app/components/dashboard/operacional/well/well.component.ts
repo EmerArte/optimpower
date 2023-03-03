@@ -191,7 +191,7 @@ export class WellComponent implements OnInit, OnDestroy {
     this.graficaUno.title = {
       top: '1%',
       left: '2%',
-      text: 'Gas(MMSFC), OilRate average, Water(BWPD) & Fluid(BFPD) by time',
+      text: 'Gas(MMSFC), OilRate(BOPD), Water(BWPD) & Fluid(BFPD) by time',
       textStyle: {
         fontSize: 14,
         fontWeight: 'bold',

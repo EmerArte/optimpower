@@ -5,31 +5,31 @@
     <div class="h-full p-2">
       <app-information-card
         [valor]="date"
-        titulo="Current date"
+        titulo="Date"
       ></app-information-card>
     </div>
     <div class="border-l-2 border-r-2 border-[#36aee4] h-full p-2">
       <app-information-card
         [valor]="bbls ? bbls : 'N/A'"
-        titulo="Oil"
+        titulo="Oil(BOPD)"
       ></app-information-card>
     </div>
     <div class="h-full p-2">
       <app-information-card
         [valor]="totalWater ? totalWater : 'N/A'"
-        titulo="Water"
+        titulo="Water(BWPD)"
       ></app-information-card>
     </div>
     <div class="border-l-2 border-r-2 border-[#36aee4] h-full p-2">
       <app-information-card
         [valor]="liquid ? liquid : 'N/A'"
-        titulo="Liquid"
+        titulo="Fluid(BFPD)"
       ></app-information-card>
     </div>
     <div class="h-full p-2">
       <app-information-card
         [valor]="waterInyection ? waterInyection : 'N/A'"
-        titulo="Water Inj."
+        titulo="Water Inj.(BWPD)"
       ></app-information-card>
     </div>
     <div class="border-l-2 border-[#36aee4] h-full p-2">

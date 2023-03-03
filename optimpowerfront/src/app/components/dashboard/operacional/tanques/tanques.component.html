@@ -1,11 +1,11 @@
 <div class="flex flex-col w-full h-full justify-around border-y-2 border-r-2 border-[#36aee4]">
   <div
-    class="grid grid-cols-4 gap-0 w-full h-max place-content-stretch place-items-stretch border-b-2 border-[#36aee4]"
+    class="grid grid-cols-2 gap-0 w-full h-max place-content-stretch place-items-stretch border-b-2 border-[#36aee4]"
   >
     <div class="h-full p-2">
       <app-information-card
-        [valor]="'DATE'"
-        titulo="Current date"
+        [valor]="currentDate ? formatDate(currentDate) : 'N/A'"
+        titulo="Date"
       ></app-information-card>
     </div>
     <div class="border-l-2 border-r-2 border-[#36aee4] h-full p-2">
@@ -20,18 +20,6 @@
           Volumetric
         </dt>
       </div>
-    </div>
-    <div class="h-full p-2">
-      <app-information-card
-        [valor]="'ABANICO'"
-        titulo="Field"
-      ></app-information-card>
-    </div>
-    <div class="border-l-2 h-full p-2">
-      <app-information-card
-        [valor]="'TANK'"
-        titulo="Tank No."
-      ></app-information-card>
     </div>
   </div>
   <div

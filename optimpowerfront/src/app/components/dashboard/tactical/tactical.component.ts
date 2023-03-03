@@ -1,100 +1,101 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { CoolTheme } from '../../custom.theme.echart';
 import { EChartsOption } from 'echarts';
-var ROOT_PATH = 'https://echarts.apache.org/examples';
+import { TacticalService } from './tactical.service';
+import { LoadingService } from 'src/app/services/loading.service';
+import { OperacionalService } from '../operacional/operacional.service';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-tactical',
   templateUrl: './tactical.component.html',
-  styleUrls: ['./tactical.component.scss']
+  styleUrls: ['./tactical.component.scss'],
 })
-export class TacticalComponent implements OnInit{
-
+export class TacticalComponent implements OnInit, OnDestroy{
   cargando: boolean = true;
+  backEndSuscribe: any;
+  wellList:any[] = [];
+
 
   coolTheme = CoolTheme;
-  graficaQdpNpdDInstance:any;
+  graficaQdpNpdDInstance: any;
   graficaQdpNpdD: EChartsOption = {};
   updateGraficaQdpNpdD: any;
 
-
-  graficaNpEurDInstance:any;
+  graficaNpEurDInstance: any;
   graficaNpEur: EChartsOption = {};
   updateGraficaNpEur: any;
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event:any) {
-    this.resizeChart();
+  constructor(
+    private tacticalService: TacticalService,
+    public loading: LoadingService,
+    private operationalService: OperacionalService,
+    private form: FormBuilder
+  ) {}
+  ngOnDestroy(): void {
+    this.backEndSuscribe.unsuscribe();
   }
   resizeChart() {
-      if(this.graficaQdpNpdDInstance){
-        this.graficaQdpNpdDInstance.resize();
-      }
-      if(this.graficaNpEurDInstance){
-        this.graficaNpEurDInstance.resize();
-      }
+    if (this.graficaQdpNpdDInstance) {
+      this.graficaQdpNpdDInstance.resize();
+    }
+    if (this.graficaNpEurDInstance) {
+      this.graficaNpEurDInstance.resize();
+    }
   }
   ngOnInit(): void {
+    this.consultaBackEnd()
     this.buildGraficaQdpNpdD();
     this.builGraficaNpEur();
   }
+
+  consultaBackEnd(){
+    this.backEndSuscribe = this.operationalService.consultaListaDePosos().subscribe({
+      next: (value:any)=>{
+        this.wellList = value;
+      }
+    })
+  }
+
+
+
   buildGraficaQdpNpdD() {
-    console.log("");
-    
     this.graficaQdpNpdD = {
       title: {
-        text: 'QdD-NpdD'
+        text: 'Income of Germany and France since 1950',
       },
       tooltip: {
-        trigger: 'axis'
-      },
-      legend: {
-        data: ['QdD', 'NpdD']
-      },
-      grid: {
-        left: '5%',
-        right: '5%',
-        bottom: '10%',
-        containLabel: true
-      },
-      toolbox: {
-        feature: {
-          saveAsImage: {}
-        }
+        trigger: 'axis',
       },
       xAxis: {
-        nameGap: 30,
         type: 'category',
-        name: 'tdD',
         nameLocation: 'middle',
-        boundaryGap: false,
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        minorSplitLine: {
+          show: true,
+        },
       },
       yAxis: {
-        axisLabel : {
-          formatter: '{value}'
+        name: 'Income',
+        minorSplitLine: {
+          show: true,
         },
-        nameGap: 30,
-        name: 'qDd - NpDd',
-        nameLocation: 'middle',
-        type: 'value'
       },
       series: [
         {
-          name: 'QdD',
+          data: [],
           type: 'line',
-          stack: 'Total',
-          smooth: true,
-          data: [120, 132, 101, 134, 90, 230, 210]
+          showSymbol: false,
+          lineStyle: {
+            color: '#5470C6',
+            width: 3,
+            type: 'dashed',
+          },
         },
         {
-          name: 'NpdD',
+          data: [],
           type: 'line',
-          stack: 'Total',
-          smooth: true,
-          data: [220, 182, 191, 234, 290, 330, 310]
-        }
-      ]
+          showSymbol: false,
+        },
+      ],
     };
   }
   builGraficaNpEur() {
@@ -103,19 +104,19 @@ export class TacticalComponent implements OnInit{
         left: '5%',
         right: '5%',
         bottom: '10%',
-        containLabel: true
+        containLabel: true,
       },
       title: {
         text: 'Np - Eur',
-        left: 'center'
+        left: 'center',
       },
       tooltip: {
-        trigger: 'item'
+        trigger: 'item',
       },
       legend: {
         orient: 'vertical',
         left: 'left',
-        top: '10%'
+        top: '10%',
       },
       series: [
         {
@@ -130,13 +131,13 @@ export class TacticalComponent implements OnInit{
             itemStyle: {
               shadowBlur: 10,
               shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
-          }
-        }
-      ]
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+            },
+          },
+        },
+      ],
     };
-}
+  }
   onGraficaQdpNpdD(e: any) {
     this.graficaQdpNpdDInstance = e;
   }
