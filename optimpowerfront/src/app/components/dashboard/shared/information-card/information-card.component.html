@@ -1,4 +1,5 @@
-<div class="flex flex-col items-center justify-center rounded-sm mx-1 ">
-    <dt [class]="'mb-2 text-xs lg:text-base xl:text-lg font-semibold lg:font-extrabold text-[#FFFFFF]'">{{valor}}</dt>
-    <dd class="font-light text-gray-300 text-center ">{{titulo}}</dd>
+<div [class]="orientacion == 'ver' ? 'flex flex-col items-center justify-center rounded-sm mx-1' : 'flex flex-row items-center justify-between rounded-sm mx-1'">
+    <dt [class]="orientacion == 'ver' ? 'mb-2 text-xs lg:text-base xl:text-lg font-semibold lg:font-extrabold text-[#FFFFFF]' : 
+    'mx-2.5 text-xs lg:text-base xl:text-lg font-semibold lg:font-extrabold text-[#FFFFFF] order-2'">{{valor}}</dt>
+    <dd class="font-light text-gray-300 text-center ">{{orientacion == 'ver' ? titulo : titulo+':'}}</dd>
 </div>

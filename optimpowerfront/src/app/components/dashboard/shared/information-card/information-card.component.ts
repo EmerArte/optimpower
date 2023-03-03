@@ -8,4 +8,5 @@ import { Component, Input } from '@angular/core';
 export class InformationCardComponent {
   @Input('titulo') titulo = 'Default';
   @Input('valor') valor = '320';
+  @Input('orientacion') orientacion = 'ver';
 }

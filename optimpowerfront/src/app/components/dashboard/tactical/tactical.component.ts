@@ -25,7 +25,10 @@ export class TacticalComponent implements OnInit, OnDestroy {
     renderer: 'svg',
   };
 
-  typeCurva: any;
+  tipo:any;
+  lastDate:any;
+  lastB:any;
+  lastDi:any;
 
   graficaNpEurDInstance: any;
   graficaNpEur: EChartsOption = {};
@@ -53,21 +56,26 @@ export class TacticalComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit(): void {
-    this.consultaBackEnd();
     this.buildGraficaQdpNpdD();
     this.builGraficaNpEur();
+    this.consultaBackEnd();
 
     this.tacticalForm.valueChanges.subscribe({
       next: (res: any) => {
-        console.log(res);
         this.loading.setLoading(true);
         this.tacticalService.getDeclinacion(res.posos.WELL_ID).subscribe({
           next: (tactical: any) => {
+            console.log(tactical.slice(-1));
+            this.lastB = tactical.slice(-1)[0].B;
+            this.lastDi = tactical.slice(-1)[0].Di;
+            this.lastDate = (tactical.slice(-1)[0].VOLUME_DATE);
+
             const legendToDeclination = [];
             const fechas = [];
             const dataSerieCurva1 = [];
             const dataSerieCurva2 = [];
             legendToDeclination.push(tactical[0].TYPE);
+            this.tipo = tactical[0].TYPE;
             legendToDeclination.push(tactical[0].WELL_NAME);
             for (const data of tactical) {
               dataSerieCurva2.push(data.QD);
@@ -208,4 +216,16 @@ export class TacticalComponent implements OnInit, OnDestroy {
   onGraficaNpEur(e: any) {
     this.graficaNpEurDInstance = e;
   }
+    //Utils
+    padTo2Digits(num: number) {
+      return num.toString().padStart(2, '0');
+    }
+  
+    formatDate(date: Date) {
+      return [
+        this.padTo2Digits(date.getDate()),
+        this.padTo2Digits(date.getMonth() + 1),
+        date.getFullYear(),
+      ].join('/');
+    }
 }
