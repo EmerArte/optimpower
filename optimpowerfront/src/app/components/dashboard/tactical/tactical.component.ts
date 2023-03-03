@@ -4,23 +4,28 @@ import { EChartsOption } from 'echarts';
 import { TacticalService } from './tactical.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { OperacionalService } from '../operacional/operacional.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-tactical',
   templateUrl: './tactical.component.html',
   styleUrls: ['./tactical.component.scss'],
 })
-export class TacticalComponent implements OnInit, OnDestroy{
+export class TacticalComponent implements OnInit, OnDestroy {
   cargando: boolean = true;
   backEndSuscribe: any;
-  wellList:any[] = [];
-
+  wellList: any[] = [];
+  tacticalForm: any;
 
   coolTheme = CoolTheme;
   graficaQdpNpdDInstance: any;
   graficaQdpNpdD: EChartsOption = {};
   updateGraficaQdpNpdD: any;
+  initgraficaQdpNpdD = {
+    renderer: 'svg',
+  };
+
+  typeCurva: any;
 
   graficaNpEurDInstance: any;
   graficaNpEur: EChartsOption = {};
@@ -30,9 +35,14 @@ export class TacticalComponent implements OnInit, OnDestroy{
     public loading: LoadingService,
     private operationalService: OperacionalService,
     private form: FormBuilder
-  ) {}
+  ) {
+    this.tacticalForm = form.group({
+      posos: [this.wellList, Validators.required],
+      limEco: [null, Validators.required],
+    });
+  }
   ngOnDestroy(): void {
-    this.backEndSuscribe.unsuscribe();
+    this.backEndSuscribe.unsubscribe();
   }
   resizeChart() {
     if (this.graficaQdpNpdDInstance) {
@@ -43,59 +53,113 @@ export class TacticalComponent implements OnInit, OnDestroy{
     }
   }
   ngOnInit(): void {
-    this.consultaBackEnd()
+    this.consultaBackEnd();
     this.buildGraficaQdpNpdD();
     this.builGraficaNpEur();
+
+    this.tacticalForm.valueChanges.subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.loading.setLoading(true);
+        this.tacticalService.getDeclinacion(res.posos.WELL_ID).subscribe({
+          next: (tactical: any) => {
+            const legendToDeclination = [];
+            const fechas = [];
+            const dataSerieCurva1 = [];
+            const dataSerieCurva2 = [];
+            legendToDeclination.push(tactical[0].TYPE);
+            legendToDeclination.push(tactical[0].WELL_NAME);
+            for (const data of tactical) {
+              dataSerieCurva2.push(data.QD);
+              dataSerieCurva1.push(data.OIL_VOLUME);
+              fechas.push(data.VOLUME_DATE);
+            }
+            this.updateGraficaQdpNpdD = {
+              legend: {
+                data: legendToDeclination,
+              },
+              title: {
+                text: tactical[0].TYPE + ' Declination',
+              },
+              xAxis: {
+                data: fechas,
+              },
+              series: [
+                {
+                  name: legendToDeclination[0],
+                  data: dataSerieCurva2,
+                  type: 'line',
+                  showSymbol: false,
+                  lineStyle: {
+                    color: '#B600FF',
+                    width: 3,
+                    type: 'dashed',
+                  },
+                },
+                {
+                  name: legendToDeclination[1],
+                  data: dataSerieCurva1,
+                  type: 'line',
+                  showSymbol: false,
+                  lineStyle: {
+                    color: '#0C00FF',
+                    width: 3,
+                  },
+                },
+              ],
+            };
+          },
+        });
+      },
+    });
   }
 
-  consultaBackEnd(){
-    this.backEndSuscribe = this.operationalService.consultaListaDePosos().subscribe({
-      next: (value:any)=>{
-        this.wellList = value;
-      }
-    })
+  consultaBackEnd() {
+    this.backEndSuscribe = this.operationalService
+      .consultaListaDePosos()
+      .subscribe({
+        next: (value: any) => {
+          this.wellList = value.filter(
+            (value: { WELL_TYPE: string }) => value.WELL_TYPE == 'OIL'
+          );
+          this.tacticalForm.patchValue({
+            posos: this.wellList[0],
+            limEco: 30,
+          });
+        },
+      });
   }
-
-
 
   buildGraficaQdpNpdD() {
     this.graficaQdpNpdD = {
       title: {
-        text: 'Income of Germany and France since 1950',
+        text: 'Declination',
       },
       tooltip: {
         trigger: 'axis',
       },
+      grid: {
+        left: '10%',
+        right: '5%',
+        bottom: '5%',
+        top: '10%',
+      },
       xAxis: {
         type: 'category',
         nameLocation: 'middle',
-        minorSplitLine: {
-          show: true,
-        },
+        name: 'Date',
+        data: [],
+      },
+      legend: {
+        data: [],
+        top: '5%',
+        left: '1%',
       },
       yAxis: {
-        name: 'Income',
-        minorSplitLine: {
-          show: true,
-        },
+        name: 'BOPD',
+        nameLocation: 'middle',
       },
-      series: [
-        {
-          data: [],
-          type: 'line',
-          showSymbol: false,
-          lineStyle: {
-            color: '#5470C6',
-            width: 3,
-            type: 'dashed',
-          },
-        },
-        {
-          data: [],
-          type: 'line',
-          showSymbol: false,
-        },
-      ],
+      series: [],
     };
   }
   builGraficaNpEur() {
