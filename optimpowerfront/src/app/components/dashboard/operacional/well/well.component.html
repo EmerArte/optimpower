@@ -6,36 +6,87 @@
     <div
       class="grid grid-cols-6 h-full w-full place-content-stretch place-items-stretch border-b-2 border-[#36aee4]"
     >
-      <app-information-card
-        [valor]="formatDate(fechaAcual)"
-        titulo="Date"
-        class="w-full self-center"
-      ></app-information-card>
-      <app-information-card
-        [valor]="campo"
-        titulo="Field"
-        class="w-full border-l-2 border-r-2 border-[#36aee4] self-center"
-      ></app-information-card>
-      <app-information-card
-        [valor]="pozo"
-        titulo="Well"
-        class="w-full border-r-2 border-[#36aee4] self-center"
-      ></app-information-card>
-      <app-information-card
-        [valor]="estadoPozo"
-        titulo="Status"
-        class="w-full border-r-2 border-[#36aee4] self-center"
-      ></app-information-card>
-      <app-information-card
-        [valor]="8 + ''"
-        titulo="Run life(Days)"
-        class="w-full border-r-2 border-[#36aee4] self-center"
-      ></app-information-card>
-      <app-information-card
-        [valor]="levantamiento"
-        titulo="Als"
-        class="w-full self-center"
-      ></app-information-card>
+      <div
+        class="flex first-line:h-full w-full border-r-2 border-[#36aee4] items-center justify-center"
+      >
+        <app-information-card
+          [valor]="formatDate(fechaAcual)"
+          titulo="Date"
+          class="w-full self-center"
+        ></app-information-card>
+      </div>
+
+      <div class="col-span-3 w-full border-r-2 border-[#36aee4]">
+        <h1
+          class="text-center text-white uppercase font-bold border-b-2 border-[#36aee4]"
+        >
+          ACCUMULATED PRODUCTION
+        </h1>
+        <div
+          class="grid grid-cols-3  w-full place-content-stretch place-items-stretch"
+        >
+          <div
+            [class]="
+              'flex flex-col items-center justify-center rounded-sm mx-0.5'
+            "
+          >
+            <dt
+              [class]="
+                'mb-1 text-xs lg:text-sm xl:text-base font-semibold lg:font-extrabold text-[#FFFFFF]'
+              "
+            >
+              {{ crudo }}
+            </dt>
+            <dd class="font-light text-gray-300 text-center">Oil(BOPD)</dd>
+          </div>
+
+          <div
+            [class]="
+              'flex flex-col items-center justify-center rounded-sm mx-0.5'
+            "
+          >
+            <dt
+              [class]="
+                'mb-1 text-xs lg:text-sm xl:text-base font-semibold lg:font-extrabold text-[#FFFFFF]'
+              "
+            >
+              {{ agua }}
+            </dt>
+            <dd class="font-light text-gray-300 text-center">Water(BWPD)</dd>
+          </div>
+          <div
+            [class]="
+              'flex flex-col items-center justify-center rounded-sm mx-0.5'
+            "
+          >
+            <dt
+              [class]="
+                'mb-1 text-xs lg:text-sm xl:text-base font-semibold lg:font-extrabold text-[#FFFFFF]'
+              "
+            >
+              {{ gas }}
+            </dt>
+            <dd class="font-light text-gray-300 text-center">Gas(MMSFC)</dd>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex first-line:h-full w-full border-r-2 border-[#36aee4] items-center justify-center"
+      >
+        <app-information-card
+          [valor]="estadoPozo"
+          titulo="Status"
+          class="w-full self-center"
+        ></app-information-card>
+      </div>
+
+      <div class="flex first-line:h-full w-full items-center justify-center">
+        <app-information-card
+          [valor]="levantamiento"
+          titulo="Als"
+          class="w-full self-center"
+        ></app-information-card>
+      </div>
     </div>
   </div>
   <div class="row-[span_9_/_span_9] lg:row-[span_10_/_span_10]">
@@ -44,37 +95,65 @@
     >
       <div class="col-span-2 overflow-hidden">
         <div
-          class="grid grid-rows-5 gap-1 h-full place-content-stretch place-items-stretch"
+          class="grid grid-rows-6 gap-1 h-full place-content-stretch place-items-stretch"
         >
-          <div class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center">
+          <div
+            class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
+          >
+            <app-information-card
+              [valor]="frecuency + ''"
+              titulo="Fequency"
+              class="w-full self-center"
+            ></app-information-card>
+          </div>
+          <div
+            class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
+          >
             <app-information-card
               [valor]="crudo"
               titulo="Oil(BOPD)"
               class="w-full align-middle"
             ></app-information-card>
           </div>
-          <div class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center">
+          <div
+            class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
+          >
             <app-information-card
               [valor]="fluido"
               titulo="Fluid(BFPD)"
               class="w-full self-center"
             ></app-information-card>
           </div>
-          <div class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center">
+          <div
+            class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
+          >
             <app-information-card
               [valor]="agua"
               titulo="Water(BWPD)"
               class="w-full self-center"
             ></app-information-card>
           </div>
-          <div class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center">
+          <div
+            class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
+          >
+            <app-information-card
+              [valor]="8 + ''"
+              titulo="Run life(Days)"
+              class="w-full border-r-2 border-[#36aee4] self-center"
+            ></app-information-card>
+          </div>
+          <div
+            class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
+          >
             <app-information-card
               [valor]="gas"
               titulo="Gas(MMSFC)"
               class="w-full self-center"
             ></app-information-card>
           </div>
-          <div class="flex first-line:h-full w-full items-center justify-center">
+          <div
+            class="flex first-line:h-full w-full items-center justify-center"
+          >
             <app-information-card
               [valor]="bsw"
               titulo="%BSW"
@@ -87,22 +166,24 @@
         class="col-span-8 overflow-hidden border-r-2 border-l-2 border-[#36aee4]"
       >
         <div
-          class="grid grid-rows-5 gap-0.5 h-full w-full place-content-stretch place-items-stretch "
+          class="grid grid-rows-5 gap-0.5 h-full w-full place-content-stretch place-items-stretch"
         >
-        <div class="row-span-3 border-b-2 border-[#36aee4] w-full h-full">
-          <div class="grid grid-cols-2 gap-0 h-full w-full place-content-stretch place-items-stretch">
+          <div class="row-span-3 border-b-2 border-[#36aee4] w-full h-full">
             <div
-            echarts
-            (chartInit)="onGraficaUnoInit($event)"
-            [options]="graficaUno"
-            [merge]="updateOptionsGraficauno"
-            [theme]="coolTheme"
-            [autoResize]="true"
-            class="demo-chart col-span-2"
-            style="max-width: 99%;"
-          ></div>
+              class="grid grid-cols-2 gap-0 h-full w-full place-content-stretch place-items-stretch"
+            >
+              <div
+                echarts
+                (chartInit)="onGraficaUnoInit($event)"
+                [options]="graficaUno"
+                [merge]="updateOptionsGraficauno"
+                [theme]="coolTheme"
+                [autoResize]="true"
+                class="demo-chart col-span-2"
+                style="max-width: 99%"
+              ></div>
+            </div>
           </div>
-        </div>
           <div
             echarts
             (chartInit)="onGraficaDosInit($event)"
@@ -119,44 +200,44 @@
         <div
           class="grid grid-rows-5 gap-1 h-full place-content-stretch place-items-stretch"
         >
-        <div class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center">
+          <div
+            class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
+          >
             <app-information-card
-            [valor]="frecuency+''"
-            titulo="Fequency"
-            class="w-full self-center"
-          ></app-information-card>
-        </div>
-        <div class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center">
-          <app-information-card
-            [valor]="formatDate(fechaAcual)"
-            titulo="Pump date"
-            class="w-full self-center"
-          ></app-information-card>
-        </div>
-          <div class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center">
-            <app-information-card
-            valor="N4999"
-            titulo="Pump ref"
-            class="w-full self-center"
-          ></app-information-card>
+              [valor]="formatDate(fechaAcual)"
+              titulo="Pump date"
+              class="w-full self-center"
+            ></app-information-card>
           </div>
-          
-          <div class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center">
+          <div
+            class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
+          >
             <app-information-card
-            valor="N/A"
-            titulo="Deferred"
-            class="w-full self-center"
-          ></app-information-card>
+              valor="N4999"
+              titulo="Pump ref"
+              class="w-full self-center"
+            ></app-information-card>
           </div>
-          
-          <div class="flex first-line:h-full w-full items-center justify-center">
+
+          <div
+            class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
+          >
             <app-information-card
-            [valor]="gor"
-            titulo="GOR"
-            class="w-full self-center"
-          ></app-information-card>
+              [valor]="diferida"
+              titulo="Deferred"
+              class="w-full self-center"
+            ></app-information-card>
           </div>
-          
+
+          <div
+            class="flex first-line:h-full w-full items-center justify-center"
+          >
+            <app-information-card
+              [valor]="gor"
+              titulo="GOR"
+              class="w-full self-center"
+            ></app-information-card>
+          </div>
         </div>
       </div>
     </div>

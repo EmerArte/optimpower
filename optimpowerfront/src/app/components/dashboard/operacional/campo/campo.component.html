@@ -1,42 +1,96 @@
 <div class="flex flex-col w-full h-full justify-around border-y-2 border-r-2 border-[#36aee4]">
   <div
-    class="grid grid-cols-6 gap-0 w-full h-max place-content-stretch place-items-stretch border-b-2 border-[#36aee4]"
+    class="grid xl:grid-cols-10 grid-cols-6 grid-flow-row gap-0 w-full h-max place-content-stretch place-items-stretch border-b-2 border-[#36aee4]"
   >
-    <div class="h-full p-2">
+    <div class="h-full col-span-1 p-2">
       <app-information-card
         [valor]="date"
         titulo="Date"
       ></app-information-card>
     </div>
-    <div class="border-l-2 border-r-2 border-[#36aee4] h-full p-2">
+    <div class="border-l-2 border-r-2 border-[#36aee4] col-span-1 h-full p-2">
       <app-information-card
         [valor]="bbls ? bbls : 'N/A'"
         titulo="Oil(BOPD)"
       ></app-information-card>
     </div>
-    <div class="h-full p-2">
+    <div class="h-full p-2 col-span-1">
       <app-information-card
         [valor]="totalWater ? totalWater : 'N/A'"
         titulo="Water(BWPD)"
       ></app-information-card>
     </div>
-    <div class="border-l-2 border-r-2 border-[#36aee4] h-full p-2">
+    <div class="border-l-2 border-r-2 border-[#36aee4] col-span-1 h-full p-2">
       <app-information-card
         [valor]="liquid ? liquid : 'N/A'"
         titulo="Fluid(BFPD)"
       ></app-information-card>
     </div>
-    <div class="h-full p-2">
+    <div class="h-full col-span-1 p-2">
       <app-information-card
         [valor]="waterInyection ? waterInyection : 'N/A'"
         titulo="Water Inj.(BWPD)"
       ></app-information-card>
     </div>
-    <div class="border-l-2 border-[#36aee4] h-full p-2">
+    <div class="border-l-2 col-span-1 border-[#36aee4] h-full p-2">
       <app-information-card
         [valor]="mscf ? mscf : 'N/A'"
         titulo="Gas cons."
       ></app-information-card>
+    </div>
+    <div class="xl:col-span-4 col-span-6 w-full xl:border-l-2 xl:border-t-0 border-t-2 border-[#36aee4]">
+      <h1
+        class="text-center text-white uppercase font-bold border-b-2 border-[#36aee4]"
+      >
+        ACCUMULATED PRODUCTION
+      </h1>
+      <div
+        class="grid grid-cols-3  w-full place-content-stretch place-items-stretch"
+      >
+        <div
+          [class]="
+            'flex flex-col items-center justify-center rounded-sm mx-0.5'
+          "
+        >
+          <dt
+            [class]="
+              'mb-1 text-xs lg:text-sm xl:text-base font-semibold lg:font-extrabold text-[#FFFFFF]'
+            "
+          >
+            {{ bbls }}
+          </dt>
+          <dd class="font-light text-gray-300 text-center">Oil(BOPD)</dd>
+        </div>
+
+        <div
+          [class]="
+            'flex flex-col items-center justify-center rounded-sm mx-0.5'
+          "
+        >
+          <dt
+            [class]="
+              'mb-1 text-xs lg:text-sm xl:text-base font-semibold lg:font-extrabold text-[#FFFFFF]'
+            "
+          >
+            {{ totalWater }}
+          </dt>
+          <dd class="font-light text-gray-300 text-center">Water(BWPD)</dd>
+        </div>
+        <div
+          [class]="
+            'flex flex-col items-center justify-center rounded-sm mx-0.5'
+          "
+        >
+          <dt
+            [class]="
+              'mb-1 text-xs lg:text-sm xl:text-base font-semibold lg:font-extrabold text-[#FFFFFF]'
+            "
+          >
+            {{ mscf }}
+          </dt>
+          <dd class="font-light text-gray-300 text-center">Gas(MMSFC)</dd>
+        </div>
+      </div>
     </div>
   </div>
   <div

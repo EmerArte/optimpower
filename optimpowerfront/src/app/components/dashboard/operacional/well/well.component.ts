@@ -1,8 +1,6 @@
 import {
   Component,
-  AfterViewInit,
   OnInit,
-  HostListener,
   OnDestroy,
 } from '@angular/core';
 import { OperacionalService } from '../operacional.service';
@@ -18,11 +16,6 @@ import { LoadingService } from 'src/app/services/loading.service';
   styleUrls: ['./well.component.css'],
 })
 export class WellComponent implements OnInit, OnDestroy {
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event: any) {
-  //   this.resizeChart();
-  // }
-
   pozo!: string;
   listaPozos: any[] = [];
   frecuency: any;
@@ -48,10 +41,15 @@ export class WellComponent implements OnInit, OnDestroy {
   gas: string = '';
   campo: string = '';
   campoId!: number;
+  diferida: any;
   pozoId!: number;
   estadoPozo: string = '';
   gor: any;
   bsw: any;
+
+  accrudo: string = '';
+  acgas: string = '';
+  acagua: string = '';
 
   theme!: string | ThemeOption;
   coolTheme = CoolTheme;
@@ -102,6 +100,9 @@ export class WellComponent implements OnInit, OnDestroy {
                     : 'N/A';
                   this.crudo = this.dataGeneral.kpi[0].last.toFixed(2)
                     ? this.dataGeneral.kpi[0].last.toFixed(2)
+                    : 'N/A';
+                  this.diferida = this.dataGeneral.opt
+                    ? parseFloat(Object.values(this.dataGeneral.opt.DEFERRED_OIL).slice(-1).toString()).toFixed(2)
                     : 'N/A';
                   this.fluido = this.dataGeneral.kpi[2].last.toFixed(2)
                     ? this.dataGeneral.kpi[2].last.toFixed(2)
