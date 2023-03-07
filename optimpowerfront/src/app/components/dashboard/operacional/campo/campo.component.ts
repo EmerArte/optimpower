@@ -200,12 +200,9 @@ export class CampoComponent implements OnInit {
 
                 const gaugeTota = Number(Object.values(total.EXPECTED_OIL)[0]);
                 this.gaugeData[0].value = Number(((Number(Object.values(total.OIL_RATE)[0]) * 100) / gaugeTota).toFixed(2));
-                console.log(this.formatNumberES(gaugeTota));
-                console.log(this.formatNumberES(Number(Object.values(total.OIL_RATE)[0]),2));
-                
                 this.updateAceleradorChart = {
                   title: {
-                    subtext: "Expected: "+ '' + "\n" + "Current: " + ''
+                    subtext: "Expected: "+ this.formatNumberES(gaugeTota) + "\n" + "Current: " + this.formatNumberES(Number(Object.values(total.OIL_RATE)[0]),2)
                   },
                   series : [{
                     min: 0,
