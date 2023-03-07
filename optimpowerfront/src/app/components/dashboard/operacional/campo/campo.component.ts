@@ -154,6 +154,8 @@ export class CampoComponent implements OnInit {
                     fSeriesData.push(obj);
                   }
                 })
+                console.log(this.lineChartsData);
+                
                 this.totalWater = this.formatNumberES(Object.values(total.WATER_RATE)[0]);
                 
                 this.mscf =   this.formatNumberES(Object.values(total.GAS_TOTAL_CONSUMPTION)[0]);
@@ -198,9 +200,12 @@ export class CampoComponent implements OnInit {
 
                 const gaugeTota = Number(Object.values(total.EXPECTED_OIL)[0]);
                 this.gaugeData[0].value = Number(((Number(Object.values(total.OIL_RATE)[0]) * 100) / gaugeTota).toFixed(2));
+                console.log(this.formatNumberES(gaugeTota));
+                console.log(this.formatNumberES(Number(Object.values(total.OIL_RATE)[0]),2));
+                
                 this.updateAceleradorChart = {
                   title: {
-                    subtext: "Expected: "+ gaugeTota.toFixed(2) + "\n" + "Current: " + Number(Object.values(total.OIL_RATE)[0]).toFixed(2)
+                    subtext: "Expected: "+ '' + "\n" + "Current: " + ''
                   },
                   series : [{
                     min: 0,

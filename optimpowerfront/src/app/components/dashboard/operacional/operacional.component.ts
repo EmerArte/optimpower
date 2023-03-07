@@ -87,4 +87,8 @@ export class OperacionalComponent implements OnInit{
         }
       })
     }
+    logout(){
+      localStorage.clear();
+      this.route.navigate(['/']);
+    }
 }

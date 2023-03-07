@@ -1,4 +1,4 @@
-<div class="flex flex-col w-full h-full justify-around border-y-2 border-r-2 border-[#36aee4]">
+<div class="flex flex-col w-full h-full justify-around]">
   <div
     class="grid xl:grid-cols-10 grid-cols-6 grid-flow-row gap-0 w-full h-max place-content-stretch place-items-stretch border-b-2 border-[#36aee4]"
   >
@@ -11,25 +11,25 @@
     <div class="border-l-2 border-r-2 border-[#36aee4] col-span-1 h-full p-2">
       <app-information-card
         [valor]="bbls ? bbls : 'N/A'"
-        titulo="Oil(BOPD)"
+        titulo="Oil (BOPD)"
       ></app-information-card>
     </div>
     <div class="h-full p-2 col-span-1">
       <app-information-card
         [valor]="totalWater ? totalWater : 'N/A'"
-        titulo="Water(BWPD)"
+        titulo="Water (BWPD)"
       ></app-information-card>
     </div>
     <div class="border-l-2 border-r-2 border-[#36aee4] col-span-1 h-full p-2">
       <app-information-card
         [valor]="liquid ? liquid : 'N/A'"
-        titulo="Fluid(BFPD)"
+        titulo="Fluid (BFPD)"
       ></app-information-card>
     </div>
     <div class="h-full col-span-1 p-2">
       <app-information-card
         [valor]="waterInyection ? waterInyection : 'N/A'"
-        titulo="Water Inj.(BWPD)"
+        titulo="Water Inj. (BWPD)"
       ></app-information-card>
     </div>
     <div class="border-l-2 col-span-1 border-[#36aee4] h-full p-2">
@@ -59,7 +59,7 @@
           >
             {{ bbls }}
           </dt>
-          <dd class="font-light text-gray-300 text-center">Oil(BOPD)</dd>
+          <dd class="font-light text-gray-300 text-center">Oil (BO)</dd>
         </div>
 
         <div
@@ -74,7 +74,7 @@
           >
             {{ totalWater }}
           </dt>
-          <dd class="font-light text-gray-300 text-center">Water(BWPD)</dd>
+          <dd class="font-light text-gray-300 text-center">Water (BW)</dd>
         </div>
         <div
           [class]="
@@ -88,7 +88,7 @@
           >
             {{ mscf }}
           </dt>
-          <dd class="font-light text-gray-300 text-center">Gas(MMSFC)</dd>
+          <dd class="font-light text-gray-300 text-center">Gas (MMSFC)</dd>
         </div>
       </div>
     </div>

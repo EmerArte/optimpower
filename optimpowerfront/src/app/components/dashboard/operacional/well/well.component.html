@@ -1,5 +1,5 @@
 <div
-  class="grid grid-rows-12 gap-0 h-full w-full place-content-stretch place-items-stretch border-y-2 border-r-2 border-[#36aee4]"
+  class="grid grid-rows-12 gap-0 h-full w-full place-content-stretch place-items-stretch border-[#36aee4]"
 >
   <div class="row-span-2 lg:row-span-1">
     <!-- border-[#36aee4] -->
@@ -10,7 +10,7 @@
         class="flex first-line:h-full w-full border-r-2 border-[#36aee4] items-center justify-center"
       >
         <app-information-card
-          [valor]="formatDate(fechaAcual)"
+          [valor]="lastDate ? formatDate(lastDate) : 'N/A'"
           titulo="Date"
           class="w-full self-center"
         ></app-information-card>
@@ -23,7 +23,7 @@
           ACCUMULATED PRODUCTION
         </h1>
         <div
-          class="grid grid-cols-3  w-full place-content-stretch place-items-stretch"
+          class="grid grid-cols-3 w-full place-content-stretch place-items-stretch"
         >
           <div
             [class]="
@@ -35,9 +35,9 @@
                 'mb-1 text-xs lg:text-sm xl:text-base font-semibold lg:font-extrabold text-[#FFFFFF]'
               "
             >
-              {{ crudo }}
+              {{ accrudo }}
             </dt>
-            <dd class="font-light text-gray-300 text-center">Oil(BOPD)</dd>
+            <dd class="font-light text-gray-300 text-center">Oil (BO)</dd>
           </div>
 
           <div
@@ -50,9 +50,9 @@
                 'mb-1 text-xs lg:text-sm xl:text-base font-semibold lg:font-extrabold text-[#FFFFFF]'
               "
             >
-              {{ agua }}
+              {{ acagua }}
             </dt>
-            <dd class="font-light text-gray-300 text-center">Water(BWPD)</dd>
+            <dd class="font-light text-gray-300 text-center">Water (BW)</dd>
           </div>
           <div
             [class]="
@@ -64,9 +64,9 @@
                 'mb-1 text-xs lg:text-sm xl:text-base font-semibold lg:font-extrabold text-[#FFFFFF]'
               "
             >
-              {{ gas }}
+              {{ acgas }}
             </dt>
-            <dd class="font-light text-gray-300 text-center">Gas(MMSFC)</dd>
+            <dd class="font-light text-gray-300 text-center">Gas (MMSFC)</dd>
           </div>
         </div>
       </div>
@@ -95,23 +95,14 @@
     >
       <div class="col-span-2 overflow-hidden">
         <div
-          class="grid grid-rows-6 gap-1 h-full place-content-stretch place-items-stretch"
+          class="grid grid-rows-6 gap-0 h-full place-content-stretch place-items-stretch"
         >
           <div
             class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
           >
             <app-information-card
-              [valor]="frecuency + ''"
-              titulo="Fequency"
-              class="w-full self-center"
-            ></app-information-card>
-          </div>
-          <div
-            class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
-          >
-            <app-information-card
               [valor]="crudo"
-              titulo="Oil(BOPD)"
+              titulo="Oil (BOPD)"
               class="w-full align-middle"
             ></app-information-card>
           </div>
@@ -120,7 +111,7 @@
           >
             <app-information-card
               [valor]="fluido"
-              titulo="Fluid(BFPD)"
+              titulo="Fluid (BFPD)"
               class="w-full self-center"
             ></app-information-card>
           </div>
@@ -129,17 +120,8 @@
           >
             <app-information-card
               [valor]="agua"
-              titulo="Water(BWPD)"
+              titulo="Water (BWPD)"
               class="w-full self-center"
-            ></app-information-card>
-          </div>
-          <div
-            class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
-          >
-            <app-information-card
-              [valor]="8 + ''"
-              titulo="Run life(Days)"
-              class="w-full border-r-2 border-[#36aee4] self-center"
             ></app-information-card>
           </div>
           <div
@@ -147,7 +129,16 @@
           >
             <app-information-card
               [valor]="gas"
-              titulo="Gas(MMSFC)"
+              titulo="Gas (MMSFC)"
+              class="w-full self-center"
+            ></app-information-card>
+          </div>
+          <div
+            class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
+          >
+            <app-information-card
+              [valor]="bsw"
+              titulo="%BSW"
               class="w-full self-center"
             ></app-information-card>
           </div>
@@ -155,8 +146,8 @@
             class="flex first-line:h-full w-full items-center justify-center"
           >
             <app-information-card
-              [valor]="bsw"
-              titulo="%BSW"
+              [valor]="frecuency + ''"
+              titulo="Fequency"
               class="w-full self-center"
             ></app-information-card>
           </div>
@@ -168,7 +159,7 @@
         <div
           class="grid grid-rows-5 gap-0.5 h-full w-full place-content-stretch place-items-stretch"
         >
-          <div class="row-span-3 border-b-2 border-[#36aee4] w-full h-full">
+          <div class="row-span-3 border-b-2 border-[#36aee4] w-full min-h-full">
             <div
               class="grid grid-cols-2 gap-0 h-full w-full place-content-stretch place-items-stretch"
             >
@@ -179,7 +170,7 @@
                 [merge]="updateOptionsGraficauno"
                 [theme]="coolTheme"
                 [autoResize]="true"
-                class="demo-chart col-span-2"
+                class="demo-chart col-span-2 h-[99%]"
                 style="max-width: 99%"
               ></div>
             </div>
@@ -191,14 +182,14 @@
             [merge]="updateOptionsGraficaDos"
             [theme]="coolTheme"
             [autoResize]="true"
-            class="demo-chart row-span-2"
+            class="demo-chart row-span-2 h-[99%]"
             style="max-width: 99%"
           ></div>
         </div>
       </div>
       <div class="col-span-2 overflow-hidden">
         <div
-          class="grid grid-rows-5 gap-1 h-full place-content-stretch place-items-stretch"
+          class="grid grid-rows-5 gap-0 h-full place-content-stretch place-items-stretch"
         >
           <div
             class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
@@ -218,7 +209,15 @@
               class="w-full self-center"
             ></app-information-card>
           </div>
-
+          <div
+            class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
+          >
+            <app-information-card
+              [valor]="8 + ''"
+              titulo="Run life(Days)"
+              class="w-full self-center"
+            ></app-information-card>
+          </div>
           <div
             class="flex first-line:h-full w-full border-b-2 border-[#36aee4] items-center justify-center"
           >

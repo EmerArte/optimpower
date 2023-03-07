@@ -1,5 +1,5 @@
 <div
-  class="grid grid-cols-12 gap-1 h-full w-full place-content-stretch place-items-stretch"
+  class="grid grid-cols-12 gap-1 min-h-full w-full place-content-stretch place-items-stretch"
 >
   <div
     id="drawer-navigation"
@@ -111,38 +111,34 @@
       </form>
 
       <!-- options -->
-      <div class="hidden lg:flex flex-col w-1/6">
+      <div class="hidden lg:flex flex-col lg:w-full w-1/6">
         <h3 class="font-bold pl-3 text-sm text-gray-200">Options</h3>
-        <ul class="space-y-2 my-2">
-          <li class="hover:bg-gray-200">
-            <a
-              href="#"
-              class="flex items-center p-2 ml-4 text-base font-normal text-gray-500"
+        <div class="my-2">
+          <a
+            (click)="logout()"
+            class="flex items-center p-2 text-base font-normal hover:bg-gray-200 text-gray-500 cursor-pointer"
+          >
+            <svg
+              aria-hidden="true"
+              class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                aria-hidden="true"
-                class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <span class="flex-1 ml-3 whitespace-nowrap">Sign In</span>
-            </a>
-          </li>
-        </ul>
+              <path
+                fill-rule="evenodd"
+                d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <span class="flex-1 ml-3 whitespace-nowrap">Logout</span>
+          </a>
+        </div>
       </div>
     </div>
-
-    <!-- filters -->
   </div>
   <div
-    class="shadow-md bg-[#393E46] rounded-sm col-span-12 justify-self-center lg:col-span-9 xl:col-span-10 lg:mr-2 w-full"
+    class="shadow-md bg-[#393E46] border-2 border-[#36aee4] rounded-sm col-span-12 justify-self-center lg:col-span-9 xl:col-span-10 w-full"
   >
     <router-outlet></router-outlet>
   </div>

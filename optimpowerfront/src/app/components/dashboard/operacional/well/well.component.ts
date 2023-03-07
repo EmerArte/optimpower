@@ -46,10 +46,11 @@ export class WellComponent implements OnInit, OnDestroy {
   estadoPozo: string = '';
   gor: any;
   bsw: any;
+  lastDate:any;
 
   accrudo: string = '';
   acgas: string = '';
-  acagua: string = '';
+  acagua: any = '';
 
   theme!: string | ThemeOption;
   coolTheme = CoolTheme;
@@ -84,6 +85,7 @@ export class WellComponent implements OnInit, OnDestroy {
             this.pozoId = this.dataForm?.posos.WELL_ID;
             this.estadoPozo = this.dataForm?.posos.WELL_STATUS;
             this.levantamiento = this.dataForm?.posos.PRODUCTION_METHOD;
+            this.lastDate = this.dataForm.fechaFinal;
             this.rangoFechas = this.parsearFechasParaConsulta(
               this.dataForm.fechaInicial,
               this.dataForm.fechaFinal
@@ -104,6 +106,7 @@ export class WellComponent implements OnInit, OnDestroy {
                   this.diferida = this.dataGeneral.opt
                     ? parseFloat(Object.values(this.dataGeneral.opt.DEFERRED_OIL).slice(-1).toString()).toFixed(2)
                     : 'N/A';
+
                   this.fluido = this.dataGeneral.kpi[2].last.toFixed(2)
                     ? this.dataGeneral.kpi[2].last.toFixed(2)
                     : 'N/A';
@@ -113,6 +116,11 @@ export class WellComponent implements OnInit, OnDestroy {
                   this.gas = this.dataGeneral.kpi[3].last.toFixed(2)
                     ? this.dataGeneral.kpi[3].last.toFixed(2)
                     : 'N/A';
+
+                  this.acagua = this.formatNumberES(Object.values(this.dataGeneral.opt.WATER_VOLUME).reduce((suma:any, a) => suma + a, 0));
+                  this.accrudo = this.formatNumberES(Object.values(this.dataGeneral.opt.OIL_VOLUME).reduce((suma:any, a) => suma + a, 0));
+                  this.acgas = this.formatNumberES(Object.values(this.dataGeneral.opt.GAS_VOLUME).reduce((suma:any, a) => suma + a, 0));
+
                   if (this.dataGeneral.operational) {
                     this.gor =
                       this.dataGeneral.operational.length > 0
@@ -347,4 +355,15 @@ export class WellComponent implements OnInit, OnDestroy {
       this.graficaDosInstance.resize();
     }
   }
+  formatNumberES = (n:any, d=0) => {
+    n=new Intl.NumberFormat("es-ES").format((n).toFixed(d))
+    if (d>0) {
+        // Obtenemos la cantidad de decimales que tiene el numero
+        const decimals=n.indexOf(",")>-1 ? n.length-1-n.indexOf(",") : 0;
+ 
+        // añadimos los ceros necesios al numero
+        n = (decimals==0) ? n+","+"0".repeat(d) : n+"0".repeat(d-decimals);
+    }
+    return n;
+}
 }
