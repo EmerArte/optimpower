@@ -59,10 +59,9 @@ export class TacticalComponent implements OnInit, OnDestroy {
     this.buildGraficaQdpNpdD();
     this.builGraficaNpEur();
     this.consultaBackEnd();
-
+    this.loading.setLoading(true);
     this.tacticalForm.valueChanges.subscribe({
       next: (res: any) => {
-        this.loading.setLoading(true);
         this.tacticalService.getDeclinacion(res.posos.WELL_ID).subscribe({
           next: (tactical: any) => {
             console.log(tactical.slice(-1));
@@ -120,9 +119,11 @@ export class TacticalComponent implements OnInit, OnDestroy {
         });
       },
     });
+   
   }
 
   consultaBackEnd() {
+    this.loading.setLoading(true);
     this.backEndSuscribe = this.operationalService
       .consultaListaDePosos()
       .subscribe({

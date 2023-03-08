@@ -16,7 +16,7 @@
     </div>
     <div class="h-full p-2 col-span-1">
       <app-information-card
-        [valor]="totalWater ? totalWater : 'N/A'"
+        [valor]="water ? water : 'N/A'"
         titulo="Water (BWPD)"
       ></app-information-card>
     </div>
@@ -57,7 +57,7 @@
               'mb-1 text-xs lg:text-sm xl:text-base font-semibold lg:font-extrabold text-[#FFFFFF]'
             "
           >
-            {{ bbls }}
+            {{ totalbbls }}
           </dt>
           <dd class="font-light text-gray-300 text-center">Oil (BO)</dd>
         </div>
@@ -86,7 +86,7 @@
               'mb-1 text-xs lg:text-sm xl:text-base font-semibold lg:font-extrabold text-[#FFFFFF]'
             "
           >
-            {{ mscf }}
+            {{ totalmscf }}
           </dt>
           <dd class="font-light text-gray-300 text-center">Gas (MMSFC)</dd>
         </div>
