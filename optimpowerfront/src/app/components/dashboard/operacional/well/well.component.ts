@@ -74,6 +74,7 @@ export class WellComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.construirGrafica1();
     this.construirGrafica2();
+    this.loadingService.setLoading(true);
     this.subscription = this.wellDataService.getData.subscribe({
       next: (item: any) => {
         if (item != null) {
@@ -90,15 +91,15 @@ export class WellComponent implements OnInit, OnDestroy {
               this.dataForm.fechaInicial,
               this.dataForm.fechaFinal
             );
-            this.loadingService.setLoading(true);
+            
             this.service
               .consultaVolumenOfWellByDate(this.pozoId, this.rangoFechas)
               .subscribe({
                 next: (res: any) => {
                   this.dataGeneral = JSON.parse(res);
                   console.log(this.dataGeneral);
-                  this.frecuency = this.dataGeneral.operational.length > 0
-                    ? this.dataGeneral.operational[0].FREQUENCY
+                  this.frecuency = this.dataGeneral.operational.length
+                    ? this.dataGeneral.operational.FREQUENCY
                     : 'N/A';
                   this.crudo = this.dataGeneral.kpi[0].last.toFixed(2)
                     ? this.dataGeneral.kpi[0].last.toFixed(2)
@@ -214,7 +215,7 @@ export class WellComponent implements OnInit, OnDestroy {
       (this.graficaUno.legend = {
         left: '2%',
         top: '7%',
-        data: ['Gas(MMSFC)', 'OilRate average', 'Water(BWPD)', 'Fluid(BFPD)'],
+        data: ['Gas(MMSFC)', 'OilRate average (BOPD)', 'Water(BWPD)', 'Fluid(BFPD)'],
       }),
       (this.graficaUno.grid = {
         left: '5%',
@@ -250,7 +251,7 @@ export class WellComponent implements OnInit, OnDestroy {
         data: [],
       },
       {
-        name: 'OilRate average',
+        name: 'OilRate average (BOPD)',
         color: '#00fff8',
         type: 'line',
         stack: 'Total',
@@ -308,7 +309,6 @@ export class WellComponent implements OnInit, OnDestroy {
     };
     this.graficaDos.yAxis = {
       type: 'value',
-      boundaryGap: false,
     };
     (this.graficaDos.grid = {
       left: '5%',

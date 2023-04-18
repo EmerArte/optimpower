@@ -129,6 +129,7 @@ export class CampoComponent implements OnInit {
     this.buildLine3Chart();
     this.buildtreemapChart();
     this.buildAceleradorChart();
+    this.loadingService.setLoading(true);
     this.dataForm.getData.subscribe({
       next: (item) => {
         if (item) {
@@ -149,6 +150,7 @@ export class CampoComponent implements OnInit {
                 this.pozosActivoData = JSON.parse(res.status);
                 const total = JSON.parse(res.total);
                 const wellsum = JSON.parse(res.well_sum);
+                
                 Object.values(wellsum.OIL_VOL).forEach((value:any, index:number)=>{
                   if(value!=null){
                     const obj = {
@@ -159,7 +161,6 @@ export class CampoComponent implements OnInit {
                     fSeriesData.push(obj);
                   }
                 })
-                console.log(this.lineChartsData);
                 
                 this.water = this.formatNumberES(Number(Object.values(this.lineChartsData.GAS_RATE).slice(-1).toString()));
                 this.bbls = this.formatNumberES(Number(Object.values(this.lineChartsData.OIL_RATE).slice(-1).toString()));
