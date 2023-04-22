@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TanksService } from './tanks.service';
-import { FormBuilder, Validators } from '@angular/forms';
 import { LoadingService } from 'src/app/services/loading.service';
 import { EChartsOption } from 'echarts';
 import { CoolTheme } from 'src/app/components/custom.theme.echart';
@@ -80,7 +79,9 @@ export class TanquesComponent implements OnInit, OnDestroy {
                 ];
                 this.surficeLast = JSON.parse(res.surface_last);
                 this.surficeSum = JSON.parse(res.surface_sum);
-                this.currentDate = new Date(Number(Object.values(this.surficeLast.YEAR_MONTH_DATE)[0]));
+                console.log(this.surficeLast);
+                
+                this.currentDate = new Date(Number(Object.values(this.surficeLast.YEAR_MONTH_DATE).slice(-1).toString()));
                 
                 Object.values(this.surficeSum.FACILITY_ID).forEach(
                   (val: any, index: any) => {
@@ -209,8 +210,8 @@ export class TanquesComponent implements OnInit, OnDestroy {
                 });
               } else {
                 Util.mensajeDialog(
-                  'DATA ERROR',
-                  'Please select valid date ranges'
+                  'Date range error!',
+                  'Please select other date range'
                 );
               }
             },
@@ -355,8 +356,13 @@ export class TanquesComponent implements OnInit, OnDestroy {
         {
           data: [],
           type: 'bar',
+          stack: 'Total',
           label: {
-            align: 'center',
+            show: true,
+            position: 'inside',
+            formatter: (params:any) => {
+             return Util.formatNumberES(params.value)
+            }
           },
         },
       ],
@@ -367,7 +373,7 @@ export class TanquesComponent implements OnInit, OnDestroy {
     this.pozosChart = {
       title: {
         top: '0%',
-        left: '2%',
+        left: '8%',
         textStyle: {
           overflow: 'breakAll',
           fontSize: 12,
@@ -413,8 +419,10 @@ export class TanquesComponent implements OnInit, OnDestroy {
         {
           data: [],
           type: 'bar',
+          stack: 'Total',
           label: {
-            align: 'center',
+            show: true,
+            position: 'inside'
           },
         },
       ],
@@ -454,5 +462,8 @@ export class TanquesComponent implements OnInit, OnDestroy {
       this.padTo2Digits(date.getMonth() + 1),
       date.getFullYear(),
     ].join('/');
+  }
+  dirToArray(dir:any){
+    return Object.values(dir).slice(-1).toString();
   }
 }
