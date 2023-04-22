@@ -25,10 +25,17 @@ export class TacticalComponent implements OnInit, OnDestroy {
     renderer: 'svg',
   };
 
-  tipo:any;
-  lastDate:any;
-  lastB:any;
-  lastDi:any;
+  graficaQdpNpdDInstance2: any;
+  graficaQdpNpdD2: EChartsOption = {};
+  updateGraficaQdpNpdD2: any;
+  initgraficaQdpNpdD2 = {
+    renderer: 'svg',
+  };
+
+  tipo: any;
+  lastDate: any;
+  lastB: any;
+  lastDi: any;
 
   graficaNpEurDInstance: any;
   graficaNpEur: EChartsOption = {};
@@ -39,7 +46,7 @@ export class TacticalComponent implements OnInit, OnDestroy {
     private operationalService: OperacionalService,
     private form: FormBuilder
   ) {
-    this.tacticalForm = form.group({
+    this.tacticalForm = this.form.group({
       posos: [this.wellList, Validators.required],
       limEco: [null, Validators.required],
     });
@@ -58,60 +65,85 @@ export class TacticalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.buildGraficaQdpNpdD();
     this.builGraficaNpEur();
+    this.buildGraficaQdpNpdD2();
     this.consultaBackEnd();
     this.loading.setLoading(true);
     this.tacticalForm.valueChanges.subscribe({
       next: (res: any) => {
         this.tacticalService.getDeclinacion(res.posos.WELL_ID).subscribe({
-          next: (tactical: any) => {
-            console.log(tactical.slice(-1));
-            this.lastB = tactical.slice(-1)[0].B;
-            this.lastDi = tactical.slice(-1)[0].Di;
-            this.lastDate = (tactical.slice(-1)[0].VOLUME_DATE);
+          next: (declinacion: any) => {
+            const tactical = JSON.parse(declinacion);
+            console.log(tactical);
 
-            const legendToDeclination = [];
-            const fechas = [];
-            const dataSerieCurva1 = [];
-            const dataSerieCurva2 = [];
-            legendToDeclination.push(tactical[0].TYPE);
-            this.tipo = tactical[0].TYPE;
-            legendToDeclination.push(tactical[0].WELL_NAME);
-            for (const data of tactical) {
-              dataSerieCurva2.push(data.QD);
-              dataSerieCurva1.push(data.OIL_VOLUME);
-              fechas.push(data.VOLUME_DATE);
-            }
+            this.lastB = Object.values(tactical.COEF.B).slice(-1)[0];
+            this.lastDi = Object.values(tactical.COEF.DI).slice(-1)[0];
+            this.lastDate = Object.values(tactical.EUR.VOLUME_DATE).slice(
+              -1
+            )[0];
+            const fechas = Object.values(tactical.EUR.VOLUME_DATE);
+            const dataSerieCurva1 = Object.values(tactical.EUR.OIL_VOLUME);
+            const dataSerieCurva2 = Object.values(tactical.EUR.QD);
+            const dataSerieEur = Object.values(tactical.EUR.EUR);
+            this.tipo = Object.values(tactical.COEF.TYPE)[0];
             this.updateGraficaQdpNpdD = {
-              legend: {
-                data: legendToDeclination,
+              legend:{
+                data:['QD','OIL VOLUME']
               },
               title: {
-                text: tactical[0].TYPE + ' Declination',
+                text: Object.values(tactical.COEF.TYPE)[0] + ' Declination',
               },
               xAxis: {
                 data: fechas,
               },
               series: [
                 {
-                  name: legendToDeclination[0],
+                   name: 'QD',
                   data: dataSerieCurva2,
-                  type: 'line',
-                  showSymbol: false,
-                  lineStyle: {
-                    color: '#B600FF',
-                    width: 3,
-                    type: 'dashed',
-                  },
                 },
                 {
-                  name: legendToDeclination[1],
+                   name: 'OIL VOLUME',
                   data: dataSerieCurva1,
-                  type: 'line',
-                  showSymbol: false,
-                  lineStyle: {
-                    color: '#0C00FF',
-                    width: 3,
-                  },
+                },
+              ],
+            };
+            this.updateGraficaQdpNpdD2 = {
+              legend:{
+                data:['QD','OIL VOLUME','EUR']
+              },
+              title: {
+                text: Object.values(tactical.COEF.TYPE)[0] + ' Declination',
+              },
+              xAxis: {
+                data: fechas,
+              },
+              series: [
+                {
+                   name: 'QD',
+                  data: dataSerieCurva2,
+                },
+                {
+                   name: 'OIL VOLUME',
+                  data: dataSerieCurva1,
+                },
+                {
+                  name: 'EUR',
+                  data: dataSerieEur,
+               },
+              ],
+            };
+            this.updateGraficaNpEur = {
+              series: [
+                {
+                  data: [
+                    {
+                      value: Object.values(tactical.COEF.NP).slice(-1)[0],
+                      name: 'Np',
+                    },
+                    {
+                      value: Object.values(tactical.COEF.EUR).slice(-1)[0],
+                      name: 'Eur',
+                    },
+                  ],
                 },
               ],
             };
@@ -119,7 +151,6 @@ export class TacticalComponent implements OnInit, OnDestroy {
         });
       },
     });
-   
   }
 
   consultaBackEnd() {
@@ -149,15 +180,16 @@ export class TacticalComponent implements OnInit, OnDestroy {
       },
       grid: {
         left: '10%',
-        right: '5%',
-        bottom: '5%',
+        right: '10%',
+        bottom: '10%',
         top: '10%',
       },
       xAxis: {
         type: 'category',
+        boundaryGap: false,
+        data: [],
         nameLocation: 'middle',
         name: 'Date',
-        data: [],
       },
       legend: {
         data: [],
@@ -165,10 +197,96 @@ export class TacticalComponent implements OnInit, OnDestroy {
         left: '1%',
       },
       yAxis: {
+        type: 'value',
         name: 'BOPD',
         nameLocation: 'middle',
       },
-      series: [],
+      series: [
+        {
+          type: 'line',
+          stack: 'Total',
+          showSymbol: false,
+          color: '#B600FF',
+          lineStyle: {
+            width: 3,
+            type: 'dashed',
+          },
+        },
+        {
+          type: 'line',
+          stack: 'total',
+          showSymbol: false,
+          color: '#0C00FF',
+          lineStyle: {
+            width: 3,
+          },
+        },
+      ],
+    };
+  }
+  buildGraficaQdpNpdD2() {
+    this.graficaQdpNpdD2 = {
+      title: {
+        text: 'Declination',
+        textStyle: {
+          fontSize: 11
+        }
+      },
+      tooltip: {
+        trigger: 'axis',
+      },
+      grid: {
+        left: '10%',
+        right: '10%',
+        bottom: '10%',
+        top: '10%',
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: [],
+        nameLocation: 'middle',
+        name: 'Date',
+      },
+      legend: {
+        data: [],
+        top: '5%',
+        left: '1%',
+      },
+      yAxis: {
+        type: 'value',
+        name: 'BOPD',
+        nameLocation: 'middle',
+      },
+      series: [
+        {
+          type: 'line',
+          stack: 'Total',
+          showSymbol: false,
+          color: 'orange',
+          lineStyle: {
+            width: 2
+          },
+        },
+        {
+          type: 'line',
+          stack: 'total',
+          showSymbol: false,
+          color: 'blue',
+          lineStyle: {
+            width: 2,
+          },
+        },
+        {
+          type: 'line',
+          stack: 'total',
+          showSymbol: false,
+          color: 'green',
+          lineStyle: {
+            width: 2,
+          },
+        },
+      ],
     };
   }
   builGraficaNpEur() {
@@ -214,19 +332,22 @@ export class TacticalComponent implements OnInit, OnDestroy {
   onGraficaQdpNpdD(e: any) {
     this.graficaQdpNpdDInstance = e;
   }
+  onGraficaQdpNpdD2(e: any) {
+    this.graficaQdpNpdDInstance2 = e;
+  }
   onGraficaNpEur(e: any) {
     this.graficaNpEurDInstance = e;
   }
-    //Utils
-    padTo2Digits(num: number) {
-      return num.toString().padStart(2, '0');
-    }
-  
-    formatDate(date: Date) {
-      return [
-        this.padTo2Digits(date.getDate()),
-        this.padTo2Digits(date.getMonth() + 1),
-        date.getFullYear(),
-      ].join('/');
-    }
+  //Utils
+  padTo2Digits(num: number) {
+    return num.toString().padStart(2, '0');
+  }
+
+  formatDate(date: Date) {
+    return [
+      this.padTo2Digits(date.getDate()),
+      this.padTo2Digits(date.getMonth() + 1),
+      date.getFullYear(),
+    ].join('/');
+  }
 }

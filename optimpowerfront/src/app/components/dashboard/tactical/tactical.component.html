@@ -4,7 +4,7 @@
   <div
     class="col-span-3 grid grid-rows-6 gap-0 h-full place-content-stretch place-items-stretch border-r-2 border-[#36aee4]"
   >
-    <div class="row-span-2 border-b-2 border-[#36aee4]">
+    <div class="row-span-2 border-[#36aee4]">
       <div class="flex flex-col justify-between items-center">
         <span class="p-2 text-white font-bold uppercase">Filters</span>
         <form class="flex flex-col w-full p-2" [formGroup]="tacticalForm">
@@ -16,22 +16,21 @@
               }}</mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-radio-group
-            class="flex flex-row w-full justify-between items-center"
-            formControlName="limEco"
-          >
-            <mat-label class="text-white">Lim. Eco : </mat-label>
-            <mat-radio-button value="20">20</mat-radio-button>
-            <mat-radio-button value="25">25</mat-radio-button>
-            <mat-radio-button value="30">30</mat-radio-button>
-          </mat-radio-group>
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Lim. Eco</mat-label>
+            <mat-select formControlName="limEco">
+              <mat-option *ngFor="let lim of [5,10,15,20,25,30]" [value]="lim">{{
+                lim
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </form>
       </div>
     </div>
     <!-- Hiperbolica -->
     <div class="row-span-2 ">
       <div class="flex flex-col justify-around items-center h-full">
-        <span class=" text-white font-bold uppercase text-center  border-b-2 border-[#36aee4] w-full">{{tipo}}</span>
+        <span class=" text-white font-bold uppercase text-center border-t-2  border-b-2 border-[#36aee4] w-full">{{tipo ? tipo : 'N/A'}}</span>
         <app-information-card
             [valor]="lastDate ? lastDate : 'N/A'"
             titulo="Pre. Date"
@@ -118,9 +117,9 @@
     >
       <div
         echarts
-        (chartInit)="onGraficaQdpNpdD($event)"
-        [options]="graficaQdpNpdD"
-        [merge]="updateGraficaQdpNpdD"
+        (chartInit)="onGraficaQdpNpdD2($event)"
+        [options]="graficaQdpNpdD2"
+        [merge]="updateGraficaQdpNpdD2"
         [loading]="cargando"
         [theme]="coolTheme"
         [autoResize]="true"
