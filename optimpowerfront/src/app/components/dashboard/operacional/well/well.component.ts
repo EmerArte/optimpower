@@ -81,12 +81,15 @@ export class WellComponent implements OnInit, OnDestroy {
         if (item != null) {
           if (item.campos) {
             this.dataForm = item;
+            console.log(this.dataForm);
+            
             this.campoId = this.dataForm?.campos.FIELD_ID;
             this.campo = this.dataForm?.campos.FIELD_NAME;
             this.pozo = this.dataForm?.posos.WELL_NAME;
             this.pozoId = this.dataForm?.posos.WELL_ID;
             this.estadoPozo = this.dataForm?.posos.WELL_STATUS;
             this.levantamiento = this.dataForm?.posos.PRODUCTION_METHOD;
+            
             this.lastDate = this.dataForm.fechaFinal;
             this.rangoFechas = this.parsearFechasParaConsulta(
               this.dataForm.fechaInicial,
@@ -98,10 +101,24 @@ export class WellComponent implements OnInit, OnDestroy {
               .subscribe({
                 next: (res: any) => {
                   this.dataGeneral = JSON.parse(res);
-                  console.log(this.dataGeneral);
-                  this.frecuency = this.dataGeneral.operational.length
-                    ? this.dataGeneral.operational.FREQUENCY
+                  
+                  if(this.levantamiento === "Mecanico"){
+                    this.frecuency = this.dataGeneral.operational.length
+                    ? this.dataGeneral.operational[0].FREQUENCY + ' SPMK'
                     : 'N/A';
+                  }else if(this.levantamiento === "ESP"){
+                    this.frecuency = this.dataGeneral.operational.length
+                    ? this.dataGeneral.operational[0].FREQUENCY + ' Hz'
+                    : 'N/A';
+                  }else if(this.levantamiento === "PCP"){
+                    this.frecuency = this.dataGeneral.operational.length
+                    ? this.dataGeneral.operational[0].FREQUENCY + ' Rpm'
+                    : 'N/A';
+                  }else{
+                    this.frecuency = this.dataGeneral.operational.length
+                    ? this.dataGeneral.operational[0].FREQUENCY
+                    : 'N/A';
+                  }
                   this.crudo = this.dataGeneral.kpi[0].last.toFixed(2)
                     ? this.dataGeneral.kpi[0].last.toFixed(2)
                     : 'N/A';

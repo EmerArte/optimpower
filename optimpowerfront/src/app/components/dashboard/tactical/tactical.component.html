@@ -38,12 +38,12 @@
           ></app-information-card>
         <div class="flex flex-row justify-around items-center w-full border-t-2 border-[#36aee4]">
           <app-information-card
-            [valor]="lastB"
+            [valor]="lastB ? lastB : 'N/A'"
             titulo="B"
             class="w-1/2 border-r-2 border-b-2 border-[#36aee4] "
           ></app-information-card>
           <app-information-card
-            [valor]="lastDi"
+            [valor]="lastDi ? lastDi : 'N/A'"
             titulo="Di"
             class="w-1/2 border-b-2 border-[#36aee4] "
           ></app-information-card>

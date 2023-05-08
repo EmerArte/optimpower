@@ -71,8 +71,13 @@ export class OperacionalComponent implements OnInit{
           this.listaTanques = value;
           if(this.listaTanques){
             if(this.listaTanques.length > 0){
-              this.minDate = new Date(this.listaPosos[0].MIN_DATE);
-              this.maxDate =  new Date(this.listaPosos[0].MAX_DATE)
+              if(this.route.url === "/dashboard/operational/surfice"){
+                this.minDate = new Date(this.listaTanques[0].MIN_DATE);
+                this.maxDate =  new Date(this.listaTanques[0].MAX_DATE)
+              }else{
+                this.minDate = new Date(this.listaPosos[0].MIN_DATE);
+                this.maxDate =  new Date(this.listaPosos[0].MAX_DATE)
+              }
               this.auxDate = new Date(this.maxDate);
               this.wellForm.patchValue({
                 fechaInicial: new Date(this.auxDate.setDate(this.auxDate.getDate()-(this.auxDate.getDate() -1))),

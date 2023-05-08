@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CoolTheme } from '../../custom.theme.echart';
 import { EChartsOption } from 'echarts';
 import { TacticalService } from './tactical.service';

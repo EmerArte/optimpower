@@ -46,7 +46,7 @@ export class TanquesComponent implements OnInit, OnDestroy {
     public loadingService: LoadingService,
     private dataForm: DataWellService
   ) {
-    //this.resizeChart();
+    this.resizeChart();
   }
 
   ngOnInit(): void {
@@ -66,6 +66,8 @@ export class TanquesComponent implements OnInit, OnDestroy {
             value.fechaFinal
           );
           this.loadingService.setLoading(true);
+          console.log(value);
+          
           this.tankservice.tankInfoBySurface(rangoFechas).subscribe({
             next: (res: any) => {
               if (res != null && !(res == 1) && res != undefined) {
@@ -79,8 +81,6 @@ export class TanquesComponent implements OnInit, OnDestroy {
                 ];
                 this.surficeLast = JSON.parse(res.surface_last);
                 this.surficeSum = JSON.parse(res.surface_sum);
-                console.log(this.surficeLast);
-                
                 this.currentDate = new Date(Number(Object.values(this.surficeLast.YEAR_MONTH_DATE).slice(-1).toString()));
                 
                 Object.values(this.surficeSum.FACILITY_ID).forEach(
@@ -434,10 +434,21 @@ export class TanquesComponent implements OnInit, OnDestroy {
     this.pozosChartInstance = e;
   }
   onTransRecivoEntregaInit(e: any) {
-    this.pozosChartInstance = e;
+    this.transRecivoEntregaInstance = e;
   }
   onProduccionTanksInit(e: any) {
-    this.pozosChartInstance = e;
+    this.produccionTanksInstance = e;
+  }
+  resizeChart() {
+    if (this.pozosChartInstance) {
+      this.pozosChartInstance.resize();
+    }
+    if (this.transRecivoEntregaInstance) {
+      this.transRecivoEntregaInstance.resize();
+    }
+    if (this.produccionTanksInstance) {
+      this.produccionTanksInstance.resize();
+    }
   }
   parsearFechasParaConsulta(fechaInicial: Date, fechaFinal: Date) {
     const dateOne = [
