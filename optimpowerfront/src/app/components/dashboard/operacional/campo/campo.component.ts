@@ -36,7 +36,8 @@ export class CampoComponent implements OnInit {
   // day consume
   bbls: any;
   water: any;
-  mscf: any;
+  gasCons: any;
+  gas: any;
   // Information cards
   totalbbls: any = '';
   totalWater: any = '';
@@ -162,15 +163,17 @@ export class CampoComponent implements OnInit {
                   }
                 })
                 
-                this.water = this.formatNumberES(Number(Object.values(this.lineChartsData.GAS_RATE).slice(-1).toString()));
+                this.water = this.formatNumberES(Number(Object.values(this.lineChartsData.WATER_RATE).slice(-1).toString()));
                 this.bbls = this.formatNumberES(Number(Object.values(this.lineChartsData.OIL_RATE).slice(-1).toString()));
-                this.mscf = this.formatNumberES(Number(Object.values(this.lineChartsData.WATER_RATE).slice(-1).toString()));
+                this.gas = this.formatNumberES(Number(Object.values(this.lineChartsData.GAS_RATE).slice(-1).toString()));
+                this.gasCons = this.formatNumberES(Number(Object.values(this.lineChartsData.GAS_TOTAL_CONSUMPTION).slice(-1).toString()));
+                this.liquid =  this.formatNumberES(Number(Object.values(this.lineChartsData.LIQUID_RATE).slice(-1).toString()));
+                this.waterInyection =  this.formatNumberES(Number(Object.values(this.lineChartsData.INJ_WATER_VOLUME).slice(-1).toString()));
+
                 
                 this.totalWater = this.formatNumberES(Object.values(total.WATER_RATE)[0]);
                 this.totalmscf =   this.formatNumberES(Object.values(total.GAS_TOTAL_CONSUMPTION)[0]);
                 this.totalbbls =   this.formatNumberES(Object.values(total.OIL_RATE)[0]);
-                this.liquid =  this.formatNumberES(Object.values(total.LIQUID_RATE)[0]);
-                this.waterInyection =  this.formatNumberES(Object.values(total.INJ_WATER_VOLUME)[0]);
 
                 const pozosStatus: any = [];
                 const mix: any = [];

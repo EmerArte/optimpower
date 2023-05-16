@@ -5,6 +5,7 @@ import { TacticalService } from './tactical.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { OperacionalService } from '../operacional/operacional.service';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Util } from 'src/utils/util';
 
 @Component({
   selector: 'app-tactical',
@@ -76,16 +77,12 @@ export class TacticalComponent implements OnInit, OnDestroy {
         this.tacticalService.getDeclinacion(res.posos.WELL_ID).subscribe({
           next: (declinacion: any) => {
             const tactical = JSON.parse(declinacion);
-            console.log(tactical);
-
-            this.lastB = Object.values(tactical.COEF.B).slice(-1)[0];
-            this.lastDi = Object.values(tactical.COEF.DI).slice(-1)[0];
-            this.lastDate = Object.values(tactical.EUR.VOLUME_DATE).slice(
-              -1
-            )[0];
-            this.EUR = Object.values(tactical.COEF.EUR).slice(-1)[0];
-            this.Tesp = Object.values(tactical.COEF.T_ESP).slice(-1)[0];
-            this.NP = Object.values(tactical.COEF.NP).slice(-1)[0];
+            this.lastB = Util.formatNumberES(Number(Object.values(tactical.COEF.B).slice(-1).toString()),2);
+            this.lastDi = Util.formatNumberES(Number(Object.values(tactical.COEF.DI).slice(-1).toString()),2);
+            this.lastDate = Util.formatNumberES(Number(Object.values(tactical.EUR.VOLUME_DATE).slice(-1).toString()),2);
+            this.EUR = Util.formatNumberES(Number(Object.values(tactical.COEF.EUR).slice(-1).toString()),2);
+            this.Tesp = Util.formatNumberES(Number(Object.values(tactical.COEF.T_EST).slice(-1).toString()),2);
+            this.NP = Util.formatNumberES(Number(Object.values(tactical.COEF.NP).slice(-1).toString()),2);
             const fechas = Object.values(tactical.EUR.VOLUME_DATE);
             const dataSerieCurva1 = Object.values(tactical.EUR.OIL_VOLUME);
             const dataSerieCurva2 = Object.values(tactical.EUR.QD);
