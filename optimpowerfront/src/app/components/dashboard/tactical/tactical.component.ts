@@ -36,6 +36,9 @@ export class TacticalComponent implements OnInit, OnDestroy {
   lastDate: any;
   lastB: any;
   lastDi: any;
+  EUR: any;
+  NP:any;
+  Tesp: any;
 
   graficaNpEurDInstance: any;
   graficaNpEur: EChartsOption = {};
@@ -80,6 +83,9 @@ export class TacticalComponent implements OnInit, OnDestroy {
             this.lastDate = Object.values(tactical.EUR.VOLUME_DATE).slice(
               -1
             )[0];
+            this.EUR = Object.values(tactical.COEF.EUR).slice(-1)[0];
+            this.Tesp = Object.values(tactical.COEF.T_ESP).slice(-1)[0];
+            this.NP = Object.values(tactical.COEF.NP).slice(-1)[0];
             const fechas = Object.values(tactical.EUR.VOLUME_DATE);
             const dataSerieCurva1 = Object.values(tactical.EUR.OIL_VOLUME);
             const dataSerieCurva2 = Object.values(tactical.EUR.QD);

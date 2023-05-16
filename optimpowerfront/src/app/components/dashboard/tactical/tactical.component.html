@@ -53,13 +53,13 @@
     <div class="row-span-1 border-b-2 border-[#36aee4]">
       <div class="flex flex-row w-full">
         <app-information-card
-          valor="0,99157"
-          titulo="Q Match Point"
+          [valor]="EUR ? EUR : 'N/A'"
+          titulo="EUR (BBL)"
           class="w-full"
         ></app-information-card>
         <app-information-card
-          valor="0,99577"
-          titulo="T Match Point"
+          [valor]="Tesp ? Tesp : 'N/A'"
+          titulo="T est (Months)"
           class="w-full"
         ></app-information-card>
       </div>
@@ -67,13 +67,8 @@
     <div class="row-span-1">
       <div class="flex flex-row w-full">
         <app-information-card
-          valor="1.076"
-          titulo="K"
-          class="w-full"
-        ></app-information-card>
-        <app-information-card
-          valor="1.076"
-          titulo="S"
+          [valor]="NP ? NP : 'N/A'"
+          titulo="NP [BBL]"
           class="w-full"
         ></app-information-card>
       </div>
