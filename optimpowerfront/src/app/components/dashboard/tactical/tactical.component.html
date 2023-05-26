@@ -1,5 +1,5 @@
 <div
-  class="grid grid-cols-12 grid-flow-row gap-0 w-full h-full place-content-stretch place-items-stretch bg-[#393E46] box-border border-2 border-[#36aee4] "
+  class="grid grid-cols-12 grid-flow-row gap-0 w-full min-h-full lg:max-h-full place-content-stretch place-items-stretch bg-[#393E46] box-border border-2 border-[#36aee4]"
 >
   <div
     class="col-span-3 grid grid-rows-6 gap-0 h-full place-content-stretch place-items-stretch border-r-2 border-[#36aee4]"
@@ -19,33 +19,40 @@
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>Lim. Eco</mat-label>
             <mat-select formControlName="limEco">
-              <mat-option *ngFor="let lim of [5,10,15,20,25,30]" [value]="lim">{{
-                lim
-              }}</mat-option>
+              <mat-option
+                *ngFor="let lim of [5, 10, 15, 20, 25, 30]"
+                [value]="lim"
+                >{{ lim }}</mat-option
+              >
             </mat-select>
           </mat-form-field>
         </form>
       </div>
     </div>
     <!-- Hiperbolica -->
-    <div class="row-span-2 ">
+    <div class="row-span-2">
       <div class="flex flex-col justify-around items-center h-full">
-        <span class=" text-white font-bold uppercase text-center border-t-2  border-b-2 border-[#36aee4] w-full">{{tipo ? tipo : 'N/A'}}</span>
+        <span
+          class="text-white font-bold uppercase text-center border-t-2 border-b-2 border-[#36aee4] w-full"
+          >{{ tipo ? tipo : "N/A" }}</span
+        >
         <app-information-card
-            [valor]="lastDate ? lastDate : 'N/A'"
-            titulo="Pre. Date"
-            orientacion="hor"
-          ></app-information-card>
-        <div class="flex flex-row justify-around items-center w-full border-t-2 border-[#36aee4]">
+          [valor]="lastDate ? lastDate : 'N/A'"
+          titulo="Pre. Date"
+          orientacion="hor"
+        ></app-information-card>
+        <div
+          class="flex flex-row justify-around items-center w-full border-t-2 border-[#36aee4]"
+        >
           <app-information-card
             [valor]="lastB ? lastB : 'N/A'"
             titulo="B"
-            class="w-1/2 border-r-2 border-b-2 border-[#36aee4] "
+            class="w-1/2 border-r-2 border-b-2 border-[#36aee4]"
           ></app-information-card>
           <app-information-card
             [valor]="lastDi ? lastDi : 'N/A'"
             titulo="Di"
-            class="w-1/2 border-b-2 border-[#36aee4] "
+            class="w-1/2 border-b-2 border-[#36aee4]"
           ></app-information-card>
         </div>
       </div>
@@ -75,7 +82,7 @@
     </div>
   </div>
   <div
-    class="lg:col-span-6 col-span-9 grid grid-rows-1 gap-0 h-full place-content-stretch place-items-stretch border-r-2 border-[#36aee4]"
+    class="lg:col-span-6 col-span-9 grid grid-rows-1 gap-0 lg:h-full h-screen place-content-stretch place-items-stretch border-r-2 border-[#36aee4]"
   >
     <div
       echarts
@@ -89,38 +96,40 @@
       style="max-width: 99%"
     ></div>
   </div>
-  <div
-    class="grid lg:col-span-3 col-span-12 lg:grid-rows-2 grid-col-2 gap-0 h-full place-content-stretch place-items-stretch"
-  >
+  <div class="lg:col-span-3 col-span-12 w-full h-full border-t-2 border-[#36aee4] lg:border-none">
     <div
-      class="lg:row-span-1 col-span-1 grid grid-cols-1 h-full place-content-stretch place-items-stretch w-full"
+      class="grid grid-cols-2 lg:grid-cols-none lg:grid-rows-2 gap-0 place-content-stretch place-items-stretch w-full h-full"
     >
       <div
-        echarts
-        (chartInit)="onGraficaNpEur($event)"
-        [options]="graficaNpEur"
-        [merge]="updateGraficaNpEur"
-        [loading]="cargando"
-        [theme]="coolTheme"
-        [autoResize]="true"
-        class="demo-chart col-span-1"
-        style="max-width: 99%"
-      ></div>
-    </div>
-    <div
-      class="lg:row-span-1 col-span-1 grid grid-cols-1 h-full place-content-stretch place-items-stretch w-full"
-    >
+        class="col-span-1 lg:row-span-1 grid grid-cols-1 place-content-stretch place-items-stretch w-full border-r-2 border-b-0 border-[#36aee4] lg:border-r-0 lg:border-b-2"
+      >
+        <div
+          echarts
+          (chartInit)="onGraficaNpEur($event)"
+          [options]="graficaNpEur"
+          [merge]="updateGraficaNpEur"
+          [loading]="cargando"
+          [theme]="coolTheme"
+          [autoResize]="true"
+          class="demo-chart"
+          style="max-height: 99%"
+        ></div>
+      </div>
       <div
-        echarts
-        (chartInit)="onGraficaQdpNpdD2($event)"
-        [options]="graficaQdpNpdD2"
-        [merge]="updateGraficaQdpNpdD2"
-        [loading]="cargando"
-        [theme]="coolTheme"
-        [autoResize]="true"
-        class="demo-chart col-span-1"
-        style="max-width: 99%"
-      ></div>
+        class="col-span-1 lg:row-span-1 grid grid-cols-1 place-content-stretch place-items-stretch w-full"
+      >
+        <div
+          echarts
+          (chartInit)="onGraficaQdpNpdD2($event)"
+          [options]="graficaQdpNpdD2"
+          [merge]="updateGraficaQdpNpdD2"
+          [loading]="cargando"
+          [theme]="coolTheme"
+          [autoResize]="true"
+          class="demo-chart col-span-1"
+          style="max-height: 99%"
+        ></div>
+      </div>
     </div>
   </div>
   <div class="absolute top-0 left-0 w-full" *ngIf="loading.getLoading()">

@@ -74,26 +74,25 @@ export class TacticalComponent implements OnInit, OnDestroy {
     this.loading.setLoading(true);
     this.tacticalForm.valueChanges.subscribe({
       next: (res: any) => {
-        this.tacticalService.getDeclinacion(res.posos.WELL_ID).subscribe({
-          next: (declinacion: any) => {
-            const tactical = JSON.parse(declinacion);
-            this.lastB = Util.formatNumberES(Number(Object.values(tactical.COEF.B).slice(-1).toString()),2);
-            this.lastDi = Util.formatNumberES(Number(Object.values(tactical.COEF.DI).slice(-1).toString()),2);
-            this.lastDate = Util.formatNumberES(Number(Object.values(tactical.EUR.VOLUME_DATE).slice(-1).toString()),2);
-            this.EUR = Util.formatNumberES(Number(Object.values(tactical.COEF.EUR).slice(-1).toString()),2);
-            this.Tesp = Util.formatNumberES(Number(Object.values(tactical.COEF.T_EST).slice(-1).toString()),2);
-            this.NP = Util.formatNumberES(Number(Object.values(tactical.COEF.NP).slice(-1).toString()),2);
-            const fechas = Object.values(tactical.EUR.VOLUME_DATE);
-            const dataSerieCurva1 = Object.values(tactical.EUR.OIL_VOLUME);
-            const dataSerieCurva2 = Object.values(tactical.EUR.QD);
-            const dataSerieEur = Object.values(tactical.EUR.EUR);
-            this.tipo = Object.values(tactical.COEF.TYPE)[0];
+        this.tacticalService.getDeclinacion(res.posos.WELL_ID, res.limEco).subscribe({
+          next: (tactical: any) => {
+            this.lastB = Util.formatNumberES(Number(tactical.COEF[0].B),2);
+            this.lastDi = Util.formatNumberES(Number(tactical.COEF[0].DI),2);
+            this.lastDate = tactical.EUR.slice(-1)[0].VOLUME_DATE;
+            this.EUR = Util.formatNumberES(Number(tactical.COEF[0].EUR),2);
+            this.Tesp = Util.formatNumberES(Number(tactical.COEF[0].T_EST),2);
+            this.NP = Util.formatNumberES(Number(tactical.COEF[0].NP),2);
+            const fechas = tactical.EUR.map((a:any) => a.VOLUME_DATE);
+            const dataSerieCurva1 = tactical.EUR.map((a:any) => a.OIL_VOLUME);
+            const dataSerieCurva2 = tactical.EUR.map((a:any) => a.QD);
+            const dataSerieEur = tactical.EUR.map((a:any) => a.EUR);
+            this.tipo = tactical.COEF[0].TYPE;
             this.updateGraficaQdpNpdD = {
               legend:{
                 data:['QD','OIL VOLUME']
               },
               title: {
-                text: Object.values(tactical.COEF.TYPE)[0] + ' Declination',
+                text: this.tipo + ' Declination',
               },
               xAxis: {
                 data: fechas,
@@ -114,7 +113,7 @@ export class TacticalComponent implements OnInit, OnDestroy {
                 data:['QD','OIL VOLUME','EUR']
               },
               title: {
-                text: Object.values(tactical.COEF.TYPE)[0] + ' Declination',
+                text: this.tipo + ' Declination',
               },
               xAxis: {
                 data: fechas,
@@ -139,11 +138,11 @@ export class TacticalComponent implements OnInit, OnDestroy {
                 {
                   data: [
                     {
-                      value: Object.values(tactical.COEF.NP).slice(-1)[0],
+                      value: tactical.COEF[0].NP,
                       name: 'Np',
                     },
                     {
-                      value: Object.values(tactical.COEF.EUR).slice(-1)[0],
+                      value: tactical.COEF[0].EUR,
                       name: 'Eur',
                     },
                   ],

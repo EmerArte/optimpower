@@ -8,7 +8,7 @@ export class TacticalService {
   URL = exposedApi.API + "/api/"
   constructor(private http: HttpClient) {}
 
-  getDeclinacion(well:number){
-    return this.http.get(`${this.URL}getdeclination/${well}`);
+  getDeclinacion(well:number, limEco:number){
+    return this.http.get(`${this.URL}getdeclination/${well}/${limEco}`);
   }
 }
