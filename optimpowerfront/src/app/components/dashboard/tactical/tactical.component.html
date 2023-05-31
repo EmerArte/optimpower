@@ -1,10 +1,12 @@
 <div
   class="grid grid-cols-12 grid-flow-row gap-0 w-full min-h-full lg:max-h-full place-content-stretch place-items-stretch bg-[#393E46] box-border border-2 border-[#36aee4]"
-  >
+>
   <div
     class="col-span-12 lg:col-span-3 grid grid-cols-12 grid-rows-none lg:grid-rows-6 lg:grid-cols-none gap-0 h-full place-content-stretch place-items-stretch border-b-2 lg:border-r-2 lg:border-b-0 border-[#36aee4]"
   >
-    <div class="col-span-4 lg:col-auto lg:row-span-2 border-[#36aee4] border-r-2  lg:border-none">
+    <div
+      class="col-span-4 lg:col-auto lg:row-span-2 border-[#36aee4] border-r-2 lg:border-none"
+    >
       <div class="flex flex-col justify-between items-center">
         <span class="p-2 text-white font-bold uppercase">Filters</span>
         <form class="flex flex-col w-full p-2" [formGroup]="tacticalForm">
@@ -30,7 +32,9 @@
       </div>
     </div>
     <!-- Hiperbolica -->
-    <div class="col-span-5 lg:col-auto lg:row-span-2  border-[#36aee4] border-r-2  lg:border-none">
+    <div
+      class="col-span-5 lg:col-auto lg:row-span-2 border-[#36aee4] border-r-2 lg:border-none"
+    >
       <div class="flex flex-col justify-between items-center h-full">
         <span
           class="text-white font-bold uppercase text-center lg:border-t-2 border-b-2 border-[#36aee4] w-full"
@@ -47,58 +51,66 @@
           <app-information-card
             [valor]="lastB ? lastB : 'N/A'"
             titulo="B"
-            class="w-1/2 border-none lg:border-b-2  my-2 border-[#36aee4]"
+            class="w-1/2 border-none lg:border-b-2 my-2 border-[#36aee4]"
           ></app-information-card>
           <app-information-card
             [valor]="lastDi ? lastDi : 'N/A'"
             titulo="Di"
-            class="w-1/2 border-none lg:border-b-2  my-2 border-[#36aee4]"
+            class="w-1/2 border-none lg:border-b-2 my-2 border-[#36aee4]"
           ></app-information-card>
         </div>
       </div>
     </div>
-    <div class="col-span-3 lg:col-auto lg:row-span-2 border-none border-[#36aee4]">
-      <div class="flex flex-col justify-between lg:justify-around items-center h-full">
-        <app-information-card
-          [valor]="EUR ? EUR : 'N/A'"
-          titulo="EUR (BBL)"
-          class="w-full"
-        ></app-information-card>
-        <app-information-card
-          [valor]="Tesp ? Tesp : 'N/A'"
-          titulo="T est (Months)"
-          class="w-full"
-        ></app-information-card>
-        <app-information-card
-          [valor]="NP ? NP : 'N/A'"
-          titulo="NP [BBL]"
-          class="w-full"
-        ></app-information-card>
+    <div
+      class="col-span-3 lg:col-auto lg:row-span-2 border-none border-[#36aee4]"
+    >
+      <div
+        class="flex flex-col justify-between lg:justify-around items-center h-full"
+      >
+        <div class="w-full h-full flex items-center">
+          <app-information-card
+            [valor]="EUR ? EUR : 'N/A'"
+            titulo="EUR (BBL)"
+            class="w-full"
+          ></app-information-card>
+        </div>
+        <div
+          class="w-full h-full flex items-center lg:border-b-2 lg:border-t-2 border-[#36aee4]"
+        >
+          <app-information-card
+            [valor]="Tesp ? Tesp : 'N/A'"
+            titulo="T est (Months)"
+            class="w-full"
+          ></app-information-card>
+        </div>
+        <div class="w-full h-full flex items-center">
+          <app-information-card
+            [valor]="NP ? NP : 'N/A'"
+            titulo="NP [BBL]"
+            class="w-full"
+          ></app-information-card>
+        </div>
       </div>
     </div>
   </div>
   <div
-    class="lg:col-span-6 md:col-span-3 col-span-12 grid grid-rows-1 gap-0 lg:h-full h-screen place-content-stretch place-items-stretch border-r-2 border-[#36aee4]"
+    class="col-span-12 lg:col-span-9 grid grid-rows-4 gap-0 lg:h-full h-screen place-content-stretch place-items-stretch"
   >
     <div
-      echarts
-      (chartInit)="onGraficaQdpNpdD($event)"
-      [options]="graficaQdpNpdD"
-      [merge]="updateGraficaQdpNpdD"
-      [loading]="cargando"
-      [theme]="coolTheme"
-      [autoResize]="true"
-      class="demo-chart row-span-1"
-      style="max-width: 99%"
-    ></div>
-  </div>
-  <div class="lg:col-span-3 col-span-12 w-full h-full border-t-2 border-[#36aee4] lg:border-none">
-    <div
-      class="grid grid-cols-2 lg:grid-cols-none lg:grid-rows-2 gap-0 place-content-stretch place-items-stretch w-full h-full"
+      class="row-span-2 grid grid-cols-12 gap-0 place-content-stretch place-items-stretch w-full h-full"
     >
       <div
-        class="col-span-1 lg:row-span-1 grid grid-cols-1 place-content-stretch place-items-stretch w-full border-r-2 border-b-0 border-[#36aee4] lg:border-r-0 lg:border-b-2"
-      >
+        echarts
+        (chartInit)="onGraficaQdpNpdD($event)"
+        [options]="graficaQdpNpdD"
+        [merge]="updateGraficaQdpNpdD"
+        [loading]="cargando"
+        [theme]="coolTheme"
+        [autoResize]="true"
+        class="demo-chart col-span-10"
+        style="max-width: 99%"
+      ></div>
+      <div class="col-span-2 grid grid-rows-2">
         <div
           echarts
           (chartInit)="onGraficaNpEur($event)"
@@ -107,28 +119,27 @@
           [loading]="cargando"
           [theme]="coolTheme"
           [autoResize]="true"
-          class="demo-chart"
-          style="max-height: 99%"
-        ></div>
-      </div>
-      <div
-        class="col-span-1 lg:row-span-1 grid grid-cols-1 place-content-stretch place-items-stretch w-full"
-      >
-        <div
-          echarts
-          (chartInit)="onGraficaQdpNpdD2($event)"
-          [options]="graficaQdpNpdD2"
-          [merge]="updateGraficaQdpNpdD2"
-          [loading]="cargando"
-          [theme]="coolTheme"
-          [autoResize]="true"
-          class="demo-chart col-span-1"
-          style="max-height: 99%"
+          class="demo-chart row-span-1"
+          style="max-width: 99%"
         ></div>
       </div>
     </div>
+    <div
+      echarts
+      (chartInit)="onGraficaQdpNpdD2($event)"
+      [options]="graficaQdpNpdD2"
+      [merge]="updateGraficaQdpNpdD2"
+      [loading]="cargando"
+      [theme]="coolTheme"
+      [autoResize]="true"
+      class="demo-chart lg:border-t-2 border-[#36aee4] row-span-2"
+      style="max-width: 99%"
+    ></div>
   </div>
-  <div class="absolute top-0 left-0 h-screen w-full" *ngIf="loading.getLoading()">
+  <div
+    class="absolute top-0 left-0 h-screen w-full"
+    *ngIf="loading.getLoading()"
+  >
     <div
       role="status"
       class="backdrop-blur-sm bg-white/30 h-screen flex flex-col justify-center items-center w-full"

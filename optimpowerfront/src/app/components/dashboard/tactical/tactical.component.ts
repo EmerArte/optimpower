@@ -71,7 +71,6 @@ export class TacticalComponent implements OnInit, OnDestroy {
     this.builGraficaNpEur();
     this.buildGraficaQdpNpdD2();
     this.consultaBackEnd();
-    this.loading.setLoading(true);
     this.tacticalForm.valueChanges.subscribe({
       next: (res: any) => {
         this.tacticalService.getDeclinacion(res.posos.WELL_ID, res.limEco).subscribe({
@@ -82,6 +81,12 @@ export class TacticalComponent implements OnInit, OnDestroy {
             this.EUR = Util.formatNumberES(Number(tactical.COEF[0].EUR),2);
             this.Tesp = Util.formatNumberES(Number(tactical.COEF[0].T_EST),2);
             this.NP = Util.formatNumberES(Number(tactical.COEF[0].NP),2);
+            let fechasQdvsNp = tactical.EUR.filter((a:any) => {
+              if(a.OIL_VOLUME){
+                return a.VOLUME_DATE
+              }
+            });
+            fechasQdvsNp = fechasQdvsNp.map((a:any) => a.VOLUME_DATE);
             const fechas = tactical.EUR.map((a:any) => a.VOLUME_DATE);
             const dataSerieCurva1 = tactical.EUR.map((a:any) => a.OIL_VOLUME);
             const dataSerieCurva2 = tactical.EUR.map((a:any) => a.QD);
@@ -95,7 +100,7 @@ export class TacticalComponent implements OnInit, OnDestroy {
                 text: this.tipo + ' Declination',
               },
               xAxis: {
-                data: fechas,
+                data: fechasQdvsNp,
               },
               series: [
                 {
@@ -113,7 +118,7 @@ export class TacticalComponent implements OnInit, OnDestroy {
                 data:['QD','OIL VOLUME','EUR']
               },
               title: {
-                text: this.tipo + ' Declination',
+                text: 'Forcasting ' + this.tipo + ' Declination',
               },
               xAxis: {
                 data: fechas,
@@ -156,7 +161,6 @@ export class TacticalComponent implements OnInit, OnDestroy {
   }
 
   consultaBackEnd() {
-    this.loading.setLoading(true);
     this.backEndSuscribe = this.operationalService
       .consultaListaDePosos()
       .subscribe({
@@ -176,13 +180,14 @@ export class TacticalComponent implements OnInit, OnDestroy {
     this.graficaQdpNpdD = {
       title: {
         text: 'Declination',
+        left: '50%'
       },
       tooltip: {
         trigger: 'axis',
       },
       grid: {
-        left: '10%',
-        right: '10%',
+        left: '8%',
+        right: '1%',
         bottom: '10%',
         top: '10%',
       },
@@ -196,7 +201,7 @@ export class TacticalComponent implements OnInit, OnDestroy {
       legend: {
         data: [],
         top: '5%',
-        left: '1%',
+        left: '8%',
       },
       yAxis: {
         type: 'value',
@@ -229,17 +234,15 @@ export class TacticalComponent implements OnInit, OnDestroy {
   buildGraficaQdpNpdD2() {
     this.graficaQdpNpdD2 = {
       title: {
-        text: 'Declination',
-        textStyle: {
-          fontSize: 11
-        }
+        text: 'Forcasting Declination',
+        left: '50%'
       },
       tooltip: {
         trigger: 'axis',
       },
       grid: {
-        left: '10%',
-        right: '10%',
+        left: '8%',
+        right: '1%',
         bottom: '10%',
         top: '10%',
       },
@@ -253,7 +256,7 @@ export class TacticalComponent implements OnInit, OnDestroy {
       legend: {
         data: [],
         top: '5%',
-        left: '1%',
+        left: '8%',
       },
       yAxis: {
         type: 'value',
