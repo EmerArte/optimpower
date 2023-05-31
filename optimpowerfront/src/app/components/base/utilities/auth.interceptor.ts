@@ -9,10 +9,11 @@ export class ErrorInterceptor implements HttpInterceptor {
 constructor(private loadingService : LoadingService) {}
 
 intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.loadingService.setLoading(true);
     return next.handle(req)
         .pipe(catchError((err: HttpErrorResponse)=>{
             this.loadingService.setLoading(false);
-        return throwError(err.error.message)
+        return throwError(() => err);
         }),
         map((res: any) => {
             if(res?.body){

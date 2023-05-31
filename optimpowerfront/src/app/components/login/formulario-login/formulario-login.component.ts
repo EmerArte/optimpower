@@ -28,7 +28,6 @@ export class FormularioLoginComponent {
   }
 
   openDashboard(pageName: string) {
-    this.loadingService.setLoading(true);
     this.loginService.authenticate(this.formLogin.controls.username.value, this.formLogin.controls.password.value).subscribe({
       next: (data: any) => {
         if (data.token) {
