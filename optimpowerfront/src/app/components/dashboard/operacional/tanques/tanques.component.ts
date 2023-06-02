@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TanksService } from './tanks.service';
-import { LoadingService } from 'src/app/services/loading.service';
 import { EChartsOption } from 'echarts';
 import { CoolTheme } from 'src/app/components/custom.theme.echart';
 import { DataWellService } from '../data/shared.data.service';
 import { Subscription } from 'rxjs';
 import { Util } from 'src/utils/util';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-tanques',
@@ -43,8 +43,8 @@ export class TanquesComponent implements OnInit, OnDestroy {
 
   constructor(
     private tankservice: TanksService,
-    public loadingService: LoadingService,
-    private dataForm: DataWellService
+    private dataForm: DataWellService,
+    public loadingService: LoadingService
   ) {
     this.resizeChart();
   }
@@ -65,9 +65,6 @@ export class TanquesComponent implements OnInit, OnDestroy {
             value.fechaInicial,
             value.fechaFinal
           );
-          this.loadingService.setLoading(true);
-          console.log(value);
-          
           this.tankservice.tankInfoBySurface(rangoFechas).subscribe({
             next: (res: any) => {
               if (res != null && !(res == 1) && res != undefined) {
@@ -428,6 +425,7 @@ export class TanquesComponent implements OnInit, OnDestroy {
       ],
     };
   }
+
 
   //INIT
   onPozosGraficaInit(e: any) {

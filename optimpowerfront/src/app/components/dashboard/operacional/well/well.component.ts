@@ -11,6 +11,7 @@ import { DataWellService } from '../data/shared.data.service';
 import { Subscription } from 'rxjs';
 import { LoadingService } from 'src/app/services/loading.service';
 import { Util } from 'src/utils/util';
+import { TacticalService } from '../../tactical/tactical.service';
 @Component({
   selector: 'app-well',
   templateUrl: './well.component.html',
@@ -28,6 +29,27 @@ export class WellComponent implements OnInit, OnDestroy {
   initOptionGraficaUno = {
     renderer: 'svg',
   };
+
+  //Acelerador
+  aceleradorChartInstance: any;
+  aceleradorChart: EChartsOption = {};
+  updateAceleradorChart: any;
+  initAceleradorChart = {
+    renderer: 'svg',
+  };
+  gaugeData = [
+    {
+      value: 0,
+      name: 'Current',
+      title: {
+        offsetCenter: ['0%', '75%'],
+      },
+      detail: {
+        offsetCenter: ['0%', '100%'],
+      },
+    },
+  ];
+
   graficaDos: EChartsOption = {};
   updateOptionsGraficaDos: any;
   initOptionGraficaDos = {
@@ -61,28 +83,29 @@ export class WellComponent implements OnInit, OnDestroy {
   dataForm: any;
 
   subscription!: Subscription;
+  tacticalSub!: Subscription;
   constructor(
     private service: OperacionalService,
     private wellDataService: DataWellService,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private tacticalService: TacticalService
   ) {
     this.resizeChart();
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.tacticalSub.unsubscribe();
   }
   ngOnInit(): void {
     this.construirGrafica1();
     this.construirGrafica2();
-    this.loadingService.setLoading(true);
+    this.buildAceleradorChart();
     this.subscription = this.wellDataService.getData.subscribe({
       next: (item: any) => {
         if (item != null) {
           if (item.campos) {
             this.dataForm = item;
-            console.log(this.dataForm);
-            
             this.campoId = this.dataForm?.campos.FIELD_ID;
             this.campo = this.dataForm?.campos.FIELD_NAME;
             this.pozo = this.dataForm?.posos.WELL_NAME;
@@ -193,12 +216,40 @@ export class WellComponent implements OnInit, OnDestroy {
                       },
                     ],
                   };
+                  this.tacticalSub = this.tacticalService.getDeclinacion(this.pozoId, 5).subscribe({
+                    next:(val:any)=>{
+                      let EUR_EXPECTED;
+                      val.EUR.filter((a:any) => {
+                        const fechas = new Date(a.VOLUME_DATE);
+                        if((fechas.getFullYear() === this.fechaAcual.getFullYear()) &&  (fechas.getMonth() === this.fechaAcual.getMonth())){
+                          EUR_EXPECTED =  a.EUR;
+                        }
+                      });
+                      const gaugeExpected = EUR_EXPECTED ? Number(EUR_EXPECTED) : 0;
+                      this.gaugeData[0].value = Number((Number(this.crudo) * 100 / gaugeExpected).toFixed(2));
+                      this.updateAceleradorChart = {
+                        title: {
+                          subtext: "Expected: "+ Util.formatNumberES(gaugeExpected) + "\n" + "Current: " + Util.formatNumberES(Number(this.crudo),2)
+                        },
+                        series : [{
+                          min: 0,
+                          max: 150,
+                          data: this.gaugeData
+                        }
+                        ]
+                      }
+                    }
+                  });
                 },
+                
               });
+              
+            
           }
         }
       },
     });
+    
   }
 
   parsearFechasParaConsulta(fechaInicial: Date, fechaFinal: Date) {
@@ -346,7 +397,93 @@ export class WellComponent implements OnInit, OnDestroy {
         },
       ]);
   }
-
+  buildAceleradorChart() {
+   
+    this.aceleradorChart = {
+      title: {
+        top: '0%',
+        left: '2%',
+        text: 'Production: actual vs expected',
+        subtext: 'Expected: N/A',
+        subtextStyle: {
+          fontSize: 9,
+          fontStyle: 'italic'
+        },
+        textStyle: {
+          fontSize: 12,
+          fontWeight: 'bold',
+          color: '#eae305',
+        },
+      },
+      series: [
+        {
+          type: 'gauge',
+          anchor: {
+            show: true,
+            showAbove: true,
+            size: 12,
+            itemStyle: {
+              color: '#FAC858',
+              
+            },
+          },
+          pointer: {
+            icon: 'path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z',
+            width: 5,
+            length: '90%',
+            offsetCenter: [0, '20%'],
+          },
+          splitLine: {
+            show: false,
+            distance: 5,
+            lineStyle:{
+              color: "#ffff"
+            },
+            length: 5
+          },
+          axisTick: {
+            show: false,
+          },
+          progress: {
+            show: true,
+            overlap: true,
+            roundCap: true,
+            width: 10,
+          },
+          axisLine: {
+            roundCap: true,
+            lineStyle:{
+              width: 10,
+            }
+          },
+          axisLabel: {
+            show: true,
+            distance: 5,
+            color: "#FFFF"
+          },
+          data: this.gaugeData,
+          title: {
+            lineHeight: 56,
+            fontSize: 14,
+            color: '#FFFFFF',
+          },
+          detail: {
+            position: 'bottom',
+            width: 40,
+            height: 10,
+            fontSize: 14,
+            color: '#FFFFFF',
+            backgroundColor: 'inherit',
+            borderRadius: 1,
+            formatter: '{value}%',
+          },
+        },
+      ],
+    };
+  }
+  onAceleradorChartInit(e: any) {
+    this.aceleradorChartInstance = e;
+  }
   padTo2Digits(num: number) {
     return num.toString().padStart(2, '0');
   }

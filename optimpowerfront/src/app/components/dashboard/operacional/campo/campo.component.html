@@ -8,7 +8,7 @@
         titulo="Date"
       ></app-information-card>
     </div>
-    <div class="border-l-2 border-r-2 border-[#36aee4] col-span-1 h-full p-2">
+    <div class="border-l-2 border-[#36aee4] col-span-1 h-full p-2">
       <app-information-card
         [valor]="bbls ? bbls : 'N/A'"
         titulo="Oil (BOPD)"
@@ -38,13 +38,7 @@
         titulo="Water Inj. (BWPD)"
       ></app-information-card>
     </div>
-    <div class="border-l-2 col-span-1 border-[#36aee4] h-full p-2">
-      <app-information-card
-        [valor]="gasCons ? gasCons : 'N/A'"
-        titulo="Gas cons."
-      ></app-information-card>
-    </div>
-    <div class="xl:col-span-3 col-span-5 w-full xl:border-l-2 xl:border-t-0 border-t-2 border-[#36aee4]">
+    <div class="xl:col-span-3 col-span-5 w-full xl:border-l-2 xl:border-t-0 border-t-2 border-r-2  border-[#36aee4]">
       <h1
         class="text-center text-white uppercase font-bold border-b-2 border-[#36aee4]"
       >
@@ -97,6 +91,12 @@
           <dd class="font-light text-gray-300 text-center">Gas (MMSFC)</dd>
         </div>
       </div>
+    </div>
+    <div class="border-t-2 xl:border-t-0 col-span-1 border-[#36aee4] h-full p-2">
+      <app-information-card
+        [valor]="gasCons ? gasCons : 'N/A'"
+        titulo="Gas cons."
+      ></app-information-card>
     </div>
   </div>
   <div

@@ -79,12 +79,13 @@ export class OperacionalComponent implements OnInit{
                 this.maxDate =  new Date(this.listaPosos[0].MAX_DATE)
               }
               this.auxDate = new Date(this.maxDate);
+              const avanico34 = this.listaPosos.findIndex((data:any)=> data.WELL_NAME === 'ABANICO-34');
               this.wellForm.patchValue({
                 fechaInicial: new Date(this.auxDate.setDate(this.auxDate.getDate()-(this.auxDate.getDate() -1))),
                 fechaFinal: this.maxDate,
                 tanques: this.listaTanques[0],
                 campos: this.listaCampos[0],
-                posos:this.listaPosos[0],
+                posos:this.listaPosos[avanico34 != -1 ? avanico34 : 0],
               });
               this.cambiosEnElFormulario();
             }

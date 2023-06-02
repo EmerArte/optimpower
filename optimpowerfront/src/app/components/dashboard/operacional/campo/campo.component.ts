@@ -3,8 +3,8 @@ import { EChartsOption, SeriesOption } from 'echarts';
 import { ThemeOption } from 'ngx-echarts';
 import { CoolTheme } from 'src/app/components/custom.theme.echart';
 import { OperacionalService } from '../operacional.service';
-import { LoadingService } from 'src/app/services/loading.service';
 import { DataWellService } from '../data/shared.data.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-campo',
@@ -15,13 +15,12 @@ export class CampoComponent implements OnInit {
   dataDelMes: any;
   lineChartsData: any;
   pozosActivoData: any;
-
   date:any;
 
   constructor(
     private operacionalService: OperacionalService,
-    public loadingService: LoadingService,
-    private dataForm: DataWellService
+    private dataForm: DataWellService,
+    public loadingService: LoadingService
   ) {
     this.resizeChart();
   }
@@ -130,11 +129,9 @@ export class CampoComponent implements OnInit {
     this.buildLine3Chart();
     this.buildtreemapChart();
     this.buildAceleradorChart();
-    this.loadingService.setLoading(true);
     this.dataForm.getData.subscribe({
       next: (item) => {
         if (item) {
-          this.loadingService.setLoading(true);
           const rangoFechas = this.parsearFechasParaConsulta(
             item.fechaInicial,
             item.fechaFinal
@@ -151,6 +148,9 @@ export class CampoComponent implements OnInit {
                 this.pozosActivoData = JSON.parse(res.status);
                 const total = JSON.parse(res.total);
                 const wellsum = JSON.parse(res.well_sum);
+
+                console.log(res);
+                
                 
                 Object.values(wellsum.OIL_VOL).forEach((value:any, index:number)=>{
                   if(value!=null){

@@ -2,7 +2,7 @@
   class="grid grid-cols-12 grid-flow-row gap-0 w-full min-h-full lg:max-h-full place-content-stretch place-items-stretch bg-[#393E46] box-border border-2 border-[#36aee4]"
 >
   <div
-    class="col-span-12 lg:col-span-3 grid grid-cols-12 grid-rows-none lg:grid-rows-6 lg:grid-cols-none gap-0 h-full place-content-stretch place-items-stretch border-b-2 lg:border-r-2 lg:border-b-0 border-[#36aee4]"
+    class="col-span-12 lg:col-span-2 grid grid-cols-12 grid-rows-none lg:grid-rows-6 lg:grid-cols-none gap-0 place-content-stretch place-items-stretch border-b-2 lg:border-r-2 lg:border-b-0 border-[#36aee4]"
   >
     <div
       class="col-span-4 lg:col-auto lg:row-span-2 border-[#36aee4] border-r-2 lg:border-none"
@@ -94,23 +94,26 @@
     </div>
   </div>
   <div
-    class="col-span-12 lg:col-span-9 grid grid-rows-4 gap-0 lg:h-full h-screen place-content-stretch place-items-stretch"
+    class="col-span-12 lg:col-span-10 grid grid-rows-4 gap-0 min-h-screen lg:max-h-full lg:min-h-fit place-content-stretch place-items-stretch"
   >
     <div
-      class="row-span-2 grid grid-cols-12 gap-0 place-content-stretch place-items-stretch w-full h-full"
+      class="row-span-2 grid grid-cols-12 gap-0 lg:border-b-2 border-[#36aee4] place-content-stretch place-items-stretch w-full"
     >
+      <div class="col-span-9">
+        <div
+          echarts
+          (chartInit)="onGraficaQdpNpdD($event)"
+          [options]="graficaQdpNpdD"
+          [merge]="updateGraficaQdpNpdD"
+          [loading]="cargando"
+          [theme]="coolTheme"
+          [autoResize]="true"
+          class="demo-chart h-full w-full"
+        ></div>
+      </div>
       <div
-        echarts
-        (chartInit)="onGraficaQdpNpdD($event)"
-        [options]="graficaQdpNpdD"
-        [merge]="updateGraficaQdpNpdD"
-        [loading]="cargando"
-        [theme]="coolTheme"
-        [autoResize]="true"
-        class="demo-chart col-span-10"
-        style="max-width: 99%"
-      ></div>
-      <div class="col-span-2 grid grid-rows-2">
+        class="col-span-3 block w-full"
+      >
         <div
           echarts
           (chartInit)="onGraficaNpEur($event)"
@@ -119,22 +122,22 @@
           [loading]="cargando"
           [theme]="coolTheme"
           [autoResize]="true"
-          class="demo-chart row-span-1"
-          style="max-width: 99%"
+          class="demo-chart h-full w-full"
         ></div>
       </div>
     </div>
-    <div
-      echarts
-      (chartInit)="onGraficaQdpNpdD2($event)"
-      [options]="graficaQdpNpdD2"
-      [merge]="updateGraficaQdpNpdD2"
-      [loading]="cargando"
-      [theme]="coolTheme"
-      [autoResize]="true"
-      class="demo-chart lg:border-t-2 border-[#36aee4] row-span-2"
-      style="max-width: 99%"
-    ></div>
+    <div class="row-span-2 block w-full">
+      <div
+        echarts
+        (chartInit)="onGraficaQdpNpdD2($event)"
+        [options]="graficaQdpNpdD2"
+        [merge]="updateGraficaQdpNpdD2"
+        [loading]="cargando"
+        [theme]="coolTheme"
+        [autoResize]="true"
+        class="demo-chart h-full w-full"
+      ></div>
+    </div>
   </div>
   <div
     class="absolute top-0 left-0 h-screen w-full"

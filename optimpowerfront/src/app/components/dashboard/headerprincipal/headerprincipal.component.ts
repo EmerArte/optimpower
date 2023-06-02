@@ -7,5 +7,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./headerprincipal.component.css']
 })
 export class HeaderprincipalComponent {
+  isOpen:boolean = false;
+  constructor(public route: Router){
 
+  }
+  logout(){
+    localStorage.clear();
+    this.route.navigate(['/']);
+  }
 }

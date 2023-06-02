@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CoolTheme } from '../../custom.theme.echart';
 import { EChartsOption } from 'echarts';
 import { TacticalService } from './tactical.service';
@@ -12,6 +12,7 @@ import { Util } from 'src/utils/util';
   templateUrl: './tactical.component.html',
   styleUrls: ['./tactical.component.scss'],
 })
+
 export class TacticalComponent implements OnInit, OnDestroy {
   cargando: boolean = true;
   backEndSuscribe: any;
@@ -58,14 +59,6 @@ export class TacticalComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.backEndSuscribe.unsubscribe();
   }
-  resizeChart() {
-    if (this.graficaQdpNpdDInstance) {
-      this.graficaQdpNpdDInstance.resize();
-    }
-    if (this.graficaNpEurDInstance) {
-      this.graficaNpEurDInstance.resize();
-    }
-  }
   ngOnInit(): void {
     this.buildGraficaQdpNpdD();
     this.builGraficaNpEur();
@@ -75,6 +68,8 @@ export class TacticalComponent implements OnInit, OnDestroy {
       next: (res: any) => {
         this.tacticalService.getDeclinacion(res.posos.WELL_ID, res.limEco).subscribe({
           next: (tactical: any) => {
+            console.log(tactical);
+            
             this.lastB = Util.formatNumberES(Number(tactical.COEF[0].B),2);
             this.lastDi = Util.formatNumberES(Number(tactical.COEF[0].DI),2);
             this.lastDate = tactical.EUR.slice(-1)[0].VOLUME_DATE;
@@ -168,8 +163,9 @@ export class TacticalComponent implements OnInit, OnDestroy {
           this.wellList = value.filter(
             (value: { WELL_TYPE: string }) => value.WELL_TYPE == 'OIL'
           );
+          const avanico34 = this.wellList.findIndex((data:any)=> data.WELL_NAME === 'ABANICO-34');
           this.tacticalForm.patchValue({
-            posos: this.wellList[0],
+            posos: this.wellList[avanico34 != -1 ? avanico34 : 0],
             limEco: 30,
           });
         },
@@ -180,16 +176,27 @@ export class TacticalComponent implements OnInit, OnDestroy {
     this.graficaQdpNpdD = {
       title: {
         text: 'Declination',
-        left: '50%'
+        left: 'center',
+      },
+      toolbox:{
+        top: '1%',
+        right: '5%',
+        feature: {
+          dataZoom: {
+            yAxisIndex: 'all',
+          },
+          restore: {},
+          saveAsImage: {},
+        },
       },
       tooltip: {
         trigger: 'axis',
       },
       grid: {
-        left: '8%',
+        left: '5%',
         right: '1%',
         bottom: '10%',
-        top: '10%',
+        top: '10%'
       },
       xAxis: {
         type: 'category',
@@ -201,7 +208,7 @@ export class TacticalComponent implements OnInit, OnDestroy {
       legend: {
         data: [],
         top: '5%',
-        left: '8%',
+        left: '5%',
       },
       yAxis: {
         type: 'value',
@@ -235,14 +242,25 @@ export class TacticalComponent implements OnInit, OnDestroy {
     this.graficaQdpNpdD2 = {
       title: {
         text: 'Forcasting Declination',
-        left: '50%'
+        left: 'center',
       },
       tooltip: {
         trigger: 'axis',
       },
+      toolbox:{
+        top: '1%',
+        right: '5%',
+        feature: {
+          dataZoom: {
+            yAxisIndex: 'all',
+          },
+          restore: {},
+          saveAsImage: {},
+        },
+      },
       grid: {
-        left: '8%',
-        right: '1%',
+        left: '3%',
+        right: '3%',
         bottom: '10%',
         top: '10%',
       },
@@ -256,7 +274,7 @@ export class TacticalComponent implements OnInit, OnDestroy {
       legend: {
         data: [],
         top: '5%',
-        left: '8%',
+        left: '5%',
       },
       yAxis: {
         type: 'value',
@@ -297,8 +315,8 @@ export class TacticalComponent implements OnInit, OnDestroy {
   builGraficaNpEur() {
     this.graficaNpEur = {
       grid: {
-        left: '5%',
-        right: '5%',
+        left: '1%',
+        right: '1%',
         bottom: '10%',
         containLabel: true,
       },
@@ -308,17 +326,21 @@ export class TacticalComponent implements OnInit, OnDestroy {
       },
       tooltip: {
         trigger: 'item',
+        formatter: '{a} <br/>{b}: {c} ({d}%)'
       },
       legend: {
         orient: 'vertical',
         left: 'left',
-        top: '10%',
+        top: '5%',
       },
       series: [
         {
           name: 'Data',
           type: 'pie',
           radius: '50%',
+          label:{
+            formatter: '{d}%',
+          },
           data: [
             { value: 1048, name: 'Np' },
             { value: 735, name: 'Eur' },

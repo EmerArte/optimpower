@@ -14,7 +14,7 @@ const routes: Routes = [
     path: 'surfice', component: TanquesComponent
   },
   {
-    path: '', redirectTo: 'well', pathMatch: 'full'
+    path: '', redirectTo: 'field', pathMatch: 'full'
   }
 ];
 
