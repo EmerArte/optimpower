@@ -176,32 +176,31 @@
             </div>
           </div>
           <div class="row-span-2 h-full">
-            <div class="grid grid-cols-3 gap-0 h-full w-full place-content-stretch place-items-stretch">
-              <div
-              echarts
-              (chartInit)="onGraficaDosInit($event)"
-              [options]="graficaDos"
-              [merge]="updateOptionsGraficaDos"
-              [theme]="coolTheme"
-              [autoResize]="true"
-              class="demo-chart col-span-2 h-[99%]"
-              style="max-width: 99%"
-            ></div>
             <div
-                    echarts
-                    [options]="aceleradorChart"
-                    [theme]="coolTheme"
-                    [merge]="updateAceleradorChart"
-                    (chartInit)="onAceleradorChartInit($event)"
-                    [autoResize]="true"
-                    class="demo-chart col-span-1 h-[99%]"
-                    style="max-width: 99%"
-                  ></div>
+              class="grid grid-cols-3 gap-0 h-full w-full place-content-stretch place-items-stretch"
+            >
+              <div
+                echarts
+                (chartInit)="onGraficaDosInit($event)"
+                [options]="graficaDos"
+                [merge]="updateOptionsGraficaDos"
+                [theme]="coolTheme"
+                [autoResize]="true"
+                class="demo-chart col-span-2 h-[99%]"
+                style="max-width: 99%"
+              ></div>
+              <div
+                echarts
+                [options]="aceleradorChart"
+                [theme]="coolTheme"
+                [merge]="updateAceleradorChart"
+                (chartInit)="onAceleradorChartInit($event)"
+                [autoResize]="true"
+                class="demo-chart col-span-1 h-[99%]"
+                style="max-width: 99%"
+              ></div>
             </div>
-            
-            
           </div>
-          
         </div>
       </div>
       <div class="col-span-2 overflow-hidden">
@@ -259,7 +258,10 @@
     </div>
   </div>
 </div>
-<div class="absolute top-0 left-0 w-full h-full" *ngIf="loadingService.getLoading()">
+<div
+  class="absolute top-0 left-0 w-full h-full"
+  *ngIf="loadingService.getLoading()"
+>
   <div
     role="status"
     class="backdrop-blur-sm bg-white/30 h-screen flex flex-col justify-center items-center w-full"
