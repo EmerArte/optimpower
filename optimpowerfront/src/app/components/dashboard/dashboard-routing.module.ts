@@ -20,9 +20,6 @@ const routes: Routes = [
       
       {
         path: 'surfice', component: TanquesComponent
-      },
-      {
-        path: '', redirectTo: '/operational/field', pathMatch:'full'
       }
     ]
   },

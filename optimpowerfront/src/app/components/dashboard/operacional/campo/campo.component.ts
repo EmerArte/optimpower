@@ -209,8 +209,10 @@ export class CampoComponent implements OnInit {
                     }
                   }
                 );
-
-                const gaugeTota = Number(Object.values(total.EXPECTED_OIL)[0]);
+                
+                const gaugeTota = Number(res.potential);
+                console.log(Number(Object.values(total.OIL_RATE)[0]));
+                
                 this.gaugeData[0].value = Number(((Number(Object.values(total.OIL_RATE)[0]) * 100) / gaugeTota).toFixed(2));
                 this.updateAceleradorChart = {
                   title: {
@@ -218,7 +220,7 @@ export class CampoComponent implements OnInit {
                   },
                   series : [{
                     min: 0,
-                    max: 100,
+                    max: 150,
                     data: this.gaugeData
                   }
                   ]
@@ -658,11 +660,11 @@ export class CampoComponent implements OnInit {
         text: 'Production: actual vs expected',
         subtext: 'Expected: N/A',
         subtextStyle: {
-          fontSize: 9,
+          fontSize: 12,
           fontStyle: 'italic'
         },
         textStyle: {
-          fontSize: 12,
+          fontSize: 14,
           fontWeight: 'bold',
           color: '#eae305',
         },
@@ -673,7 +675,7 @@ export class CampoComponent implements OnInit {
           anchor: {
             show: true,
             showAbove: true,
-            size: 12,
+            size: 14,
             itemStyle: {
               color: '#FAC858',
               
@@ -721,7 +723,7 @@ export class CampoComponent implements OnInit {
           },
           detail: {
             position: 'bottom',
-            width: 40,
+            width: 80,
             height: 10,
             fontSize: 14,
             color: '#FFFFFF',

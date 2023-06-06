@@ -34,7 +34,7 @@ const routes: Routes = [
           },
           {
             path: '',
-            redirectTo: '/dashboard/operational/well',
+            redirectTo: '/dashboard/operational/field',
             pathMatch: 'full',
           },
         ],

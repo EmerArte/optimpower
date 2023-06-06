@@ -12,9 +12,6 @@ const routes: Routes = [
   },
   {
     path: 'surfice', component: TanquesComponent
-  },
-  {
-    path: '', redirectTo: 'field', pathMatch: 'full'
   }
 ];
 
