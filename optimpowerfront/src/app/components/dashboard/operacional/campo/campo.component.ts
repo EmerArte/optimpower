@@ -142,6 +142,8 @@ export class CampoComponent implements OnInit {
               next: (res: any) => {
                 const legendProductionData:any = [];
                 const fSeriesData:any = [];
+                
+                
                 this.lineChartsData = JSON.parse(res.field_vol);
                 this.date = this.lineChartsData.TIMESTAMP ? Object.values(this.lineChartsData.TIMESTAMP).slice(-1).toString() : "N/A";
                 
@@ -149,7 +151,7 @@ export class CampoComponent implements OnInit {
                 const total = JSON.parse(res.total);
                 const wellsum = JSON.parse(res.well_sum);
 
-                console.log(res);
+                console.log(this.lineChartsData );
                 
                 
                 Object.values(wellsum.OIL_VOL).forEach((value:any, index:number)=>{
@@ -211,12 +213,14 @@ export class CampoComponent implements OnInit {
                 );
                 
                 const gaugeTota = Number(res.potential);
+                console.log(total);
+                
                 console.log(Number(Object.values(total.OIL_RATE)[0]));
                 
-                this.gaugeData[0].value = Number(((Number(Object.values(total.OIL_RATE)[0]) * 100) / gaugeTota).toFixed(2));
+                this.gaugeData[0].value = Number(Number(this.bbls * 100 / gaugeTota).toFixed(2));
                 this.updateAceleradorChart = {
                   title: {
-                    subtext: "Expected: "+ this.formatNumberES(gaugeTota) + "\n" + "Current: " + this.formatNumberES(Number(Object.values(total.OIL_RATE)[0]),2)
+                    subtext: "Expected: "+ this.formatNumberES(gaugeTota) + "\n" + "Current: " + this.bbls,
                   },
                   series : [{
                     min: 0,
@@ -338,7 +342,7 @@ export class CampoComponent implements OnInit {
       xAxis: {
         type: 'value',
         name: this.pYAxisName,
-        nameLocation: 'end',
+        nameLocation: 'middle',
         nameGap: 20,
       },
       yAxis: {
@@ -766,7 +770,7 @@ export class CampoComponent implements OnInit {
       xAxis: {
         type: 'value',
         name: this.pYAxisName,
-        nameLocation: 'end',
+        nameLocation: 'middle',
         nameGap: 20,
       },
       yAxis: {

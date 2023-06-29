@@ -283,7 +283,7 @@ export class WellComponent implements OnInit, OnDestroy {
     }),
       (this.graficaUno.legend = {
         left: '2%',
-        top: '7%',
+        top: '4%',
         data: ['Gas(MMSFC)', 'OilRate average (BOPD)', 'Water(BWPD)', 'Fluid(BFPD)'],
       }),
       (this.graficaUno.grid = {
@@ -293,7 +293,7 @@ export class WellComponent implements OnInit, OnDestroy {
         containLabel: true,
       }),
       (this.graficaUno.toolbox = {
-        top: '7%',
+        top: '8%',
         right: '5%',
         feature: {
           dataZoom: {
@@ -316,28 +316,24 @@ export class WellComponent implements OnInit, OnDestroy {
         name: 'Gas(MMSFC)',
         color: '#000000',
         type: 'line',
-        stack: 'Total',
         data: [],
       },
       {
         name: 'OilRate average (BOPD)',
         color: '#00fff8',
         type: 'line',
-        stack: 'Total',
         data: [],
       },
       {
         name: 'Water(BWPD)',
         color: '#4fb3ff',
         type: 'line',
-        stack: 'Total',
         data: [],
       },
       {
         name: 'Fluid(BFPD)',
         color: '#f100ff',
         type: 'line',
-        stack: 'Total',
         data: [],
       },
     ];
@@ -347,7 +343,7 @@ export class WellComponent implements OnInit, OnDestroy {
     this.graficaDos.title = {
       top: '1%',
       left: '2%',
-      text: 'OilRate by Registred date and Well',
+      text: 'OilRate by register of date and Well',
       textStyle: {
         fontSize: 14,
         fontWeight: 'bold',
@@ -358,7 +354,7 @@ export class WellComponent implements OnInit, OnDestroy {
       trigger: 'axis',
     };
     this.graficaDos.toolbox = {
-      top: '10%',
+      top: '12%',
       right: '5%',
       feature: {
         dataZoom: {
@@ -370,7 +366,7 @@ export class WellComponent implements OnInit, OnDestroy {
     };
     this.graficaDos.legend = {
       left: '2%',
-      top: '10%',
+      top: '5%',
     };
     this.graficaDos.xAxis = {
       type: 'category',

@@ -113,7 +113,7 @@ export class TacticalComponent implements OnInit, OnDestroy {
                 data:['QD','OIL VOLUME','EUR']
               },
               title: {
-                text: 'Forcasting ' + this.tipo + ' Declination',
+                text: 'Forescasting ' + this.tipo + ' Declination',
               },
               xAxis: {
                 data: fechas,
@@ -241,7 +241,7 @@ export class TacticalComponent implements OnInit, OnDestroy {
   buildGraficaQdpNpdD2() {
     this.graficaQdpNpdD2 = {
       title: {
-        text: 'Forcasting Declination',
+        text: 'Forescasting Declination',
         left: 'center',
       },
       tooltip: {
