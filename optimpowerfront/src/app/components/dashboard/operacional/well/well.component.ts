@@ -91,6 +91,9 @@ export class WellComponent implements OnInit, OnDestroy {
     private tacticalService: TacticalService
   ) {
     this.resizeChart();
+    this.construirGrafica1();
+    this.construirGrafica2();
+    this.buildAceleradorChart();
   }
 
   ngOnDestroy() {
@@ -98,9 +101,6 @@ export class WellComponent implements OnInit, OnDestroy {
     this.tacticalSub.unsubscribe();
   }
   ngOnInit(): void {
-    this.construirGrafica1();
-    this.construirGrafica2();
-    this.buildAceleradorChart();
     this.subscription = this.wellDataService.getData.subscribe({
       next: (item: any) => {
         if (item != null) {
