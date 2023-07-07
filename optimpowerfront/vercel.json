@@ -1,6 +1,6 @@
 {
     "rewrites": [
-      { "source": "/api/:match*", "destination": "https://optimback.azurewebsites.net/:match*" }
+      { "source": "/:match*", "destination": "https://optimback.azurewebsites.net/:match*" }
   
     ],
     "headers": [
