@@ -53,11 +53,11 @@ const routes: Routes = [
         component: TacticalComponent,
       }
     ],
-    canActivate: [AuthGuardService],
+    //canActivate: [AuthGuardService],
   },
   {
     path: '',
-    canActivate: [AuthGuardService],
+    //canActivate: [AuthGuardService],
     component: LoginComponent,
   },
 ];
